@@ -1,4 +1,8 @@
+import numpy
+from matplotlib import pyplot as plotter
+
 import api
+from api import Query
 from api import flickr
 
 
@@ -17,5 +21,24 @@ def sandbox():
     photos = api.get_photos(params) 
     print photos.get_size()
 
+def walking():
+    params = api.get_params('switzerland')
+    params['min_upload_date'] = '2015-01-01'
+    # params['per_page'] = 1000
+    photos = api.get_photos(params)
+    print photos.total
 
-sandbox()
+def array():
+    x = [1,2,3]
+    y = [1,4,9]
+    data = numpy.array([x,y])
+    numpy.savetxt('test.csv', data)
+    loaded = numpy.loadtxt('test.csv')
+    x = loaded[0]
+    y = loaded[1]
+    plotter.plot(x,y)
+    plotter.show()
+    print data
+
+
+print Query.switzerland_flooding.name
