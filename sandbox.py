@@ -1,5 +1,6 @@
 import numpy
 from matplotlib import pyplot as plotter
+import facebook
 
 import api
 from api import Query
@@ -39,6 +40,9 @@ def array():
     plotter.plot(x,y)
     plotter.show()
     print data
+
+def facebook():
+    graph = facebook.GraphAPI()
 
 
 print Query.switzerland_flooding.name

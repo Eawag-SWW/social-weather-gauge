@@ -1,3 +1,7 @@
 flickrapi
+python-instagram
+facebook-sdk
+
 matplotlib
 enum34
+
