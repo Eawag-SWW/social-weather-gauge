@@ -54,4 +54,4 @@ def facebook():
         print dir(result)
         break
 
-facebook()
+print api.count_photos(Query.switzerland)

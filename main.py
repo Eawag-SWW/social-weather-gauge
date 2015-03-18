@@ -23,6 +23,10 @@ def print_random_links(query):
         url = photos.get_random_link()
         print(url)
 
+def summary(query):
+    print 'total:', api.count_photos(query)
+    plot(query)
+
 def plot(query):
 
     path = 'data/%s.csv' % query.name
@@ -74,7 +78,7 @@ def plot_normalized():
 
 if __name__ == '__main__':
     # plot(Query.switzerland)
-    plot_normalized()
+    summary(Query.switzerland)
 
 def bak():
     params = get_params('switzerland')

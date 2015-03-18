@@ -71,9 +71,10 @@ def get_photos(params):
     photos.total = int(response['photos']['total'])
     return photos
 
-def count_photos(query, year):
+def count_photos(query, year=None):
     params = get_params(query)
-    params['min_upload_date'] = '%s-01-01' % year
-    params['max_upload_date'] = '%s-12-31' % year
+    if year:
+        params['min_upload_date'] = '%s-01-01' % year
+        params['max_upload_date'] = '%s-12-31' % year
     photos = get_photos(params)
     return photos.total
