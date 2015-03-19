@@ -36,7 +36,7 @@ def array():
     x = [1, 2, 3]
     y = [1, 4, 9]
     data = numpy.array([x, y])
-    numpy.savetxt('test.csv', data)
+    numpy.savetxt('test.csv', data, fmt='%g')
     loaded = numpy.loadtxt('test.csv')
     x = loaded[0]
     y = loaded[1]
@@ -54,4 +54,4 @@ def facebook():
         print dir(result)
         break
 
-print api.count_photos(Query.switzerland)
+array()

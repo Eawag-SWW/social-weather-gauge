@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-import random
 import os
 
 import matplotlib.pyplot as plotter
@@ -9,23 +8,24 @@ import numpy
 
 import api
 from api import Query
-import constants
 
 tags_list = [['hochwasser'], ['überschwemmung'], ['überflutung'], ['flut']]
 RADIUS = 30
+
 
 def print_random_links(query):
     params = api.get_params(query)
     photos = api.get_photos(params)
 
-
     for _ in range(5):
         url = photos.get_random_link()
         print(url)
 
+
 def summary(query):
     print 'total:', api.count_photos(query)
     plot(query)
+
 
 def plot(query):
 
@@ -44,11 +44,12 @@ def plot(query):
             x.append(year)
             y.append(n_photos)
             print year, n_photos
-        data = numpy.array([x,y])
-        numpy.savetxt(path, data)
+        data = numpy.array([x, y])
+        numpy.savetxt(path, data, fmt='%g', delimiter=',')
 
-    plotter.plot(data[0],data[1])
+    plotter.plot(data[0], data[1])
     plotter.show()
+
 
 def plot_normalized():
     path = 'data/%s.csv' % 'flooding_normalized'
@@ -64,22 +65,16 @@ def plot_normalized():
         for year in range(start_year, end_year):
             n_flooding = api.count_photos(Query.switzerland_flooding, year)
             n_switzerland = api.count_photos(Query.switzerland, year)
-            quotient = n_flooding /  float(n_switzerland)
+            quotient = n_flooding / float(n_switzerland)
             x.append(year)
             y.append(quotient)
             print year, n_flooding, n_switzerland, quotient
-        data = numpy.array([x,y])
-        numpy.savetxt(path, data)
+        data = numpy.array([x, y])
+        numpy.savetxt(path, data, fmt='%g', delimiter=',')
 
-    plotter.plot(data[0],data[1])
+    plotter.plot(data[0], data[1])
     plotter.show()
 
 
-
-if __name__ == '__main__':
-    # plot(Query.switzerland)
-    summary(Query.switzerland)
-
-def bak():
-    params = get_params('switzerland')
-    print('params: %s \n total: %s \n' % (params, total))
+if __name__ == '__main__': 
+    plot_normalized()
