@@ -27,13 +27,13 @@ def summary(query):
     plot(query)
 
 
-def plot(query):
+def plot(query, use_cache=False):
 
     path = 'data/%s.csv' % query.name
     start_year = 2004
     end_year = 2015
 
-    if os.path.isfile(path):
+    if use_cache:
         data = numpy.loadtxt(path)
 
     else:

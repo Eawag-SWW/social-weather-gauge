@@ -1,11 +1,15 @@
-import numpy
+import numpy as np
 from matplotlib import pyplot as plotter
 from pattern.web import Twitter
+import pandas as pd
+
 
 import api
 from api import Query
 from api import flickr
 import secrets
+
+pd.options.display.mpl_style = 'default'
 
 
 def tags_for_place(woe_id):
@@ -54,4 +58,21 @@ def facebook():
         print dir(result)
         break
 
-array()
+
+def pandas():
+    index = range(2004, 2015)
+    data = np.random.randn(len(index))
+    series = pd.Series(data, index=index)
+    series.plot()
+    plotter.show()
+
+
+def pandas_plotting():
+    ts = pd.Series(np.random.randn(1000), index=pd.date_range('1/1/2000', periods=1000))
+    ts = ts.cumsum()
+    ts.plot()
+    plotter.show()
+
+if __name__ == '__main__':
+    pandas_plotting()
+

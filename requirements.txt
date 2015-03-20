@@ -3,6 +3,7 @@ python-instagram
 facebook-sdk
 pattern
 
+pandas
 matplotlib
 enum34
 
