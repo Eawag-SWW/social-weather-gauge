@@ -3,11 +3,10 @@ from matplotlib import pyplot as plotter
 from pattern.web import Twitter
 import pandas as pd
 
-
 import api
-from api import Query
 from api import flickr
-import secrets
+from apis import instagram_api
+
 
 pd.options.display.mpl_style = 'default'
 
@@ -73,6 +72,12 @@ def pandas_plotting():
     ts.plot()
     plotter.show()
 
+
+def instagram():
+    popular_media = instagram_api.api.media_popular(count=20)
+    for media in popular_media:
+        print media.images['standard_resolution'].url
+
 if __name__ == '__main__':
-    pandas_plotting()
+    instagram()
 
