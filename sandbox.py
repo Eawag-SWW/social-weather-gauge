@@ -3,9 +3,8 @@ from matplotlib import pyplot as plotter
 from pattern.web import Twitter
 import pandas as pd
 
-import api
-from api import flickr
-from apis import instagram_api
+from apis.flickr_api import flickr
+from apis import instagram_api, flickr_api
 
 
 pd.options.display.mpl_style = 'default'
@@ -22,16 +21,16 @@ def find_place(query):
 
 
 def sandbox():
-    params = api.get_params('switzerland')
-    photos = api.get_photos(params) 
+    params = flickr_api.get_params('switzerland')
+    photos = flickr_api.get_photos(params)
     print photos.get_size()
 
 
 def walking():
-    params = api.get_params('switzerland')
+    params = flickr_api.get_params('switzerland')
     params['min_upload_date'] = '2015-01-01'
     # params['per_page'] = 1000
-    photos = api.get_photos(params)
+    photos = flickr_api.get_photos(params)
     print photos.total
 
 
@@ -79,5 +78,5 @@ def instagram():
         print media.images['standard_resolution'].url
 
 if __name__ == '__main__':
-    instagram()
+    print flickr_api.count_photos(flickr_api.Query.switzerland)
 

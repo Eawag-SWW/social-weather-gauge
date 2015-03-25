@@ -6,17 +6,24 @@ import random
 import flickrapi
 
 import secrets
-import constants
+
 
 FORMAT = 'parsed-json'
 API_KEY = secrets.API_KEY
 API_SECRET = secrets.API_SECRET
 
+WOE_ID_SWITZERLAND = 23424957
+PLACE_ID_SWITZERLAND = 'HfSZnNxTUb7.Mo5Vpg'
+
 flickr = flickrapi.FlickrAPI(API_KEY, API_SECRET, format=FORMAT)
 
 class Query(Enum):
     switzerland = 1
-    switzerland_flooding = 2
+    switzerland_flooding_text = 2
+    switzerland_flooding_tags = 3
+
+    def data_path(self):
+        return 'data/%s.csv' % self.name
 
 
 class Photo:
@@ -43,17 +50,18 @@ class Photos:
         photo = random.choice(self._data)
         return 'https://www.flickr.com/photos/%s/%s' % (photo['owner'], photo['id'])
 
-
 def get_params(query):
     params = dict()
     if query == Query.switzerland:
         switzerland_params = dict()
-        switzerland_params['woe_id'] = constants.WOE_ID_SWITZERLAND
+        switzerland_params['woe_id'] = WOE_ID_SWITZERLAND
         return switzerland_params
-    elif query == Query.switzerland_flooding:
-        params['woe_id'] = constants.WOE_ID_SWITZERLAND
-        # params['tags'] = 'hochwasser, überschwemmung, überflutung, flut'
-        params['text'] = 'hochwasser' #, überschwemmung, überflutung, flut'
+    elif query == Query.switzerland_flooding_text:
+        params['woe_id'] = WOE_ID_SWITZERLAND
+        params['text'] = 'hochwasser'
+    elif query == Query.switzerland_flooding_tags:
+        params['woe_id'] = WOE_ID_SWITZERLAND
+        params['tags'] = 'hochwasser, überschwemmung, überflutung, flut'
     else:
         raise Exception('invalid params name')
         # thun_params = dict()

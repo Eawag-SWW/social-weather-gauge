@@ -5,17 +5,21 @@ import os
 
 import matplotlib.pyplot as plotter
 import numpy
+import pandas as pd
+import matplotlib
 
-import api
-from api import Query
-
+from apis import flickr_api
+from apis.flickr_api import Query
+START_YEAR = 2000
+END_YEAR = 2015
 tags_list = [['hochwasser'], ['überschwemmung'], ['überflutung'], ['flut']]
 RADIUS = 30
 
+matplotlib.style.use('ggplot')
 
 def print_random_links(query):
-    params = api.get_params(query)
-    photos = api.get_photos(params)
+    params = flickr_api.get_params(query)
+    photos = flickr_api.get_photos(params)
 
     for _ in range(5):
         url = photos.get_random_link()
@@ -23,58 +27,66 @@ def print_random_links(query):
 
 
 def summary(query):
-    print 'total:', api.count_photos(query)
+    print query.name
+    total = 0
+    for year in range(START_YEAR, END_YEAR):
+        total += flickr_api.count_photos(query, year)
+    print 'total:', total
     plot(query)
 
 
-def plot(query, use_cache=False):
+def plot(queries, use_cache=False, normalize=False):
 
-    path = 'data/%s.csv' % query.name
-    start_year = 2004
-    end_year = 2015
+    if type(queries) != list:
+        queries = [queries]
 
-    if use_cache:
-        data = numpy.loadtxt(path)
+    if not use_cache:
+        for query in queries:
+            save_cache(query)
+        save_cache(flickr_api.Query.switzerland)
+    
+    normalizer = read_cache(flickr_api.Query.switzerland)
 
-    else:
-        x = []
-        y = []
-        for year in range(start_year, end_year):
-            n_photos = api.count_photos(query, year)
-            x.append(year)
-            y.append(n_photos)
-            print year, n_photos
-        data = numpy.array([x, y])
-        numpy.savetxt(path, data, fmt='%g', delimiter=',')
+    for query in queries:
+        data = read_cache(query)
+        if normalize:
+            data = data.divide(normalizer)
+        plotter.plot(data, label=query.name)
 
-    plotter.plot(data[0], data[1])
+    plotter.title('Tocotronic')
+    plotter.ylabel('Number of Flickr Photo Uploads')
+    plotter.xlabel('Year')
+    plotter.legend()
     plotter.show()
 
 
-def plot_normalized():
-    path = 'data/%s.csv' % 'flooding_normalized'
-    start_year = 2004
-    end_year = 2015
+def read_cache(query):
+    series = pd.Series.from_csv(query.data_path())
+    # series = pd.read_csv(query.data_path(), index_col=0)
+    return series
 
-    if os.path.isfile(path):
-        data = numpy.loadtxt(path)
 
-    else:
-        x = []
-        y = []
-        for year in range(start_year, end_year):
-            n_flooding = api.count_photos(Query.switzerland_flooding, year)
-            n_switzerland = api.count_photos(Query.switzerland, year)
-            quotient = n_flooding / float(n_switzerland)
-            x.append(year)
-            y.append(quotient)
-            print year, n_flooding, n_switzerland, quotient
-        data = numpy.array([x, y])
-        numpy.savetxt(path, data, fmt='%g', delimiter=',')
+def save_cache(query):
+    data = dict()
+    for year in range(START_YEAR, END_YEAR):
+        n_photos = flickr_api.count_photos(query, year)
+        data[year] = n_photos
+    series = pd.Series(data)
+    path = query.data_path()
+    series.to_csv(path)
 
-    plotter.plot(data[0], data[1])
+
+def plot_statistics():
+    series = pd.Series.from_csv('data/switzerland_flooding_money.csv', ';')
+    series.plot()
     plotter.show()
 
 
-if __name__ == '__main__': 
-    plot_normalized()
+def sandbox():
+    queries = [flickr_api.Query.switzerland_flooding_tags, flickr_api.Query.switzerland_flooding_text]
+    plot(queries, use_cache=True, normalize=True)
+    plot(queries, use_cache=True, normalize=False)
+
+
+if __name__ == '__main__':
+    sandbox()
