@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 from matplotlib import pyplot as plotter
 from pattern.web import Twitter
 import pandas as pd
+from tweepy import Cursor
 
 from apis.flickr_api import flickr
-from apis import instagram_api, flickr_api
+from apis import instagram_api, flickr_api, twitter_api
 
 
 pd.options.display.mpl_style = 'default'
@@ -77,6 +80,24 @@ def instagram():
     for media in popular_media:
         print media.images['standard_resolution'].url
 
+
+def twitter():
+    # count = 0
+    # # for tweet in Cursor(twitter_api.api.search, q='regen').items():
+    # #     count += 1
+    # # print count
+    # q = 'regen since:2015-03-26'
+    #
+    # cursor = Cursor(twitter_api.api.search, q=q, count=100, lang='de')
+    # for page in cursor.pages():
+    #     count += 1
+    # print count
+
+    result = twitter_api.api.geo_search(query='Zürich')
+    print len(result)
+    print result
+
+
 if __name__ == '__main__':
-    print flickr_api.count_photos(flickr_api.Query.switzerland)
+    twitter()
 

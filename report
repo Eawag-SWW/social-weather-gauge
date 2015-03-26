@@ -6,6 +6,9 @@ All following data concern just geotagged photos.
 Number of photos geotagged with Switzerland: 2'451'335
 Swiss / tags =
 
+
+
+
 instagram
 =========
 - launched in October 2010 (we)
@@ -15,5 +18,17 @@ instagram
 API
 ---
 - /media/search
+
+
+
+Twitter
+=======
+
+140 Characters
+- launched July 2006
+
+
+
+python library: tweepy
 
 

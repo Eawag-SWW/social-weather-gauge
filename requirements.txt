@@ -1,6 +1,7 @@
 flickrapi
 python-instagram
 facebook-sdk
+tweepy
 pattern
 
 pandas
