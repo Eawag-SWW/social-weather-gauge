@@ -4,7 +4,6 @@ import numpy as np
 from matplotlib import pyplot as plotter
 from pattern.web import Twitter
 import pandas as pd
-from tweepy import Cursor
 
 from apis.flickr_api import flickr
 from apis import instagram_api, flickr_api, twitter_api
@@ -40,9 +39,9 @@ def walking():
 def array():
     x = [1, 2, 3]
     y = [1, 4, 9]
-    data = numpy.array([x, y])
-    numpy.savetxt('test.csv', data, fmt='%g')
-    loaded = numpy.loadtxt('test.csv')
+    data = np.array([x, y])
+    np.savetxt('test.csv', data, fmt='%g')
+    loaded = np.loadtxt('test.csv')
     x = loaded[0]
     y = loaded[1]
     plotter.plot(x, y)
