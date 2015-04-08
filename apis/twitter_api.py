@@ -5,8 +5,9 @@ import secrets
 CONSUMER_KEY = secrets.TWITTER_CONSUMER_KEY
 CONSUMER_SECRET = secrets.TWITTER_CONSUMER_SECRET
 
-auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+PLACE_ID_ZURICH = '3acb748d0f1e9265'
 
+auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 api = tweepy.API(auth)
 
 

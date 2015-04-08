@@ -92,9 +92,13 @@ def twitter():
     #     count += 1
     # print count
 
-    result = twitter_api.api.geo_search(query='Zürich')
+    result = twitter_api.api.geo_search(query='Zurich')
     print len(result)
-    print result
+    for place in result:
+        print place.id
+        print place.name
+        print place.full_name
+        print place.place_type
 
 
 if __name__ == '__main__':
