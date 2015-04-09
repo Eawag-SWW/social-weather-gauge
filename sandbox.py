@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+
+from tweepy import Cursor
 import numpy as np
 from matplotlib import pyplot as plotter
 from pattern.web import Twitter
@@ -80,19 +82,8 @@ def instagram():
         print media.images['standard_resolution'].url
 
 
-def twitter():
-    # count = 0
-    # # for tweet in Cursor(twitter_api.api.search, q='regen').items():
-    # #     count += 1
-    # # print count
-    # q = 'regen since:2015-03-26'
-    #
-    # cursor = Cursor(twitter_api.api.search, q=q, count=100, lang='de')
-    # for page in cursor.pages():
-    #     count += 1
-    # print count
-
-    result = twitter_api.api.geo_search(query='Zurich')
+def twitter_geo():
+    result = twitter_api.api.geo_search(query='Germany')
     print len(result)
     for place in result:
         print place.id
@@ -100,7 +91,15 @@ def twitter():
         print place.full_name
         print place.place_type
 
+def twitter_by_place():
+    q = 'place:%s since:2015-04-01' % twitter_api.PLACE_ID_ZURICH
+    cursor = Cursor(twitter_api.api.search, q=q)
+    for tweet in cursor.items(5):
+        print tweet.text
+        print ' '
+    print count
+
 
 if __name__ == '__main__':
-    twitter()
+    twitter_by_place()
 
