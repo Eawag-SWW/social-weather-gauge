@@ -7,7 +7,7 @@ from matplotlib import pyplot as plotter
 from pattern.web import Twitter
 import pandas as pd
 
-from apis.flickr_api import flickr
+from apis.flickr_api import flickr, Query
 from apis import instagram_api, flickr_api, twitter_api
 
 
@@ -24,18 +24,24 @@ def find_place(query):
     print(response)
 
 
-def sandbox():
-    params = flickr_api.get_params('switzerland')
-    photos = flickr_api.get_photos(params)
-    print photos.get_size()
+def count():
+    year = 2012
+    print flickr_api.count_photos(Query.geotagged_flooding_tags, year=year)
+    print flickr_api.count_photos(Query.switzerland_flooding_tags, year=year)
 
 
 def walking():
-    params = flickr_api.get_params('switzerland')
-    params['min_upload_date'] = '2015-01-01'
-    # params['per_page'] = 1000
-    photos = flickr_api.get_photos(params)
-    print photos.total
+    query = flickr_api.Query.switzerland_flooding_tags
+    for photo in flickr_api.get_photos(query, with_geotags=True)._iterator:
+        print photo.get('latitude')
+
+
+
+
+
+
+    # for photo in flickr.walk(**params):
+    #     print photo.get('title')
 
 
 def array():
@@ -101,5 +107,5 @@ def twitter_by_place():
 
 
 if __name__ == '__main__':
-    twitter_by_place()
+    walking()
 
