@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+import logging
 
+from time import time
 
 from tweepy import Cursor
 import numpy as np
@@ -9,6 +11,7 @@ import pandas as pd
 
 from apis.flickr_api import flickr, Query
 from apis import instagram_api, flickr_api, twitter_api
+import utils
 
 
 pd.options.display.mpl_style = 'default'
@@ -97,6 +100,7 @@ def twitter_geo():
         print place.full_name
         print place.place_type
 
+
 def twitter_by_place():
     q = 'place:%s since:2015-04-01' % twitter_api.PLACE_ID_ZURICH
     cursor = Cursor(twitter_api.api.search, q=q)
@@ -107,5 +111,5 @@ def twitter_by_place():
 
 
 if __name__ == '__main__':
-    walking()
+    utils.assess(Query.switzerland_flooding_tags, per_page=50)
 

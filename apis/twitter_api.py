@@ -12,5 +12,5 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 api = tweepy.API(auth)
 
 
-result = api.search('regen')
-print dir(result)
+# result = api.search('regen')
+

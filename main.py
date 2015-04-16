@@ -1,21 +1,27 @@
 # -*- coding: utf-8 -*-
-
+import logging
 
 import os
+import pickle
+from enum import Enum
 
 import matplotlib.pyplot as plotter
 from mpl_toolkits.basemap import Basemap
 import pandas as pd
 import matplotlib
+import time
 
 from apis import flickr_api
 from apis.flickr_api import Query
-START_YEAR = 2000
-END_YEAR = 2015
+import cache
+from config import START_YEAR, END_YEAR
+
 tags_list = [['hochwasser'], ['überschwemmung'], ['überflutung'], ['flut']]
 RADIUS = 30
-
+logger = logging.getLogger('main')
 # matplotlib.style.use('ggplot')
+
+
 
 def print_random_links(query):
     params = flickr_api._get_params(query)
@@ -60,35 +66,16 @@ def plot(queries, use_cache=False, normalize=False):
     plotter.show()
 
 
-def read_cache(query):
-    series = pd.Series.from_csv(query.data_path())
-    # series = pd.read_csv(query.data_path(), index_col=0)
-    return series
-
-
-def save_cache(query):
-    data = dict()
-    for year in range(START_YEAR, END_YEAR):
-        n_photos = flickr_api.count_photos(query, year)
-        data[year] = n_photos
-    series = pd.Series(data)
-    path = query.data_path()
-    series.to_csv(path)
-
-
 def plot_statistics():
     series = pd.Series.from_csv('data/switzerland_flooding_money.csv', ';')
     series.plot()
     plotter.show()
 
 
-def sandbox():
-    queries = [flickr_api.Query.switzerland_flooding_tags, flickr_api.Query.switzerland_flooding_text]
-    plot(queries, use_cache=True, normalize=True)
-    plot(queries, use_cache=True, normalize=False)
+def draw_map(query, use_cache=False):
 
-
-def map():
+    if not use_cache:
+        cache.save_cache(query, cache.CacheType.points)
 
     north_east_lat = 81.008797
     north_east_lon = 39.869301
@@ -100,14 +87,21 @@ def map():
     map.drawcoastlines(linewidth=0.5)
     map.drawrivers()
 
-    query = flickr_api.Query.geotagged_flooding_tags
-    points = flickr_api.get_points(query)
+    logger.debug('reading cache ...')
+    points = cache.read_cache(query, cache.CacheType.points)
+    logger.debug('finished')
 
     for point in points:
-        x,y = map(point.lon, point.lat)
-        map.plot(x, y, 'ro', 15)
+        try:
+            x,y = map(point.lon, point.lat)
+            map.plot(x, y, 'ro', 15)
+        except:
+            logging.warning('problem with point:')
 
     plotter.show()
 
+
 if __name__ == '__main__':
-    map()
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(logging.StreamHandler())
+    draw_map(Query.geotagged_flooding_tags, use_cache=True)
