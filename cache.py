@@ -12,8 +12,8 @@ class CacheType(Enum):
     points = 2
 
 
-def read_cache(query, type):
-    path = get_cache_path(query, type)
+def read(query, type):
+    path = _get_path(query, type)
 
     if type == CacheType.plot:
         answer = pd.Series.from_csv(path)
@@ -26,8 +26,8 @@ def read_cache(query, type):
     return answer
 
 
-def save_cache(query, type):
-    path = get_cache_path(query, type)
+def save(query, type):
+    path = _get_path(query, type)
 
     if type == CacheType.plot:
         data = dict()
@@ -39,7 +39,7 @@ def save_cache(query, type):
 
     elif type == CacheType.points:
         points = flickr_api.get_points(query)
-        path = get_cache_path(query, type)
+        path = _get_path(query, type)
         f = open(path, 'wb')
         pickle.dump(points, f)
 
@@ -47,7 +47,7 @@ def save_cache(query, type):
         raise RuntimeError('Undefined CacheType: %s', type)
 
 
-def get_cache_path(query, type):
+def _get_path(query, type):
 
     if type == CacheType.plot:
         extension = 'csv'

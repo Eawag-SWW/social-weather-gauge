@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 
-import matplotlib.pyplot as plotter
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.basemap import Basemap
 import pandas as pd
+import numpy as np
 
 from apis import flickr_api
 from apis.flickr_api import Query
@@ -35,67 +37,106 @@ def summary(query):
 
 
 def plot(queries, use_cache=False, normalize=False):
-
     if type(queries) != list:
         queries = [queries]
 
     if not use_cache:
         for query in queries:
-            cache.save_cache(query)
-        cache.save_cache(flickr_api.Query.switzerland)
-    
-    normalizer = cache.read_cache(flickr_api.Query.switzerland)
+            cache.save(query)
+        cache.save(flickr_api.Query.switzerland)
+
+    normalizer = cache.read(flickr_api.Query.switzerland)
 
     for query in queries:
-        data = cache.read_cache(query)
+        data = cache.read(query)
         if normalize:
             data = data.divide(normalizer)
-        plotter.plot(data, label=query.name)
+        plt.plot(data, label=query.name)
 
-    plotter.title('Tocotronic')
-    plotter.ylabel('Number of Flickr Photo Uploads')
-    plotter.xlabel('Year')
-    plotter.legend()
-    plotter.show()
+    plt.title('Tocotronic')
+    plt.ylabel('Number of Flickr Photo Uploads')
+    plt.xlabel('Year')
+    plt.legend()
+    plt.show()
 
 
 def plot_statistics():
     series = pd.Series.from_csv('data/switzerland_flooding_money.csv', ';')
     series.plot()
-    plotter.show()
+    plt.show()
 
 
-def draw_map(query, use_cache=False):
-
+def draw_map(query, use_cache=False, bins=10):
     if not use_cache:
-        cache.save_cache(query, cache.CacheType.points)
+        cache.save(query, cache.CacheType.points)
 
-    north_east_lat = 81.008797
-    north_east_lon = 39.869301
-    south_west_lat = 27.636311
-    south_west_lon = -31.266001
+    # # europe
+    # north_east_lat = 81.008797
+    # north_east_lon = 39.869301
+    # south_west_lat = 27.636311
+    # south_west_lon = -31.266001
 
-    map = Basemap(resolution='i', urcrnrlat=north_east_lat, urcrnrlon=north_east_lon, 
+    # custom
+    north_east_lat =  72 # 62
+    north_east_lon = 30 #20
+    south_west_lat = 35
+    south_west_lon = -12
+
+    cdict = {'red':  ( (0.0,  1.0,  1.0),
+                   (1.0,  0.9,  1.0) ),
+         'green':( (0.0,  1.0,  1.0),
+                   (1.0,  0.03, 0.0) ),
+         'blue': ( (0.0,  1.0,  1.0),
+                   (1.0,  0.16, 0.0) ) }
+    custom_map = LinearSegmentedColormap('custom_map', cdict)
+    plt.register_cmap(cmap=custom_map)
+
+    map = Basemap(resolution='i', urcrnrlat=north_east_lat, urcrnrlon=north_east_lon,
                   llcrnrlat=south_west_lat, llcrnrlon=south_west_lon)
-    map.drawcountries()
+    map.drawcountries(linewidth=0.5)
     map.drawcoastlines(linewidth=0.5)
-    map.drawrivers()
+    map.shadedrelief()
+    # map.fillcontinents(color='peru', zorder=0)
+    # map.drawrivers(color='blue')
 
-    logger.debug('reading cache ...')
-    points = cache.read_cache(query, cache.CacheType.points)
-    logger.debug('finished')
 
-    for point in points:
-        try:
-            x, y = map(point.lon, point.lat)
-            map.plot(x, y, 'ro', 15)
-        except:
-            logging.warning('problem with point:')
+    points = cache.read(query, cache.CacheType.points)
+    lons = np.array([p.lon for p in points], dtype=float)
+    lats = np.array([p.lat for p in points], dtype=float)
 
-    plotter.show()
+
+    edges = ((south_west_lon, north_east_lon), (south_west_lat, north_east_lat))
+    density, bin_edges_x, bin_edges_y = np.histogram2d(lons, lats, bins=bins, range=edges )
+    density = np.log(density)
+
+    xs, ys = np.meshgrid(bin_edges_x, bin_edges_y)
+    mapped_bin_lons, mapped_bin_lats = map(xs, ys)
+
+    # for i in range(len(xs)-1):
+    #     map.plot(xs[i], ys[i], 'ro', 20)
+    # plt.show()
+
+
+
+    #
+    #
+    # for point in points:
+    #     try:
+    #         x, y = map(point.lon, point.lat)
+    #         map.plot(x, y, 'ro', 15)
+    #     except:
+    #         logging.warning('problem with point:')
+    #
+
+
+    plt.pcolormesh(mapped_bin_lons, mapped_bin_lats, density.transpose(), cmap='Blues')
+
+    plt.colorbar()
+
+    plt.show()
 
 
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
-    draw_map(Query.geotagged_flooding_tags, use_cache=True)
+    draw_map(Query.geotagged_flooding_tags, use_cache=True, bins=100)

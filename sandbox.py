@@ -109,7 +109,29 @@ def twitter_by_place():
         print ' '
     print count
 
+def histogram():
+    # np.histogram2d()
+    n = 1000
+    # x = np.random.normal(10,2,n)
+    # y = np.random.normal(15,5,n)
+    x = [1, 1, 1, 2, 2, 2]
+    y = [1, 1, 1, 2, 2, 3]
+
+    H, xedges, yedges = np.histogram2d(x,y, bins=3)
+    print H
+    print xedges
+    print yedges
+
+    # plotter.imshow(H, interpolation='nearest', origin='low',
+    #             extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
+
+    X, Y = np.meshgrid(xedges, yedges)
+    plotter.pcolormesh(X, Y, H)
+    # figure.set_aspect('equal')
+
+    plotter.savefig('testplot.jpg')
+
 
 if __name__ == '__main__':
-    utils.assess(Query.switzerland_flooding_tags, per_page=50)
+    histogram()
 
