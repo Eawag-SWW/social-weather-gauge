@@ -6,6 +6,5 @@ pattern
 
 pandas
 matplotlib
-basemap
 enum34
 

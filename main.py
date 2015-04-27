@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
 
-import os
-import pickle
-from enum import Enum
-
 import matplotlib.pyplot as plotter
 from mpl_toolkits.basemap import Basemap
 import pandas as pd
-import matplotlib
-import time
 
 from apis import flickr_api
 from apis.flickr_api import Query
@@ -20,7 +14,6 @@ tags_list = [['hochwasser'], ['überschwemmung'], ['überflutung'], ['flut']]
 RADIUS = 30
 logger = logging.getLogger('main')
 # matplotlib.style.use('ggplot')
-
 
 
 def print_random_links(query):
@@ -48,13 +41,13 @@ def plot(queries, use_cache=False, normalize=False):
 
     if not use_cache:
         for query in queries:
-            save_cache(query)
-        save_cache(flickr_api.Query.switzerland)
+            cache.save_cache(query)
+        cache.save_cache(flickr_api.Query.switzerland)
     
-    normalizer = read_cache(flickr_api.Query.switzerland)
+    normalizer = cache.read_cache(flickr_api.Query.switzerland)
 
     for query in queries:
-        data = read_cache(query)
+        data = cache.read_cache(query)
         if normalize:
             data = data.divide(normalizer)
         plotter.plot(data, label=query.name)
@@ -82,7 +75,8 @@ def draw_map(query, use_cache=False):
     south_west_lat = 27.636311
     south_west_lon = -31.266001
 
-    map = Basemap(resolution='i', urcrnrlat=north_east_lat, urcrnrlon=north_east_lon, llcrnrlat=south_west_lat, llcrnrlon=south_west_lon)
+    map = Basemap(resolution='i', urcrnrlat=north_east_lat, urcrnrlon=north_east_lon, 
+                  llcrnrlat=south_west_lat, llcrnrlon=south_west_lon)
     map.drawcountries()
     map.drawcoastlines(linewidth=0.5)
     map.drawrivers()
@@ -93,7 +87,7 @@ def draw_map(query, use_cache=False):
 
     for point in points:
         try:
-            x,y = map(point.lon, point.lat)
+            x, y = map(point.lon, point.lat)
             map.plot(x, y, 'ro', 15)
         except:
             logging.warning('problem with point:')
