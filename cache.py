@@ -1,3 +1,4 @@
+import logging
 import pickle
 
 from enum import Enum
@@ -5,6 +6,8 @@ import pandas as pd
 
 from apis import flickr_api
 from config import START_YEAR, END_YEAR
+
+logger = logging.getLogger('main')
 
 
 class CacheType(Enum):

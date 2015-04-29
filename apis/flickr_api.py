@@ -116,6 +116,8 @@ def count_photos(query, year=None):
     return total
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):
+    logger.debug('Querying points from flickr...')
     photo_collection = get_photos(query, with_geotags=True, per_page=per_page)
     points = photo_collection.to_points()
+    logger.debug('finished')
     return points

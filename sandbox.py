@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-import logging
 
-from time import time
-
-from tweepy import Cursor
 import numpy as np
 from matplotlib import pyplot as plotter
+
+from tweepy import Cursor
 from pattern.web import Twitter
 import pandas as pd
+from PyDictionary import PyDictionary
 
 from apis.flickr_api import flickr, Query
 from apis import instagram_api, flickr_api, twitter_api
-import utils
 
 
 pd.options.display.mpl_style = 'default'
@@ -43,8 +41,8 @@ def walking():
 
 
 
-    # for photo in flickr.walk(**params):
-    #     print photo.get('title')
+        # for photo in flickr.walk(**params):
+        # print photo.get('title')
 
 
 def array():
@@ -109,6 +107,7 @@ def twitter_by_place():
         print ' '
     print count
 
+
 def histogram():
     # np.histogram2d()
     n = 1000
@@ -117,13 +116,13 @@ def histogram():
     x = [1, 1, 1, 2, 2, 2]
     y = [1, 1, 1, 2, 2, 3]
 
-    H, xedges, yedges = np.histogram2d(x,y, bins=3)
+    H, xedges, yedges = np.histogram2d(x, y, bins=3)
     print H
     print xedges
     print yedges
 
     # plotter.imshow(H, interpolation='nearest', origin='low',
-    #             extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
+    # extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
 
     X, Y = np.meshgrid(xedges, yedges)
     plotter.pcolormesh(X, Y, H)
@@ -132,6 +131,17 @@ def histogram():
     plotter.savefig('testplot.jpg')
 
 
+def dictionary():
+    dictionary = PyDictionary()
+    print dictionary.translate('flood', 'de')
+    print dictionary.translate('flooding', 'de')
+    print dictionary.synonym('flood')
+    print dictionary.synonym('flooding')
+    print dictionary.synonym('deluge')
+
+    flood = PyDictionary('flood', 'flooding', 'deluge')
+    print flood.printSynonyms()
+
 if __name__ == '__main__':
-    histogram()
+    dictionary()
 

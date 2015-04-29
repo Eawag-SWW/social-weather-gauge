@@ -4,6 +4,8 @@ facebook-sdk
 tweepy
 pattern
 
+pydictionary
+
 pandas
 matplotlib
 enum34

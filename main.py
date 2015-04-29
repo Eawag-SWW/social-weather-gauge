@@ -82,32 +82,26 @@ def draw_map(query, use_cache=False, bins=10):
     south_west_lat = 35
     south_west_lon = -12
 
-    cdict = {'red':  ( (0.0,  1.0,  1.0),
-                   (1.0,  0.9,  1.0) ),
-         'green':( (0.0,  1.0,  1.0),
-                   (1.0,  0.03, 0.0) ),
-         'blue': ( (0.0,  1.0,  1.0),
-                   (1.0,  0.16, 0.0) ) }
-    custom_map = LinearSegmentedColormap('custom_map', cdict)
-    plt.register_cmap(cmap=custom_map)
-
     map = Basemap(resolution='i', urcrnrlat=north_east_lat, urcrnrlon=north_east_lon,
                   llcrnrlat=south_west_lat, llcrnrlon=south_west_lon)
     map.drawcountries(linewidth=0.5)
     map.drawcoastlines(linewidth=0.5)
-    map.shadedrelief()
+    # map.shadedrelief()
     # map.fillcontinents(color='peru', zorder=0)
     # map.drawrivers(color='blue')
 
 
     points = cache.read(query, cache.CacheType.points)
+    logger.debug('%s points read from cache.', len(points))
     lons = np.array([p.lon for p in points], dtype=float)
     lats = np.array([p.lat for p in points], dtype=float)
 
 
     edges = ((south_west_lon, north_east_lon), (south_west_lat, north_east_lat))
     density, bin_edges_x, bin_edges_y = np.histogram2d(lons, lats, bins=bins, range=edges )
-    density = np.log(density)
+
+    density = np.log10(density)
+    density[density < 0] = 0
 
     xs, ys = np.meshgrid(bin_edges_x, bin_edges_y)
     mapped_bin_lons, mapped_bin_lats = map(xs, ys)
@@ -117,18 +111,15 @@ def draw_map(query, use_cache=False, bins=10):
     # plt.show()
 
 
-
-    #
-    #
-    # for point in points:
-    #     try:
-    #         x, y = map(point.lon, point.lat)
-    #         map.plot(x, y, 'ro', 15)
-    #     except:
-    #         logging.warning('problem with point:')
-    #
+    for point in points:
+        try:
+            x, y = map(point.lon, point.lat)
+            map.plot(x, y, 'ro', 15, alpha=0.5)
+        except:
+            logging.warning('problem with point:')
 
 
+    # logger.debug('transposed density: %s', density.transpose())
     plt.pcolormesh(mapped_bin_lons, mapped_bin_lats, density.transpose(), cmap='Blues')
 
     plt.colorbar()
@@ -139,4 +130,4 @@ def draw_map(query, use_cache=False, bins=10):
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
-    draw_map(Query.geotagged_flooding_tags, use_cache=True, bins=100)
+    draw_map(Query.geotagged_flooding_tags, use_cache=True, bins=50)
