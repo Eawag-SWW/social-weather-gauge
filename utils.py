@@ -1,5 +1,6 @@
 import logging
 from time import time
+from mpl_toolkits.basemap import Basemap
 from apis import flickr_api
 
 
@@ -23,3 +24,9 @@ def assess(query, per_page):
 
     print 'Total (counted): %s' % len(points)
     print 'time: %.2f seconds' % seconds
+
+
+
+
+
+

@@ -8,7 +8,7 @@ from pattern.web import Twitter
 import pandas as pd
 from PyDictionary import PyDictionary
 
-from apis.flickr_api import flickr, Query
+from apis.flickr_api import flickr, FlickrQuery
 from apis import instagram_api, flickr_api, twitter_api
 
 
@@ -27,12 +27,12 @@ def find_place(query):
 
 def count():
     year = 2012
-    print flickr_api.count_photos(Query.geotagged_flooding_tags, year=year)
-    print flickr_api.count_photos(Query.switzerland_flooding_tags, year=year)
+    print flickr_api.count_photos(FlickrQuery.geotagged_flooding_tags, year=year)
+    print flickr_api.count_photos(FlickrQuery.switzerland_flooding_tags, year=year)
 
 
 def walking():
-    query = flickr_api.Query.switzerland_flooding_tags
+    query = flickr_api.FlickrQuery.switzerland_flooding_tags
     for photo in flickr_api.get_photos(query, with_geotags=True)._iterator:
         print photo.get('latitude')
 
