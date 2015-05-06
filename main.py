@@ -64,7 +64,7 @@ def plot_statistics():
     plt.show()
 
 
-def draw_map(queries, use_cache=False, n_bins=60):
+def draw_map(queries, use_cache=False, n_bins=60, color_maps=['Blues', config.D_REDS], mix_points=False):
     if not use_cache:
         for query in queries:
             cache.save(query, CacheType.POINTS)
@@ -72,9 +72,20 @@ def draw_map(queries, use_cache=False, n_bins=60):
     box = config.EUROPE_RESTRICTED
     map = Map(bounding_box=box)
 
-    for query in queries:
-        points = cache.read(query, CacheType.POINTS)
-        map.draw_densities(points, n_bins=n_bins)
+    if mix_points:
+        all_points = []
+        for query in queries:
+            points = cache.read(query, CacheType.POINTS)
+            all_points.append(points)
+        map.draw_densities(all_points, n_bins)
+
+    else:
+        i = 0
+        for query in queries:
+            points = cache.read(query, CacheType.POINTS)
+            color_map = color_maps[i]
+            i += 1
+            map.draw_densities(points, n_bins=n_bins, color_map=color_map)
 
     map.show()
 
@@ -82,7 +93,6 @@ def draw_map(queries, use_cache=False, n_bins=60):
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
-    german_flooding_tags_query = FlickrQuery(language='de', query_type=QueryType.TAGS, only_geotagged=True)
-    queries = [german_flooding_tags_query]
-    draw_map(queries, use_cache=False, n_bins=50)
+    queries = [config.FLOODING_GERMAN_TAGS_QUERY, config.FLOODING_FRENCH_TAGS_QUERY]
+    draw_map(queries, use_cache=True, n_bins=50)
 

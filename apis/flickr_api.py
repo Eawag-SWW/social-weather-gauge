@@ -6,9 +6,16 @@ import logging
 from enum import Enum
 import flickrapi
 
-from config import FLOODING_TAGS
 from geo import Point
 import secrets
+
+
+
+FLOODING_TAGS = dict()
+FLOODING_TAGS['de'] = 'hochwasser, überschwemmung, überflutung, flut'
+FLOODING_TAGS['fr'] = 'crue, inondation'
+FLOODING_TAGS['en'] = 'flood, high-water'
+
 
 
 FORMAT = 'etree'  # 'parsed-json'
@@ -39,13 +46,14 @@ class FlickrQuery(object):
         if only_geotagged:
             params['has_geo'] = 1
         if query_type == QueryType.TAGS:
-            params['tags'] = FLOODING_TAGS['de']
+            params['tags'] = FLOODING_TAGS[language]
         self.params = params
 
     def __repr__(self):
         string = '%s_%s_%s' % (self.query_type, self.language, self.only_geotagged)
         string = string.lower()
         return string
+
 
 
 class PhotoCollection:
@@ -79,19 +87,19 @@ def get_photos(query, per_page=PER_PAGE_DEFAULT):
 
 
 def count_photos(query, year=None):
-    params = query.params_
+    params = query.params
     if year:
         params['min_upload_date'] = '%s-01-01' % year
         params['max_upload_date'] = '%s-12-31' % year
     response = flickr.photos.search(**params)
     photos = response[0]
     total = photos.attrib['total']
-    return total
+    return int(total)
 
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):
-    logger.debug('Querying points from Flickr ...')
+    logger.info('Querying points from Flickr ...')
     photo_collection = get_photos(query, per_page=per_page)
     points = photo_collection.to_points()
-    logger.debug('... finished.')
+    logger.info('... finished.')
     return points

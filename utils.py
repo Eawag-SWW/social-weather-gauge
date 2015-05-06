@@ -4,11 +4,7 @@ from mpl_toolkits.basemap import Basemap
 from apis import flickr_api
 
 
-def assess(query, per_page):
-
-    logger = logging.getLogger('main')
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(logging.StreamHandler())
+def measure_download_time(query, per_page):
 
     total = flickr_api.count_photos(query)
 
@@ -26,7 +22,14 @@ def assess(query, per_page):
     print 'time: %.2f seconds' % seconds
 
 
+def print_totals(queries):
+    for query in queries:
+        string = '''
+        Query: %s
+        Total: %d
+        '''
 
+        print string % (query, flickr_api.count_photos(query))
 
 
 

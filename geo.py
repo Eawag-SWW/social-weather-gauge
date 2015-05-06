@@ -47,9 +47,9 @@ class Map(object):
         mapped_bin_lons, mapped_bin_lats = self._basemap(bin_lons, bin_lats)
 
         plt.pcolormesh(mapped_bin_lons, mapped_bin_lats, log_density.transpose(), cmap=color_map)
+        plt.colorbar(shrink=0.75)
 
     def show(self):
-        plt.colorbar()
         plt.show()
 
 

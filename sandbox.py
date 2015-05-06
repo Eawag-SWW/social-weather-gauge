@@ -10,9 +10,8 @@ from PyDictionary import PyDictionary
 
 from apis.flickr_api import flickr, FlickrQuery
 from apis import instagram_api, flickr_api, twitter_api
-
-
-pd.options.display.mpl_style = 'default'
+import config
+import utils
 
 
 def tags_for_place(woe_id):
@@ -142,6 +141,11 @@ def dictionary():
     flood = PyDictionary('flood', 'flooding', 'deluge')
     print flood.printSynonyms()
 
+
+def totals():
+    queries = [config.FLOODING_GERMAN_TAGS_QUERY, config.FLOODING_FRENCH_TAGS_QUERY, config.FLOODING_ENGLISH_TAGS_QUERY]
+    utils.print_totals(queries)
+
 if __name__ == '__main__':
-    dictionary()
+    print config.D_REDS
 
