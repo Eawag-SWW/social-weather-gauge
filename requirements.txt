@@ -8,5 +8,6 @@ pydictionary
 
 pandas
 matplotlib
+seaborn
 enum34
 

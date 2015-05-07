@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 
 from mpl_toolkits.basemap import Basemap
 
@@ -18,11 +19,11 @@ class Map(object):
                           urcrnrlon=bounding_box.north_east_lon,
                           llcrnrlat=bounding_box.south_west_lat,
                           llcrnrlon=bounding_box.south_west_lon)
-        basemap.drawcountries(linewidth=0.5)
-        basemap.drawcoastlines(linewidth=0.5)
+        basemap.drawcountries(linewidth=0.25)
+        basemap.drawcoastlines(linewidth=0.25)
         # map.shadedrelief()
         # map.fillcontinents(color='peru', zorder=0)
-        # map.drawrivers(color='blue')
+        basemap.drawrivers(color='blue', linewidth=0.1)
         self._basemap = basemap
         self._bounding_box = bounding_box
 
@@ -46,11 +47,14 @@ class Map(object):
         bin_lons, bin_lats = np.meshgrid(bin_edges_x, bin_edges_y)
         mapped_bin_lons, mapped_bin_lats = self._basemap(bin_lons, bin_lats)
 
-        plt.pcolormesh(mapped_bin_lons, mapped_bin_lats, log_density.transpose(), cmap=color_map)
-        plt.colorbar(shrink=0.75)
+        plt.pcolormesh(mapped_bin_lons, mapped_bin_lats, log_density.transpose(), cmap=color_map, label='toco')
+
 
     def show(self):
         plt.show()
+
+    def save(self, path, format='png'):
+        plt.savefig(path, format=format, dpi=300)
 
 
 class Point(object):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from matplotlib import colors
+from matplotlib.colors import LinearSegmentedColormap
 
 from apis.flickr_api import FlickrQuery, QueryType
 from geo import BoundingBox
@@ -20,11 +21,16 @@ EUROPE.north_east_lon = 39.869301
 EUROPE.south_west_lat = 27.636311
 EUROPE.south_west_lon = -31.266001
 
+# LIGHT_BLUE = (166,206,227)
+# DARK_BLUE = 31,120,180
+# GREEN = 178,223,138
 
-FLOODING_GERMAN_TAGS_QUERY = FlickrQuery(language='de', query_type=QueryType.TAGS, only_geotagged=True)
-FLOODING_ENGLISH_TAGS_QUERY = FlickrQuery(language='en', query_type=QueryType.TAGS, only_geotagged=True)
-FLOODING_FRENCH_TAGS_QUERY = FlickrQuery(language='fr', query_type=QueryType.TAGS, only_geotagged=True)
+LIGHT_BLUE = '#a6cee3'
+DARK_BLUE = '#1f78b4'
+GREEN = '#b2df8a'
 
+COLORS = ['#e41a1c', '#377eb8', '#4daf4a']
 
 TRANSPARENT_WHITE = colors.ColorConverter().to_rgba('white', alpha=0)
-D_REDS = colors.LinearSegmentedColormap.from_list('d_reds', [TRANSPARENT_WHITE, 'red'])
+
+COLOR_MAPS = [LinearSegmentedColormap.from_list('', [TRANSPARENT_WHITE, color]) for color in COLORS]

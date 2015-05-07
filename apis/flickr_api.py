@@ -15,7 +15,7 @@ FLOODING_TAGS = dict()
 FLOODING_TAGS['de'] = 'hochwasser, überschwemmung, überflutung, flut'
 FLOODING_TAGS['fr'] = 'crue, inondation'
 FLOODING_TAGS['en'] = 'flood, high-water'
-
+FLOODING_TAGS['it'] = 'inondazione, alluvione'
 
 
 FORMAT = 'etree'  # 'parsed-json'

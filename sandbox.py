@@ -147,5 +147,5 @@ def totals():
     utils.print_totals(queries)
 
 if __name__ == '__main__':
-    print config.D_REDS
+    print config.TRANSPARENT_REDS
 

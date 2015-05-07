@@ -3,6 +3,8 @@ import logging
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import time
+import seaborn as sns
 
 from apis import flickr_api
 from apis.flickr_api import FlickrQuery, QueryType
@@ -12,12 +14,8 @@ from config import START_YEAR, END_YEAR
 import config
 from geo import Map
 
-
-tags_list = [['hochwasser'], ['überschwemmung'], ['überflutung'], ['flut']]
 RADIUS = 30
 logger = logging.getLogger('main')
-# matplotlib.style.use('ggplot')
-
 
 def print_random_links(query):
     params = flickr_api._get_params(query)
@@ -64,7 +62,7 @@ def plot_statistics():
     plt.show()
 
 
-def draw_map(queries, use_cache=False, n_bins=60, color_maps=['Blues', config.D_REDS], mix_points=False):
+def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, mix_points=False, formats=['png']):
     if not use_cache:
         for query in queries:
             cache.save(query, CacheType.POINTS)
@@ -87,12 +85,17 @@ def draw_map(queries, use_cache=False, n_bins=60, color_maps=['Blues', config.D_
             i += 1
             map.draw_densities(points, n_bins=n_bins, color_map=color_map)
 
-    map.show()
+    for format in formats:
+        path = 'plots/map%s.%s' % (time.time(), format)
+        map.save(path, format=format)
 
 
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
-    queries = [config.FLOODING_GERMAN_TAGS_QUERY, config.FLOODING_FRENCH_TAGS_QUERY]
-    draw_map(queries, use_cache=True, n_bins=50)
+
+    languages = ['de', 'fr', 'it']
+    queries = [FlickrQuery(language=language, query_type=QueryType.TAGS, only_geotagged=True) for language in languages]
+
+    save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
 
