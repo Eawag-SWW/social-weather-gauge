@@ -90,12 +90,21 @@ def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, 
         map.save(path, format=format)
 
 
+def save_europa_map():
+    languages = ['de', 'fr', 'it']
+    queries = [FlickrQuery(language=language, query_type=QueryType.TAGS, only_geotagged=True) for language in languages]
+    save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
+
+
+def plot_rain_data():
+    dataframe = pd.read_csv('data/rain-zurich-2015.dat', skiprows=8, header=1, delim_whitespace=True)
+    print dataframe.describe()
+
+
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
 
-    languages = ['de', 'fr', 'it']
-    queries = [FlickrQuery(language=language, query_type=QueryType.TAGS, only_geotagged=True) for language in languages]
+    plot_rain_data()
 
-    save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
 
