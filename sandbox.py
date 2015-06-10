@@ -99,12 +99,13 @@ def twitter_geo():
 
 
 def twitter_by_place():
-    q = 'place:%s since:2015-04-01' % twitter_api.PLACE_ID_ZURICH
-    cursor = Cursor(twitter_api.api.search, q=q)
-    for tweet in cursor.items(5):
-        print tweet.text
-        print ' '
-    print count
+    results = []
+    q = 'place:%s since:2015-06-09 until:2015-06-10' % twitter_api.PLACE_ID_GERMANY
+    cursor = Cursor(twitter_api.api.search, q=q, count=100)
+    for tweet in cursor.items():
+        results.append(tweet)
+        print tweet.created_at
+    print len(results)
 
 
 def histogram():
@@ -147,5 +148,5 @@ def totals():
     utils.print_totals(queries)
 
 if __name__ == '__main__':
-    print config.TRANSPARENT_REDS
 
+    twitter_by_place()

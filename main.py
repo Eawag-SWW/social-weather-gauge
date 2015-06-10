@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 import logging
 
 import matplotlib.pyplot as plt
@@ -96,15 +97,29 @@ def save_europa_map():
     save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
 
 
-def plot_rain_data():
-    dataframe = pd.read_csv('data/rain-zurich-2015.dat', skiprows=8, header=1, delim_whitespace=True)
-    print dataframe.describe()
+def plot_oldschool_rain_data():
+    df = pd.read_csv('data/rain-zurich-2015.dat', skiprows=8, header=1, delim_whitespace=True)
+    df.rename(columns={'267': 'rain'}, inplace=True)
+    datetime_labels = ['JAHR', 'MO', 'TG', 'HH', 'MM']
+    transform = lambda s : datetime(*s)
+    df['datetime'] = df[datetime_labels].apply(transform, axis=1)
+    df.index = df.datetime
+    to_drop = ['datetime', 'STA'] + datetime_labels
+    df.drop(to_drop, axis=1, inplace=True)
+    df = df.resample('D', how='sum')
+
+    april_data = df['2015-04']
+    april_data.plot()
+    plt.show()
+
+
+def plot_twitter_rain():
 
 
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
 
-    plot_rain_data()
+    plot_oldschool_rain_data()
 
 
