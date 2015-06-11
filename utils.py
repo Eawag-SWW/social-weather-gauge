@@ -28,7 +28,6 @@ def print_totals(queries):
         Query: %s
         Total: %d
         '''
-
         print string % (query, flickr_api.count_photos(query))
 
 

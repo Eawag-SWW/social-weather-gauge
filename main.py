@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
+import time
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import time
-import seaborn as sns
 
 from apis import flickr_api
 from apis.flickr_api import FlickrQuery, QueryType
+from apis.twitter_api import TwitterQuery
 import cache
 from cache import CacheType
 from config import START_YEAR, END_YEAR
 import config
 from geo import Map
 
+
 RADIUS = 30
 logger = logging.getLogger('main')
+
 
 def print_random_links(query):
     params = flickr_api._get_params(query)
@@ -113,13 +115,27 @@ def plot_oldschool_rain_data():
     plt.show()
 
 
-def plot_twitter_rain():
+def print_tweet_counts(place_id=None, begin=None, end=None, use_cache=False):
+
+    n_days = int((end - begin).days)
+
+    for d in [begin + timedelta(days=i) for i in range(n_days)]:
+
+        query = TwitterQuery(place_id=place_id, date=d)
+
+        if not use_cache:
+            cache.save(query, CacheType.TWEETS)
+
+        tweets = cache.read(query, CacheType.TWEETS)
+
+        date_string = d.strftime('%d/%m')
+        print '%s: %d' % (date_string, len(tweets))
 
 
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
 
-    plot_oldschool_rain_data()
+
 
 

@@ -5,10 +5,10 @@ import logging
 
 from enum import Enum
 import flickrapi
+from apis import Query
 
 from geo import Point
 import secrets
-
 
 
 FLOODING_TAGS = dict()
@@ -16,7 +16,6 @@ FLOODING_TAGS['de'] = 'hochwasser, überschwemmung, überflutung, flut'
 FLOODING_TAGS['fr'] = 'crue, inondation'
 FLOODING_TAGS['en'] = 'flood, high-water'
 FLOODING_TAGS['it'] = 'inondazione, alluvione'
-
 
 FORMAT = 'etree'  # 'parsed-json'
 API_KEY = secrets.API_KEY
@@ -34,7 +33,7 @@ class QueryType(Enum):
     TAGS = 1
 
 
-class FlickrQuery(object):
+class FlickrQuery(Query):
     def __init__(self, language, query_type, only_geotagged):
 
         self.language = language
@@ -53,7 +52,6 @@ class FlickrQuery(object):
         string = '%s_%s_%s' % (self.query_type, self.language, self.only_geotagged)
         string = string.lower()
         return string
-
 
 
 class PhotoCollection:

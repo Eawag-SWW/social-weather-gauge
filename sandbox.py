@@ -2,6 +2,8 @@
 
 import numpy as np
 from matplotlib import pyplot as plotter
+from pprint import pprint
+from datetime import date
 
 from tweepy import Cursor
 from pattern.web import Twitter
@@ -11,6 +13,7 @@ from PyDictionary import PyDictionary
 from apis.flickr_api import flickr, FlickrQuery
 from apis import instagram_api, flickr_api, twitter_api
 import config
+import main
 import utils
 
 
@@ -98,14 +101,22 @@ def twitter_geo():
         print place.place_type
 
 
-def twitter_by_place():
+def twitter_cursor():
     results = []
     q = 'place:%s since:2015-06-09 until:2015-06-10' % twitter_api.PLACE_ID_GERMANY
     cursor = Cursor(twitter_api.api.search, q=q, count=100)
     for tweet in cursor.items():
         results.append(tweet)
-        print tweet.created_at
-    print len(results)
+        pprint(vars(tweet))
+        break
+    # print len(results)
+
+
+def twitter_response():
+
+    q = 'place:%s since:2015-06-09 until:2015-06-10' % twitter_api.PLACE_ID_GERMANY
+    response = twitter_api.api.search(q)
+    pprint(vars(response))
 
 
 def histogram():
@@ -147,6 +158,14 @@ def totals():
     queries = [config.FLOODING_GERMAN_TAGS_QUERY, config.FLOODING_FRENCH_TAGS_QUERY, config.FLOODING_ENGLISH_TAGS_QUERY]
     utils.print_totals(queries)
 
-if __name__ == '__main__':
 
-    twitter_by_place()
+def print_tweet_counts_last_days():
+
+    place_id = twitter_api.PLACE_ID_ZURICH
+    begin = date(2015, 6, 1)
+    end = date(2015, 6, 12)
+
+    main.print_tweet_counts(place_id, begin, end, use_cache=False)
+
+if __name__ == '__main__':
+    print_tweet_counts_last_days()

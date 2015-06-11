@@ -12,17 +12,19 @@ Misc
 Api
 ---
 
-rest-api vs. streaming api
+- rest-api vs. streaming api
+- python library: tweepy
 
+
+### REST-api
 https://api.twitter.com/{version}
 
-### Search API:
-
+#### Search
 
 The Search API is not complete index of all Tweets, but instead an index of recent Tweets.
 At the moment that index includes between 6-9 days of Tweets. (https://dev.twitter.com/rest/public/search)
 
-- python library: tweepy
+schema: text, created_at
 
 Geolocation
 -----------
