@@ -30,5 +30,9 @@ def print_totals(queries):
         '''
         print string % (query, flickr_api.count_photos(query))
 
+class Stopwatch(object):
+    def start(self):
+        self.start_time = time()
 
+    # def get_elapsed_time(self):
 

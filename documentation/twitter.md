@@ -15,6 +15,7 @@ Api
 - rest-api vs. streaming api
 - python library: tweepy
 
+schema: text, created_at, coordinates, place
 
 ### REST-api
 https://api.twitter.com/{version}
@@ -24,11 +25,37 @@ https://api.twitter.com/{version}
 The Search API is not complete index of all Tweets, but instead an index of recent Tweets.
 At the moment that index includes between 6-9 days of Tweets. (https://dev.twitter.com/rest/public/search)
 
-schema: text, created_at
 
+### tweepy
+
+Schema Place
+    full_name
+
+Schema Status streaming-api:
+    contributors
+    truncated
+    text
+    in_reply_to_status_id
+    id
+    favorite_count
+    author
+        User
+        follow_request_sent
+        profile_use_background_image 
+    _json
+        follow_request_sent
+        profile_use_background_image
+        default_profile_image
+        id
+        verified
+        profile_image_url_https
+        profile_sidebar_fill_color
+        .. 
+        
 Geolocation
 -----------
 - tweet is geotagged by user
 - in germany 1% of tweets are geotagged
+- Approximately 3-5% of all tweets are geo-enabled (https://github.com/Ccantey/GeoSearch-Tweepy)
 - induce location from user profile
 - induce location from tweet text

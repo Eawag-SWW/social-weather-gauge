@@ -13,6 +13,7 @@ from PyDictionary import PyDictionary
 from apis.flickr_api import flickr, FlickrQuery
 from apis import instagram_api, flickr_api, twitter_api
 import config
+import geo
 import main
 import utils
 
@@ -167,5 +168,9 @@ def print_tweet_counts_last_days():
 
     main.print_tweet_counts(place_id, begin, end, use_cache=False)
 
+def place_infos():
+    twitter_api.print_place_info(twitter_api.PLACE_ID_GERMANY)
+    twitter_api.print_place_info(twitter_api.PLACE_ID_ZURICH)
+
 if __name__ == '__main__':
-    print_tweet_counts_last_days()
+    place_infos()
