@@ -10,11 +10,13 @@ from pattern.web import Twitter
 import pandas as pd
 from PyDictionary import PyDictionary
 
-from apis.flickr_api import flickr, FlickrQuery
 from apis import instagram_api, flickr_api, twitter_api
+from apis.flickr_api import flickr, FlickrQuery
+from apis.twitter_api import PrintingListener
 import config
 import geo
 import main
+import store
 import utils
 
 
@@ -110,11 +112,10 @@ def twitter_cursor():
         results.append(tweet)
         pprint(vars(tweet))
         break
-    # print len(results)
+        # print len(results)
 
 
 def twitter_response():
-
     q = 'place:%s since:2015-06-09 until:2015-06-10' % twitter_api.PLACE_ID_GERMANY
     response = twitter_api.api.search(q)
     pprint(vars(response))
@@ -161,16 +162,25 @@ def totals():
 
 
 def print_tweet_counts_last_days():
-
     place_id = twitter_api.PLACE_ID_ZURICH
     begin = date(2015, 6, 1)
     end = date(2015, 6, 12)
 
     main.print_tweet_counts(place_id, begin, end, use_cache=False)
 
+
 def place_infos():
     twitter_api.print_place_info(twitter_api.PLACE_ID_GERMANY)
     twitter_api.print_place_info(twitter_api.PLACE_ID_ZURICH)
 
+
+def twitter_streaming_response():
+    twitter_api.start_streaming(PrintingListener(), bounding_box=geo.ZURICH_EXTENDED)
+
+
+def print_tweets():
+    for tweet in store.get_tweets(storage_type=store.SEARCH_TWEETS):
+        print tweet
+
 if __name__ == '__main__':
-    place_infos()
+    print_tweets()

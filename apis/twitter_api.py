@@ -7,7 +7,6 @@ from tweepy import Cursor, StreamListener, Stream
 
 from apis import Query
 import secrets
-from utils import Stopwatch
 
 
 logger = logging.getLogger('main')
@@ -24,7 +23,31 @@ auth.set_access_token('56120535-CkZqukNLJXx66Buxv8DTVdirmbJP6IuBSJvRdQApT',
 api = tweepy.API(auth)
 
 
-class TwitterQuery(Query):
+class Tweet(object):
+    def __init__(self, status):
+        self.created_at = status.created_at
+        self.text = status.text
+        self.coordinates = status.coordinates
+        if status.place:
+            self.place = status.place.full_name
+
+    def __str__(self):
+        if hasattr(self, 'place'):
+            place_string = self.place.encode('UTF-8')
+        else:
+            place_string = 'No Place.'
+        return '''
+        ---
+        %s
+        %s
+        %s
+
+        %s
+        ---
+        ''' % (self.created_at, self.coordinates, place_string, self.text.encode('UTF-8'))
+
+
+class TwitterSearchQuery(Query):
     def __init__(self, place_id=None, date=None):
         self.place_id = place_id
         self.date = date
@@ -33,22 +56,12 @@ class TwitterQuery(Query):
         return '%s_%s' % (self.place_id, self.date.strftime('%m-%d'))
 
 
-def download_tweets(query):
-    tweets = []
-    place_id = query.place_id
-    date = query.date
-    format = '%Y-%m-%d'
-    since = date.strftime(format)
-    until = (date + timedelta(days=1)).strftime(format)
-    query = 'place:%s since:%s until:%s' % (place_id, since, until)
-    cursor = Cursor(api.search, q=query, count=100)
-    for tweet in cursor.items():
-        tweets.append(tweet)
-    return tweets
+class TwitterStreamingQuery(Query):
+    def __init__(self, bounding_box):
+        self.bounding_box = bounding_box
 
 
 class TwitterStreamListener(StreamListener):
-
     def __init__(self):
         super(TwitterStreamListener, self).__init__()
 
@@ -56,35 +69,41 @@ class TwitterStreamListener(StreamListener):
         print 'ERROR. Code: %s.' % status_code
 
 
-class OngoingStreamListener(TwitterStreamListener):
-    def __init__(self):
-        super(OngoingStreamListener, self).__init__()
-        self.stopwatch = Stopwatch()
+class StoringListener(TwitterStreamListener):
+    def __init__(self, status_handler):
+        super(StoringListener, self).__init__()
+        self.status_handler = status_handler
 
     def on_connect(self):
         logger.info('Connected to Twitter Stream.')
         logger.info('Start time: ' + datetime.now().strftime('%c'))
-        self.stopwatch.start()
 
     def on_status(self, status):
         if hasattr(status, 'place') and status.place.place_type == 'country':
-            with open('../temp/excluded_places.txt', 'a') as f:
-                f.write(status.place.full_name + '\n')
+            logger.info('Excluded tweet with place: %s.', status.place.full_name)
         else:
-            with open('../temp/tweets.txt', 'a') as f:
-                f.write(status.place.full_name)
-                f.write(status.coordinates)
-                f.write(status.text)
-                f.write('---')
+            self.status_handler(status)
+            logger.info('Good tweet.')
 
 
-class FirstTweetListener(TwitterStreamListener):
+class PrintingListener(TwitterStreamListener):
     def on_status(self, status):
-        print 'status'
+        print 'Status:'
+        pprint(vars(status))
 
-    def on_data(self, raw_data):
-        print 'tocotronic'
-        pprint(raw_data)
+
+def download_tweets(query):
+    tweets = []
+    place_id = query.place_id
+    date = query.date
+    fmt = '%Y-%m-%d'
+    since = date.strftime(fmt)
+    until = (date + timedelta(days=1)).strftime(fmt)
+    query = 'place:%s since:%s until:%s' % (place_id, since, until)
+    cursor = Cursor(api.search, q=query, count=100)
+    for tweet in cursor.items():
+        tweets.append(tweet)
+    return tweets
 
 
 def print_place_info(place_id):
@@ -92,9 +111,8 @@ def print_place_info(place_id):
     pprint(vars(response))
 
 
-def stream(streamListener=OngoingStreamListener, bounding_box=None):
-    listener = streamListener()
-    stream = Stream(auth=api.auth, listener=listener)
+def start_streaming(stream_listener, bounding_box=None):
+    stream = Stream(auth=api.auth, listener=stream_listener)
     parameters = dict()
     if bounding_box:
         locations = [bounding_box.south_west_lon, bounding_box.south_west_lat,
@@ -102,9 +120,3 @@ def stream(streamListener=OngoingStreamListener, bounding_box=None):
         parameters['locations'] = locations
         # track = []
     stream.filter(**parameters)
-
-
-if __name__ == '__main__':
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(logging.StreamHandler())
-    stream(streamListener=FirstTweetListener)

@@ -5,6 +5,7 @@ Twitter
 Misc
 ----
 - 140 Characters
+- 1.9 million tweets January 2009 (twitter api: up and running, p.4)
 - 340 milion tweets each day (2012)
 - launched July 2006
 - Twitter Inc in San Francisco

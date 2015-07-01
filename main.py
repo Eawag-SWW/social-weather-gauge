@@ -6,11 +6,12 @@ import time
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from apis import flickr_api
+from apis import flickr_api, twitter_api
 from apis.flickr_api import FlickrQuery, QueryType
-from apis.twitter_api import TwitterQuery
-import cache
-from cache import CacheType
+from apis.twitter_api import TwitterSearchQuery, TwitterStreamingQuery
+import geo
+import store
+from store import StoreType
 from config import START_YEAR, END_YEAR
 import config
 from geo import Map
@@ -41,13 +42,13 @@ def summary(query):
 def plot(queries, use_cache=False, normalize=False):
     if not use_cache:
         for query in queries:
-            cache.save(query)
-        cache.save(flickr_api.FlickrQuery.switzerland)
+            store.save(query)
+        store.save(flickr_api.FlickrQuery.switzerland)
 
-    normalizer = cache.read(flickr_api.FlickrQuery.switzerland)
+    normalizer = store.read(flickr_api.FlickrQuery.switzerland)
 
     for query in queries:
-        data = cache.read(query)
+        data = store.read(query)
         if normalize:
             data = data.divide(normalizer)
         plt.plot(data, label=query.name)
@@ -68,7 +69,7 @@ def plot_statistics():
 def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, mix_points=False, formats=['png']):
     if not use_cache:
         for query in queries:
-            cache.save(query, CacheType.POINTS)
+            store.save(query, StoreType.POINTS)
 
     box = config.EUROPE_RESTRICTED
     map = Map(bounding_box=box)
@@ -76,14 +77,14 @@ def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, 
     if mix_points:
         all_points = []
         for query in queries:
-            points = cache.read(query, CacheType.POINTS)
+            points = store.read(query, StoreType.POINTS)
             all_points.append(points)
         map.draw_densities(all_points, n_bins)
 
     else:
         i = 0
         for query in queries:
-            points = cache.read(query, CacheType.POINTS)
+            points = store.read(query, StoreType.POINTS)
             color_map = color_maps[i]
             i += 1
             map.draw_densities(points, n_bins=n_bins, color_map=color_map)
@@ -121,20 +122,27 @@ def print_tweet_counts(place_id=None, begin=None, end=None, use_cache=False):
 
     for d in [begin + timedelta(days=i) for i in range(n_days)]:
 
-        query = TwitterQuery(place_id=place_id, date=d)
+        query = TwitterSearchQuery(place_id=place_id, date=d)
 
         if not use_cache:
-            cache.save(query, CacheType.TWEETS)
+            store.save(query, StoreType.TWEETS)
 
-        tweets = cache.read(query, CacheType.TWEETS)
+        tweets = store.read(query, StoreType.TWEETS)
 
         date_string = d.strftime('%d/%m')
         print '%s: %d' % (date_string, len(tweets))
 
 
+def store_twitter_stream():
+    query = TwitterStreamingQuery(bounding_box=geo.ZURICH_EXTENDED)
+    store.save(query, store_type=store.STREAMING_TWEETS)
+
+
 if __name__ == '__main__':
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
+
+    store_twitter_stream()
 
 
 
