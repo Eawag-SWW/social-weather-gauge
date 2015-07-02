@@ -120,3 +120,7 @@ def start_streaming(stream_listener, bounding_box=None):
         parameters['locations'] = locations
         # track = []
     stream.filter(**parameters)
+
+
+def date_string_to_datetime(date):
+    pass

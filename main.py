@@ -30,15 +30,6 @@ def print_random_links(query):
         print(url)
 
 
-def summary(query):
-    print query.name
-    total = 0
-    for year in range(START_YEAR, END_YEAR):
-        total += flickr_api.count_photos(query, year)
-    print 'total:', total
-    plot(query)
-
-
 def plot(queries, use_cache=False, normalize=False):
     if not use_cache:
         for query in queries:
@@ -99,50 +90,10 @@ def save_europa_map():
     queries = [FlickrQuery(language=language, query_type=QueryType.TAGS, only_geotagged=True) for language in languages]
     save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
 
-
-def plot_oldschool_rain_data():
-    df = pd.read_csv('data/rain-zurich-2015.dat', skiprows=8, header=1, delim_whitespace=True)
-    df.rename(columns={'267': 'rain'}, inplace=True)
-    datetime_labels = ['JAHR', 'MO', 'TG', 'HH', 'MM']
-    transform = lambda s : datetime(*s)
-    df['datetime'] = df[datetime_labels].apply(transform, axis=1)
-    df.index = df.datetime
-    to_drop = ['datetime', 'STA'] + datetime_labels
-    df.drop(to_drop, axis=1, inplace=True)
-    df = df.resample('D', how='sum')
-
-    april_data = df['2015-04']
-    april_data.plot()
-    plt.show()
-
-
-def print_tweet_counts(place_id=None, begin=None, end=None, use_cache=False):
-
-    n_days = int((end - begin).days)
-
-    for d in [begin + timedelta(days=i) for i in range(n_days)]:
-
-        query = TwitterSearchQuery(place_id=place_id, date=d)
-
-        if not use_cache:
-            store.save(query, StoreType.TWEETS)
-
-        tweets = store.read(query, StoreType.TWEETS)
-
-        date_string = d.strftime('%d/%m')
-        print '%s: %d' % (date_string, len(tweets))
-
-
-def store_twitter_stream():
-    query = TwitterStreamingQuery(bounding_box=geo.ZURICH_EXTENDED)
-    store.save(query, store_type=store.STREAMING_TWEETS)
-
-
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
 
-    store_twitter_stream()
 
 
 
