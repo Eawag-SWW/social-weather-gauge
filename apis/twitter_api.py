@@ -119,7 +119,11 @@ def start_streaming(stream_listener, bounding_box=None):
                      bounding_box.north_east_lon, bounding_box.north_east_lat]
         parameters['locations'] = locations
         # track = []
-    stream.filter(**parameters)
+    try:
+        stream.filter(**parameters)
+    except:
+        logger.error('Streaming error. Will try egain.')
+        start_streaming(stream_listener, bounding_box)
 
 
 def date_string_to_datetime(date):

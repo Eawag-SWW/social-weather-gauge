@@ -76,28 +76,30 @@ def save(query, store_type):
         #
 
 
-def get_tweets(storage_type):
+def get_tweets(store_type):
     tweets = []
-    dirname = storage_type.directory
+    dirname = store_type.directory
 
     for filename in os.listdir(dirname):
         path = os.path.join(dirname, filename)
         with open(path, 'r') as f:
             data = pickle.load(f)
-            if storage_type == SEARCH_TWEETS:
+            if store_type == SEARCH_TWEETS:
                 for status in data:
                     tweets.append(Tweet(status))
-            elif storage_type == STREAMING_TWEETS:
+            elif store_type == STREAMING_TWEETS:
                 tweets.append(Tweet(data))
 
     return tweets
 
 
-def get_tweet_dataframe(storage_type):
-    tweets = get_tweets(storage_type)
+def get_tweets_dataframe(store_type, begin=None, end=None):
+    tweets = get_tweets(store_type)
     tweet_dicts = [vars(tweet) for tweet in tweets]
     dataframe = pd.DataFrame(tweet_dicts)
     dataframe.index = dataframe.created_at
+    dataframe.sort(inplace=True)
+    dataframe = dataframe[begin:end]
     return dataframe
 
 

@@ -3,7 +3,10 @@ import logging
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn
+
 from apis.twitter_api import TwitterSearchQuery, TwitterStreamingQuery
+import geo
 import store
 
 logger = logging.getLogger('main')
@@ -26,7 +29,7 @@ def plot_rain_data():
     plt.show()
 
 
-def print_tweet_counts(place_id=None, begin_date=None, end_date=None, use_cache=False):
+def print_search_tweet_counts(place_id=None, begin_date=None, end_date=None, use_cache=False):
 
     n_days = int((end_date - begin_date).days)
 
@@ -48,6 +51,20 @@ def store_twitter_stream():
     store.save(query, store_type=store.STREAMING_TWEETS)
 
 
+def plot_streaming_tweets():
+    begin = datetime(2015, 7, 1, 14)
+    end = datetime(2015, 7, 1, 18)
+    dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS, begin, end)
+    dataframe['count'] = 1
+    hourly = dataframe.resample('H', how='sum')
+    hourly['count'].plot()
+    plt.ylim((0,100))
+    plt.show()
+
+
+
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
+
+    store_twitter_stream()

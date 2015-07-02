@@ -179,12 +179,13 @@ def twitter_streaming_response():
 
 
 def print_tweets():
-    for tweet in store.get_tweets(storage_type=store.STREAMING_TWEETS)[:5]:
+    for tweet in store.get_tweets(store_type=store.STREAMING_TWEETS)[:5]:
         print(vars(tweet).keys())
 
 def analyse_tweets():
-    dataframe = store.get_tweet_dataframe(store.STREAMING_TWEETS)
-    print dataframe.head().to_string(columns=['text'])
+    dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS)
+    dataframe.sort(inplace=True)
+    print dataframe.to_string(columns=['text'])
 
 if __name__ == '__main__':
     analyse_tweets()
