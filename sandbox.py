@@ -3,7 +3,7 @@
 import numpy as np
 from matplotlib import pyplot as plotter
 from pprint import pprint
-from datetime import date
+from datetime import date, datetime
 
 from tweepy import Cursor
 from pattern.web import Twitter
@@ -17,6 +17,7 @@ import config
 import geo
 import main
 import store
+import twitter_analysis
 import utils
 
 
@@ -183,9 +184,9 @@ def print_tweets():
         print(vars(tweet).keys())
 
 def analyse_tweets():
-    dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS)
-    dataframe.sort(inplace=True)
-    print dataframe.to_string(columns=['text'])
+    begin = datetime(2015, 6, 8, 0)
+    end = datetime(2015, 6, 9, 0)
+    twitter_analysis.print_tweets(store.SEARCH_TWEETS, begin, end)
 
 if __name__ == '__main__':
     analyse_tweets()

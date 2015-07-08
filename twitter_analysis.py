@@ -52,19 +52,23 @@ def store_twitter_stream():
 
 
 def plot_streaming_tweets():
-    begin = datetime(2015, 7, 1, 14)
-    end = datetime(2015, 7, 1, 18)
+    begin = datetime(2015, 7, 3, 0)
+    end = datetime(2015, 7, 8, 0)
     dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS, begin, end)
     dataframe['count'] = 1
-    hourly = dataframe.resample('H', how='sum')
+    hourly = dataframe.resample('D', how='sum')
     hourly['count'].plot()
-    plt.ylim((0,100))
+    # plt.ylim((0,100))
     plt.show()
 
 
+def print_tweets(store_type, begin, end):
+    dataframe = store.get_tweets_dataframe(store_type, begin, end)
+    pd.set_option('display.max_colwidth', -1)
+    print dataframe.to_string(columns=['text'])
 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
 
-    store_twitter_stream()
+    plot_streaming_tweets()
