@@ -16,6 +16,7 @@ CONSUMER_SECRET = secrets.TWITTER_CONSUMER_SECRET
 
 PLACE_ID_ZURICH = '3acb748d0f1e9265'
 PLACE_ID_GERMANY = 'fdcd221ac44fa326'
+PLACE_ID_BERLIN_CITY = '3078869807f9dd36'
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token('56120535-CkZqukNLJXx66Buxv8DTVdirmbJP6IuBSJvRdQApT',
@@ -45,7 +46,6 @@ class Tweet(object):
         %s
         ---
         ''' % (self.created_at, self.coordinates, place_string, self.text.encode('UTF-8'))
-
 
 class TwitterSearchQuery(Query):
     def __init__(self, place_id=None, date=None):
@@ -92,7 +92,7 @@ class PrintingListener(TwitterStreamListener):
         pprint(vars(status))
 
 
-def download_tweets(query):
+def download_search_tweets(query):
     tweets = []
     place_id = query.place_id
     date = query.date
@@ -104,11 +104,6 @@ def download_tweets(query):
     for tweet in cursor.items():
         tweets.append(tweet)
     return tweets
-
-
-def print_place_info(place_id):
-    response = api.geo_id(place_id)
-    pprint(vars(response))
 
 
 def start_streaming(stream_listener, bounding_box=None):
@@ -128,3 +123,15 @@ def start_streaming(stream_listener, bounding_box=None):
 
 def date_string_to_datetime(date):
     pass
+
+
+def print_place_info(place_id):
+    response = api.geo_id(place_id)
+    pprint(vars(response))
+
+def print_places(query_string):
+    result = api.geo_search(query=query_string)
+    print 'Places for query "%s" (%d results)' % (query_string, len(result))
+    print '---'
+    for place in result:
+        print ' - %s (id: %s, type: %s)' % (place.full_name, place.id, place.place_type)

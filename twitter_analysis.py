@@ -52,8 +52,8 @@ def store_twitter_stream():
 
 
 def plot_streaming_tweets():
-    begin = datetime(2015, 7, 3, 0)
-    end = datetime(2015, 7, 8, 0)
+    begin = datetime(2015, 7, 8, 0)
+    end = datetime(2015, 7, 15, 0)
     dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS, begin, end)
     dataframe['count'] = 1
     hourly = dataframe.resample('D', how='sum')

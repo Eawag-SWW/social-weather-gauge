@@ -32,7 +32,7 @@ SEARCH_TWEETS = StoreType(join(STORE_DIR, 'tweets', 'search'))
 
 def read(query, store_type):
     logger.info('Reading store for %s ...', query)
-    path = _get_path(query, store_type)
+    path = _get_storage_path(query, store_type)
 
     if store_type == StoreType.FLICKR_PLOT:
         answer = pd.Series.from_csv(path)
@@ -49,6 +49,12 @@ def save(query, store_type):
     if store_type == STREAMING_TWEETS:
         listener = twitter_api.StoringListener(status_handler=_save_tweet)
         twitter_api.start_streaming(listener, query.bounding_box)
+
+    if store_type == SEARCH_TWEETS:
+        tweets = twitter_api.download_search_tweets(query)
+        path = _get_storage_path(query, store_type)
+        with open(path, 'wb') as f:
+            pickle.dump(tweets, f)
 
     else:
         raise RuntimeError('Store for %s not yet implemented.', store_type)
@@ -103,16 +109,15 @@ def get_tweets_dataframe(store_type, begin=None, end=None):
     return dataframe
 
 
-def _get_path(query, type):
-    if type == StoreType.FLICKR_PLOT:
+def _get_storage_path(query, store_type):
+    if store_type == StoreType.FLICKR_PLOT:
         extension = 'csv'
     else:
         extension = 'p'
 
-    subdir = type.name.lower()
+    subdir = store_type.directory
     filename = '%s.%s' % (repr(query), extension)
-    path = os.path.join(STORE_DIR, subdir, filename, extension)
-    return path
+    return os.path.join(STORE_DIR, subdir, filename)
 
 
 def _save_tweet(status):

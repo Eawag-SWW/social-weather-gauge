@@ -183,10 +183,17 @@ def print_tweets():
     for tweet in store.get_tweets(store_type=store.STREAMING_TWEETS)[:5]:
         print(vars(tweet).keys())
 
+
 def analyse_tweets():
     begin = datetime(2015, 6, 8, 0)
     end = datetime(2015, 6, 9, 0)
     twitter_analysis.print_tweets(store.SEARCH_TWEETS, begin, end)
 
+
+def berlin_tweets():
+    begin = datetime(2015, 7, 1)
+    end = datetime(2015, 7, 14)
+    twitter_analysis.print_search_tweet_counts(twitter_api.PLACE_ID_BERLIN_CITY, begin, end )
+
 if __name__ == '__main__':
-    analyse_tweets()
+    berlin_tweets()
