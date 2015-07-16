@@ -16,7 +16,14 @@ Api
 - rest-api vs. streaming api
 - python library: tweepy
 
-schema: text, created_at, coordinates, place
+schema: 
+text
+created_at
+coordinates
+place
+entities
+    hashtags
+        text
 
 ### REST-api
 https://api.twitter.com/{version}

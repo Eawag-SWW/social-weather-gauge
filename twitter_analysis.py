@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import logging
+import nltk
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,6 +11,13 @@ import geo
 import store
 
 logger = logging.getLogger('main')
+
+
+class Topic(object):
+    pass
+
+RAIN = Topic()
+
 
 
 def plot_rain_data():
@@ -33,42 +41,28 @@ def print_search_tweet_counts(place_id=None, begin_date=None, end_date=None, use
 
     n_days = int((end_date - begin_date).days)
 
-    for d in [begin_date + timedelta(days=i) for i in range(n_days)]:
-
-        query = TwitterSearchQuery(place_id=place_id, date=d)
-
-        if not use_cache:
-            store.save(query, store_type=store.SEARCH_TWEETS)
-
-        tweets = store.read(query, store_type=store.SEARCH_TWEETS)
-
-        date_string = d.strftime('%d/%m')
+    for day in  [begin_date + timedelta(days=i) for i in range(n_days)]:
+        tweets = store.get_search_tweets(place_id, day, day + timedelta(days=1), use_cache=use_cache)
+        date_string = day.strftime('%d/%m')
         print '%s: %d' % (date_string, len(tweets))
 
 
-def store_twitter_stream():
-    query = TwitterStreamingQuery(bounding_box=geo.ZURICH_EXTENDED)
-    store.save(query, store_type=store.STREAMING_TWEETS)
+def contains_topic(tweet, topic):
+    tokens = tokenize(tweet)
 
 
-def plot_streaming_tweets():
-    begin = datetime(2015, 7, 8, 0)
-    end = datetime(2015, 7, 15, 0)
-    dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS, begin, end)
-    dataframe['count'] = 1
-    hourly = dataframe.resample('D', how='sum')
-    hourly['count'].plot()
-    # plt.ylim((0,100))
-    plt.show()
+# def plot_streaming_tweets():
+#     begin = datetime(2015, 7, 8, 0)
+#     end = datetime(2015, 7, 15, 0)
+#     dataframe = store.get_tweets_dataframe(store.STREAMING_TWEETS, begin, end)
+#     dataframe['count'] = 1
+#     hourly = dataframe.resample('D', how='sum')
+#     hourly['count'].plot()
+#     # plt.ylim((0,100))
+#     plt.show()
 
 
-def print_tweets(store_type, begin, end):
-    dataframe = store.get_tweets_dataframe(store_type, begin, end)
-    pd.set_option('display.max_colwidth', -1)
-    print dataframe.to_string(columns=['text'])
-
-if __name__ == '__main__':
-    logger.setLevel(logging.INFO)
-    logger.addHandler(logging.StreamHandler())
-
-    plot_streaming_tweets()
+# def print_tweets(store_type, begin, end):
+#     dataframe = store.get_tweets_dataframe(store_type, begin, end)
+#     pd.set_option('display.max_colwidth', -1)
+#     print dataframe.to_string(columns=['text', 'hashtags'])

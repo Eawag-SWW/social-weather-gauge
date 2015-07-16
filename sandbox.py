@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
+import logging
 
 import numpy as np
 from matplotlib import pyplot as plotter
 from pprint import pprint
 from datetime import date, datetime
+import nltk
 
 from tweepy import Cursor
 from pattern.web import Twitter
 import pandas as pd
 from PyDictionary import PyDictionary
+from nltk import Text
 
 from apis import instagram_api, flickr_api, twitter_api
 from apis.flickr_api import flickr, FlickrQuery
@@ -19,6 +22,8 @@ import main
 import store
 import twitter_analysis
 import utils
+
+logger = logging.getLogger('main')
 
 
 def tags_for_place(woe_id):
@@ -190,10 +195,39 @@ def analyse_tweets():
     twitter_analysis.print_tweets(store.SEARCH_TWEETS, begin, end)
 
 
-def berlin_tweets():
-    begin = datetime(2015, 7, 1)
-    end = datetime(2015, 7, 14)
-    twitter_analysis.print_search_tweet_counts(twitter_api.PLACE_ID_BERLIN_CITY, begin, end )
+def print_berlin_tweet_counts():
+    begin = datetime(2015, 7, 7)
+    end = datetime(2015, 7, 13)
+    twitter_analysis.print_search_tweet_counts(twitter_api.PLACE_ID_BERLIN_CITY, begin, end, use_cache=True)
+
+
+def get_twitter_text():
+
+    begin = datetime(2015, 7, 8)
+    end = datetime(2015, 7, 9)
+    tweets = store.get_search_tweets(twitter_api.PLACE_ID_LONDON_ADMIN, begin, end, use_cache=True)
+    raw_text = u''
+    for tweet in tweets:
+        raw_text += tweet.text
+    tokens = nltk.word_tokenize(raw_text)
+    return Text(tokens)
+
+
+def berlin_rain_tweets():
+    begin = datetime(2015, 7, 7)
+    end = datetime(2015, 7, 13)
+    tweets = store.get_search_tweets(twitter_api.PLACE_ID_BERLIN_CITY, use_cache=True)
+    for tweet in tweets:
+        if twitter_analysis.contains_topic(tweet, twitter_analysis.RAIN):
+            print tweet
+
+
+def number_of_london_tweets():
+    begin = datetime(2015, 7, 7)
+    end = datetime(2015, 7, 15)
+    twitter_analysis.print_search_tweet_counts(twitter_api.PLACE_ID_LONDON_ADMIN, begin, end, use_cache=False)
 
 if __name__ == '__main__':
-    berlin_tweets()
+    logger.setLevel(logging.INFO)
+    logger.addHandler(logging.StreamHandler())
+    get_twitter_text()

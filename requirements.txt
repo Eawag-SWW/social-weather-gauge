@@ -5,9 +5,11 @@ tweepy
 pattern
 
 pydictionary
+nltk
 
 pandas
 matplotlib
 seaborn
+
 enum34
 
