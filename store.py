@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from dateutil.rrule import DAILY, rrule
 import logging
 import os
 import pickle
@@ -79,21 +80,20 @@ def save(query, store_type):
         #
 
 
-def get_search_tweets(place_id, begin_date, end_date, use_cache=False):
-    n_days = int((end_date - begin_date).days)
+def get_search_tweets(place_id, begin, end=None, use_cache=False):
+
     tweets = []
-
-    for d in [begin_date + timedelta(days=i) for i in range(n_days)]:
-        query = TwitterSearchQuery(place_id=place_id, date=d)
-
+    if end == None:
+        end = begin
+    for day in rrule(DAILY, dtstart=begin, until=end):
+        query = TwitterSearchQuery(place_id=place_id, date=day)
         if not use_cache:
             save(query, store_type=SEARCH_TWEETS)
-
         statuses = read(query, store_type=SEARCH_TWEETS)
         for status in statuses:
             tweets.append(Tweet(status))
-
     return tweets
+
 
 
 

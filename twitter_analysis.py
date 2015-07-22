@@ -1,4 +1,6 @@
+from __future__ import division
 from datetime import datetime, timedelta
+from dateutil.rrule import DAILY, rrule
 import logging
 import nltk
 
@@ -14,9 +16,11 @@ logger = logging.getLogger('main')
 
 
 class Topic(object):
-    pass
+    def __init__(self, terms):
+        self.terms = terms
 
-RAIN = Topic()
+RAIN_TERMS = dict({'en': ['rain']})
+RAIN = Topic(RAIN_TERMS)
 
 
 
@@ -48,7 +52,36 @@ def print_search_tweet_counts(place_id=None, begin_date=None, end_date=None, use
 
 
 def contains_topic(tweet, topic):
-    tokens = tokenize(tweet)
+    lang = 'en'
+    stemmer = nltk.PorterStemmer()
+    raw = tweet.text.lower()
+    tokens = nltk.word_tokenize(raw)
+    stemmed_tokens = map(stemmer.stem, tokens)
+    query = stemmer.stem(topic.terms[lang][0])
+    if query in stemmed_tokens:
+        return True
+    else:
+        return False
+
+
+def topic_distribution(topic=None, place_id=None, begin=None, end=None, use_cache=False):
+
+    rows = []
+    for day in rrule(DAILY, dtstart=begin, until=end):
+        n_tweets = 0
+        n_positive = 0
+        tweets = store.get_search_tweets(place_id, day, use_cache=use_cache)
+        for tweet in tweets:
+            n_tweets += 1
+            if contains_topic(tweet, topic):
+                n_positive += 1
+        row = (day, [ n_tweets,  n_positive, n_positive / n_tweets ])
+        rows.append(row)
+
+    frame = pd.DataFrame.from_items(rows, columns=['n_tweets', 'n_positive', 'fraction'], orient='index')
+    print frame
+    frame['fraction'].plot()
+    plt.show()
 
 
 # def plot_streaming_tweets():

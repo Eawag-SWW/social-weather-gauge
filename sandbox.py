@@ -213,13 +213,18 @@ def get_twitter_text():
     return Text(tokens)
 
 
-def berlin_rain_tweets():
-    begin = datetime(2015, 7, 7)
-    end = datetime(2015, 7, 13)
-    tweets = store.get_search_tweets(twitter_api.PLACE_ID_BERLIN_CITY, use_cache=True)
-    for tweet in tweets:
-        if twitter_analysis.contains_topic(tweet, twitter_analysis.RAIN):
-            print tweet
+def dublin_rain_tweets():
+    topic = twitter_analysis.RAIN
+    place = twitter_api.PLACE_ID_DUBLIN
+    begin = datetime(2015, 7, 15)
+    end = datetime(2015, 7, 21)
+    twitter_analysis.topic_distribution(topic, place, begin, end, use_cache=True)
+
+
+def print_number_of_dublin_tweets():
+    begin = datetime(2015, 7, 15)
+    end = datetime(2015, 7, 22)
+    twitter_analysis.print_search_tweet_counts(twitter_api.PLACE_ID_DUBLIN, begin, end, use_cache=False)
 
 
 def number_of_london_tweets():
@@ -230,4 +235,4 @@ def number_of_london_tweets():
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    get_twitter_text()
+    dublin_rain_tweets()
