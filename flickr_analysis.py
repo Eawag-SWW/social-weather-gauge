@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
 import logging
 import time
 
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from apis import flickr_api, twitter_api
-from apis.flickr_api import FlickrQuery, QueryType
-from apis.twitter_api import TwitterSearchQuery, TwitterStreamingQuery
-import geo
+from apis import flickr_api
+from apis.flickr_api import FlickrQuery, FlickrQueryType
 import store
 from store import StoreType
-from config import START_YEAR, END_YEAR
 import config
 from geo import Map
 
@@ -21,26 +17,16 @@ RADIUS = 30
 logger = logging.getLogger('main')
 
 
-def print_random_links(query):
-    params = flickr_api._get_params(query)
-    photos = flickr_api._get_photos_from_params(params)
-
-    for _ in range(5):
-        url = photos.get_random_link()
-        print(url)
-
-
-def plot(queries, use_cache=False, normalize=False):
+def plot(queries, normalizer_query=None, use_cache=False):
     if not use_cache:
         for query in queries:
-            store.save(query)
-        store.save(flickr_api.FlickrQuery.switzerland)
-
-    normalizer = store.read(flickr_api.FlickrQuery.switzerland)
+            store.save(query ... )
+        store.save(normalizer_query, ...)
 
     for query in queries:
         data = store.read(query)
-        if normalize:
+        if normalizer_query:
+            normalizer = store.read(normalizer_query, ...)
             data = data.divide(normalizer)
         plt.plot(data, label=query.name)
 
@@ -87,8 +73,9 @@ def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, 
 
 def save_europa_map():
     languages = ['de', 'fr', 'it']
-    queries = [FlickrQuery(language=language, query_type=QueryType.TAGS, only_geotagged=True) for language in languages]
+    queries = [FlickrQuery(language=language, query_type=FlickrQueryType.TAGS, only_geotagged=True) for language in languages]
     save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
+
 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)

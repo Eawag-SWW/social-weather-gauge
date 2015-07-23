@@ -54,18 +54,21 @@ def save(query, store_type):
         with open(path, 'wb') as f:
             pickle.dump(tweets, f)
 
+    if type == StoreType.FLICKR_PLOT:
+        data = dict()
+        for year in range(START_YEAR, END_YEAR):
+            n_photos = flickr_api.count_photos(query, year)
+            data[year] = n_photos
+        series = pd.Series(data)
+        series.to_csv(path)
+
+
     else:
         raise RuntimeError('Store for %s not yet implemented.', store_type)
 
         # path = _get_path(query, type)
         #
-        # if type == StoreType.FLICKR_PLOT:
-        # data = dict()
-        #     for year in range(START_YEAR, END_YEAR):
-        #         n_photos = flickr_api.count_photos(query, year)
-        #         data[year] = n_photos
-        #     series = pd.Series(data)
-        #     series.to_csv(path)
+
         #
         # elif type == StoreType.POINTS:
         #     points = flickr_api.get_points(query)

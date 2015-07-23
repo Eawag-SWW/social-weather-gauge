@@ -1,3 +1,13 @@
+
+
+def print_random_links(query):
+    params = flickr_api._get_params(query)
+    photos = flickr_api._get_photos_from_params(params)
+
+    for _ in range(5):
+        url = photos.get_random_link()
+        print(url)
+
 def _get_params(query, with_geotags=False):
     """
 

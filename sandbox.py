@@ -18,7 +18,6 @@ from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 import config
 import geo
-import main
 import store
 import twitter_analysis
 import utils
@@ -44,7 +43,7 @@ def count():
 
 def walking():
     query = flickr_api.FlickrQuery.switzerland_flooding_tags
-    for photo in flickr_api.get_photos(query, with_geotags=True)._iterator:
+    for photo in flickr_api.get_photo_collection(query, with_geotags=True)._iterator:
         print photo.get('latitude')
 
 
@@ -172,7 +171,7 @@ def print_tweet_counts_last_days():
     begin = date(2015, 6, 1)
     end = date(2015, 6, 12)
 
-    main.print_tweet_counts(place_id, begin, end, use_cache=False)
+    twitter_analysis.print_tweet_counts(place_id, begin, end, use_cache=False)
 
 
 def place_infos():
@@ -232,7 +231,24 @@ def number_of_london_tweets():
     end = datetime(2015, 7, 15)
     twitter_analysis.print_search_tweet_counts(twitter_api.PLACE_ID_LONDON_ADMIN, begin, end, use_cache=False)
 
+
+def flickr_data():
+    woe_id = flickr_api.WOE_ID_SWITZERLAND
+
+    query = FlickrQuery(tags=['Tocotronic'])
+
+    collection = flickr_api.get_photo_collection(query)
+    print collection.count_photos()
+
+
+
+
+
+    # response = flickr.photos.search(**query.params)
+    # pprint(response)
+
+
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    dublin_rain_tweets()
+    flickr_data()

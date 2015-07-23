@@ -3,13 +3,8 @@
 from matplotlib import colors
 from matplotlib.colors import LinearSegmentedColormap
 
-from apis.flickr_api import FlickrQuery, QueryType
+from apis.flickr_api import FlickrQuery
 from geo import BoundingBox
-
-START_YEAR = 2000
-END_YEAR = 2015
-
-
 
 # LIGHT_BLUE = (166,206,227)
 # DARK_BLUE = 31,120,180
