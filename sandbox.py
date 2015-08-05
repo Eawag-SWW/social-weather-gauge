@@ -233,19 +233,23 @@ def number_of_london_tweets():
 
 
 def flickr_data():
-    woe_id = flickr_api.WOE_ID_SWITZERLAND
+    # woe_id = flickr_api.WOE_ID_SWITZERLAND
 
-    query = FlickrQuery(tags=['Tocotronic'])
+    query = FlickrQuery(year=2014)
+    n_photos = flickr_api.count_photos(query)
 
-    collection = flickr_api.get_photo_collection(query)
-    print collection.count_photos()
+    print query
+    print n_photos
 
-
-
-
+    # collection = flickr_api.get_photo_collection(query)
+    # print collection.count_photos()
 
     # response = flickr.photos.search(**query.params)
     # pprint(response)
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -35,21 +35,26 @@ class FlickrQuery(Query):
         self.tags = tags
         self.woe_id = woe_id
         self.only_geotagged = only_geotagged
-        self.year = year
+        if year:
+            self.min_upload_date = '%s-01-01' % year
+            self.max_upload_date = '%s-12-31' % year
+
 
         params = dict()
         params['extras'] = 'geo'
         params['tags'] = tags
         if only_geotagged:
             params['has_geo'] = 1
-        if self.year:
-            params['min_upload_date'] = '%s-01-01' % year
-            params['max_upload_date'] = '%s-12-31' % year
+        if self.min_upload_date:
+            params['min_upload_date'] = self.min_upload_date
+        if self.max_upload_date:
+            params['max_upload_date'] = self.max_upload_date
 
         self.params = params
 
     def __repr__(self):
-        string = '%s_%s_%s' % (self.tags, self.woe_id, self.only_geotagged)
+        string = '%s_%s_%s_%s_%s' % (self.tags, self.woe_id, self.only_geotagged,
+            self.min_upload_date, self.max_upload_date)
         return string.lower()
 
 class PhotoCollection:
