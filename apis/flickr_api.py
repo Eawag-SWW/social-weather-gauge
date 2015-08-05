@@ -3,10 +3,9 @@
 import random
 import logging
 
-from enum import Enum
 import flickrapi
-from apis import Query
 
+from apis import Query
 from geo import Point
 import secrets
 
@@ -38,11 +37,14 @@ class FlickrQuery(Query):
         if year:
             self.min_upload_date = '%s-01-01' % year
             self.max_upload_date = '%s-12-31' % year
-
+        else:
+            self.min_upload_date = None
+            self.max_upload_date = None
 
         params = dict()
         params['extras'] = 'geo'
         params['tags'] = tags
+        params['woe_id'] = woe_id
         if only_geotagged:
             params['has_geo'] = 1
         if self.min_upload_date:
@@ -54,8 +56,9 @@ class FlickrQuery(Query):
 
     def __repr__(self):
         string = '%s_%s_%s_%s_%s' % (self.tags, self.woe_id, self.only_geotagged,
-            self.min_upload_date, self.max_upload_date)
+                                     self.min_upload_date, self.max_upload_date)
         return string.lower()
+
 
 class PhotoCollection:
     def __init__(self, iterator):

@@ -13,6 +13,10 @@ Flickr
 - 3.5 million new images daily in 2013 (we)    
 - Written in PHP
 
+interesting numbers:
+- number of photos total
+- number of photos per region / year / geotagged
+
 
 Twitter
 -------

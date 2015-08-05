@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
 import logging
 import time
 
@@ -6,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from apis import flickr_api
-from apis.flickr_api import FlickrQuery, FlickrQueryType
+from apis.flickr_api import FlickrQuery
 import store
 from store import StoreType
 import config
@@ -14,27 +15,45 @@ from geo import Map
 
 
 RADIUS = 30
+TEST_TAGS = ('flooding', 'Bob Dylan', 'house', 'music', 'grass', 'baby')
 logger = logging.getLogger('main')
 
 
-def plot(queries, normalizer_query=None, use_cache=False):
-    if not use_cache:
-        for query in queries:
-            store.save(query ... )
-        store.save(normalizer_query, ...)
+def compute_geotag_usage():
 
-    for query in queries:
-        data = store.read(query)
-        if normalizer_query:
-            normalizer = store.read(normalizer_query, ...)
-            data = data.divide(normalizer)
-        plt.plot(data, label=query.name)
+    year = 2014
 
-    plt.title('Tocotronic')
-    plt.ylabel('Number of Flickr Photo Uploads')
-    plt.xlabel('Year')
-    plt.legend()
-    plt.show()
+    for tag in TEST_TAGS:
+
+        tags = [tag]
+
+        query = FlickrQuery(tags=tags, year=year )
+        geotagged_query = FlickrQuery(tags=tags, year=year, only_geotagged=True)
+
+        total = flickr_api.count_photos(query)
+        geotagged = flickr_api.count_photos(geotagged_query)
+        print '%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged)
+
+
+
+# def plot(queries, normalizer_query=None, use_cache=False):
+#     if not use_cache:
+#         for query in queries:
+#             store.save(query ... )
+#         store.save(normalizer_query, ...)
+#
+#     for query in queries:
+#         data = store.read(query)
+#         if normalizer_query:
+#             normalizer = store.read(normalizer_query, ...)
+#             data = data.divide(normalizer)
+#         plt.plot(data, label=query.name)
+#
+#     plt.title('Tocotronic')
+#     plt.ylabel('Number of Flickr Photo Uploads')
+#     plt.xlabel('Year')
+#     plt.legend()
+#     plt.show()
 
 
 def plot_statistics():
@@ -80,6 +99,7 @@ def save_europa_map():
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
+    compute_geotag_usage()
 
 
 

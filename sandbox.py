@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
 import logging
+
 
 import numpy as np
 from matplotlib import pyplot as plotter
@@ -235,21 +237,14 @@ def number_of_london_tweets():
 def flickr_data():
     # woe_id = flickr_api.WOE_ID_SWITZERLAND
 
-    query = FlickrQuery(year=2014)
-    n_photos = flickr_api.count_photos(query)
+    tags = ['flooding']
 
-    print query
-    print n_photos
+    query = FlickrQuery(tags=tags)
+    geotagged_query = FlickrQuery(tags=tags, only_geotagged=True)
 
-    # collection = flickr_api.get_photo_collection(query)
-    # print collection.count_photos()
-
-    # response = flickr.photos.search(**query.params)
-    # pprint(response)
-
-
-
-
+    total = flickr_api.count_photos(query)
+    geotagged = flickr_api.count_photos(geotagged_query)
+    print '%s: %.2f' % (tags, geotagged / total)
 
 
 if __name__ == '__main__':
