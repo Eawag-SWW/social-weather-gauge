@@ -1,15 +1,19 @@
+# apis
 flickrapi
 python-instagram
 facebook-sdk
 tweepy
-pattern
 
+# nlp
 pydictionary
 nltk
 
+# data analysis and plotting
 pandas
 matplotlib
 seaborn
 
+# misc
 enum34
+sphinx
 

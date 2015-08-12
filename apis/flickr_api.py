@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+""" Classes and functions which abstract over the flickr api. """
 
 import random
 import logging
@@ -21,11 +22,15 @@ API_KEY = secrets.API_KEY
 API_SECRET = secrets.API_SECRET
 PER_PAGE_DEFAULT = 200
 
+
+
 WOE_ID_SWITZERLAND = 23424957
 # PLACE_ID_SWITZERLAND = 'HfSZnNxTUb7.Mo5Vpg'
 
-flickr = flickrapi.FlickrAPI(API_KEY, API_SECRET, format=FORMAT)
 logger = logging.getLogger('main')
+
+flickr = flickrapi.FlickrAPI(API_KEY, API_SECRET, format=FORMAT)
+
 
 
 class FlickrQuery(Query):
@@ -99,8 +104,9 @@ def count_photos(query):
     params = query.params
     response = flickr.photos.search(**params)
     photos = response[0]
-    total = photos.attrib['total']
-    return int(total)
+    total = int(photos.attrib['total'])
+    logger.info('counted %d photos for query %s', total, query)
+    return total
 
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):

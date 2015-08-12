@@ -4,6 +4,7 @@ import logging
 import time
 
 import matplotlib.pyplot as plt
+from os.path import join
 import pandas as pd
 
 from apis import flickr_api
@@ -16,6 +17,8 @@ from geo import Map
 
 RADIUS = 30
 TEST_TAGS = ('flooding', 'Bob Dylan', 'house', 'music', 'grass', 'baby')
+PLOT_START_YEAR = 2005
+PLOT_END_YEAR = 2014
 logger = logging.getLogger('main')
 
 
@@ -35,25 +38,34 @@ def compute_geotag_usage():
         print '%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged)
 
 
+def plot_photos_per_year(woe_id=None, use_cache=False):
+    '''
+    Plots number of photos per year for a collection of FlickrQuery's.
+    :param queries: Collection of FlickrQuery's to plot
+    :param normalizer_query:
+    :param use_cache:
+    :return:
+    '''
+    if not use_cache:
+        for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
+            query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
+            store.save(query, store.N_PHOTOS)
 
-# def plot(queries, normalizer_query=None, use_cache=False):
-#     if not use_cache:
-#         for query in queries:
-#             store.save(query ... )
-#         store.save(normalizer_query, ...)
-#
-#     for query in queries:
-#         data = store.read(query)
-#         if normalizer_query:
-#             normalizer = store.read(normalizer_query, ...)
-#             data = data.divide(normalizer)
-#         plt.plot(data, label=query.name)
-#
-#     plt.title('Tocotronic')
-#     plt.ylabel('Number of Flickr Photo Uploads')
-#     plt.xlabel('Year')
-#     plt.legend()
-#     plt.show()
+    series = pd.Series()
+    for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
+        query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
+        n_photos = store.read(query, store.N_PHOTOS)
+        series.set_value(year, n_photos)
+
+
+    series.plot(kind='bar', use_index=True)
+
+    plt.title('Tocotronic')
+    plt.ylabel('Number of Flickr Photo Uploads')
+    plt.xlabel('Year')
+    # plt.legend()
+    path = join('plots', 'flickr', '%s.png' % time.time())
+    plt.savefig(path)
 
 
 def plot_statistics():
@@ -90,10 +102,10 @@ def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, 
         map.save(path, format=format)
 
 
-def save_europa_map():
-    languages = ['de', 'fr', 'it']
-    queries = [FlickrQuery(language=language, query_type=FlickrQueryType.TAGS, only_geotagged=True) for language in languages]
-    save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
+# def save_europa_map():
+#     languages = ['de', 'fr', 'it']
+#     queries = [FlickrQuery(language=language, query_type=FlickrQueryType.TAGS, only_geotagged=True) for language in languages]
+#     save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
 
 
 if __name__ == '__main__':

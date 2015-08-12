@@ -19,6 +19,7 @@ from apis import instagram_api, flickr_api, twitter_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 import config
+import flickr_analysis
 import geo
 import store
 import twitter_analysis
@@ -247,7 +248,12 @@ def flickr_data():
     print '%s: %.2f' % (tags, geotagged / total)
 
 
+def flickr_plot():
+    flickr_analysis.plot_photos_per_year(woe_id=flickr_api.WOE_ID_SWITZERLAND, use_cache=True)
+
+
+
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    flickr_data()
+    flickr_plot()
