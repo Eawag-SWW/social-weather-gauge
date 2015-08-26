@@ -15,6 +15,7 @@ Contents:
    flickr
    twitter
    results
+   codebase
    modules
 
 

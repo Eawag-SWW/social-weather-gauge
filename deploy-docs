@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+DOCS=docs/build/html
+git subtree push --prefix $DOCS origin gh-pages
