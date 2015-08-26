@@ -39,13 +39,7 @@ def compute_geotag_usage():
 
 
 def plot_photos_per_year(woe_id=None, use_cache=False):
-    '''
-    Plots number of photos per year for a collection of FlickrQuery's.
-    :param queries: Collection of FlickrQuery's to plot
-    :param normalizer_query:
-    :param use_cache:
-    :return:
-    '''
+
     if not use_cache:
         for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
             query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
@@ -56,7 +50,6 @@ def plot_photos_per_year(woe_id=None, use_cache=False):
         query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
         n_photos = store.read(query, store.N_PHOTOS)
         series.set_value(year, n_photos)
-
 
     series.plot(kind='bar', use_index=True)
 

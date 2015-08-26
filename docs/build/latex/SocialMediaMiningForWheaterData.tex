@@ -19,7 +19,7 @@
 
 
 \title{Social Media Mining For Wheater Data Documentation}
-\date{August 12, 2015}
+\date{August 26, 2015}
 \release{0.1}
 \author{Dominic Looser}
 \newcommand{\sphinxlogo}{}
@@ -132,20 +132,683 @@
 Contents:
 
 
-\chapter{Indices and tables}
-\label{index:indices-and-tables}\label{index:welcome-to-social-media-mining-for-wheater-data-s-documentation}\begin{itemize}
+\chapter{Flickr}
+\label{flickr:flickr}\label{flickr::doc}\label{flickr:social-media-mining-for-wheater-data}\begin{itemize}
 \item {} 
-\DUspan{xref,std,std-ref}{genindex}
+Created by Ludicorp in 2004
 
 \item {} 
-\DUspan{xref,std,std-ref}{modindex}
+Acquired by Yahoo in 2005
 
 \item {} 
-\DUspan{xref,std,std-ref}{search}
+6 billion images in 2011 (we)
+
+\item {} 
+87 million registred users in 2013 (we)
+
+\item {} 
+3.5 million new images daily in 2013 (we)
+
+\item {} 
+Written in PHP
 
 \end{itemize}
 
 
+\section{API}
+\label{flickr:api}\begin{itemize}
+\item {} 
+REST endpoint: \href{https://api.flickr.com/services/rest/}{https://api.flickr.com/services/rest/}
+
+\item {} 
+Return formats: XML, JSON, ...
+
+\item {} 
+Parameters: method, api\_key, format
+
+\end{itemize}
+
+
+\subsection{flickr.photos.search}
+\label{flickr:flickr-photos-search}
+Parameters:
+* woe\_id: A 32-bit identifier that uniquely represents spatial entities
+* place\_id: A Flickr place id
+
+Response structure:
+- photos
+\begin{itemize}
+\item {} 
+page
+
+\item {} 
+pages
+
+\item {} 
+perpage
+
+\item {} \begin{description}
+\item[{photo}] \leavevmode\begin{itemize}
+\item {} 
+id
+
+\item {} 
+latitude
+
+\item {} 
+longitude
+
+\item {} 
+place\_id
+
+\item {} 
+title
+
+\item {} 
+woeid
+
+\end{itemize}
+
+\end{description}
+
+\end{itemize}
+
+
+\subsection{flickr.places.getInfo}
+\label{flickr:flickr-places-getinfo}
+Get informations about a place.
+Parameters:
+* woe\_id
+* place\_id
+
+response structure:
+\begin{description}
+\item[{rsp \textgreater{} place \textgreater{} country}] \leavevmode\begin{description}
+\item[{\textgreater{} shapedata \textgreater{} polylines \textgreater{} polyline}] \leavevmode
+\textgreater{} urls \textgreater{} shapefile
+
+\end{description}
+
+\end{description}
+
+Attributes:
+rsp: stat
+place: place\_id, woeid, latitutude, longitude, place\_url, place\_type, place\_type\_id, timezone, name, woe\_name, has\_shapedata
+country: place\_id, woeid, latitutde, longitude, place\_url
+shapedata: created, alpha, count\_points, count\_edges, has\_donuthole, is\_donuthole
+
+
+\subsection{woe id vs place id}
+\label{flickr:woe-id-vs-place-id}
+WOE = where on earth
+
+
+\section{Python Library}
+\label{flickr:python-library}
+We use the library called flickrapi. Documentation: \href{http://stuvel.eu/media/flickrapi-docs/documentation/}{http://stuvel.eu/media/flickrapi-docs/documentation/}
+
+
+\chapter{Twitter}
+\label{twitter:twitter}\label{twitter::doc}
+
+\section{Misc}
+\label{twitter:misc}\begin{itemize}
+\item {} 
+140 Characters per tweet
+
+\item {} 
+1.9 million tweets January 2009 (twitter api: up and running, p.4)
+
+\item {} 
+340 milion tweets each day (2012)
+
+\item {} 
+launched July 2006
+
+\item {} 
+Twitter Inc in San Francisco
+
+\end{itemize}
+
+
+\section{Api}
+\label{twitter:api}\begin{itemize}
+\item {} 
+rest-api vs. streaming api
+
+\end{itemize}
+
+schema:
+\begin{itemize}
+\item {} 
+text
+
+\item {} 
+created\_at
+
+\item {} 
+coordinates
+
+\item {} 
+place
+
+\item {} \begin{description}
+\item[{entities}] \leavevmode\begin{itemize}
+\item {} \begin{description}
+\item[{hashtags}] \leavevmode\begin{itemize}
+\item {} 
+text
+
+\end{itemize}
+
+\end{description}
+
+\end{itemize}
+
+\end{description}
+
+\end{itemize}
+
+
+\subsection{REST-api}
+\label{twitter:rest-api}
+\href{https://api.twitter.com}{https://api.twitter.com}/\{version\}
+
+
+\subsubsection{Search}
+\label{twitter:search}
+The Search API is not complete index of all Tweets, but instead an index of recent Tweets.
+At the moment that index includes between 6-9 days of Tweets. (\href{https://dev.twitter.com/rest/public/search}{https://dev.twitter.com/rest/public/search})
+
+
+\section{Tweepy}
+\label{twitter:tweepy}
+Python library used to connect to Twitter API through python.
+\begin{description}
+\item[{Schema Place}] \leavevmode
+full\_name
+
+\item[{Schema Status streaming-api:}] \leavevmode
+contributors
+truncated
+text
+in\_reply\_to\_status\_id
+id
+favorite\_count
+author
+\begin{quote}
+
+User
+follow\_request\_sent
+profile\_use\_background\_image
+\end{quote}
+\begin{description}
+\item[{\_json}] \leavevmode
+follow\_request\_sent
+profile\_use\_background\_image
+default\_profile\_image
+id
+verified
+profile\_image\_url\_https
+profile\_sidebar\_fill\_color
+
+\end{description}
+
+\end{description}
+
+
+\section{Geolocation}
+\label{twitter:geolocation}\begin{itemize}
+\item {} 
+tweet is geotagged by user
+
+\item {} 
+in germany 1\% of tweets are geotagged
+
+\item {} 
+Approximately 3-5\% of all tweets are geo-enabled (\href{https://github.com/Ccantey/GeoSearch-Tweepy}{https://github.com/Ccantey/GeoSearch-Tweepy})
+
+\item {} 
+induce location from user profile
+
+\item {} 
+induce location from tweet text
+
+\end{itemize}
+
+
+\chapter{Results}
+\label{results::doc}\label{results:results}
+\includegraphics{flickr-switzerland.png}
+
+
+\chapter{Codebase}
+\label{codebase:codebase}\label{codebase::doc}
+All code is based on Python 2.7
+
+
+\section{Important Libraries}
+\label{codebase:important-libraries}\begin{itemize}
+\item {} 
+Pandas (data analysis)
+
+\item {} 
+Matplotlib/Seaborn (plotting)
+
+\item {} 
+flickrapi
+
+\item {} 
+tweepy
+
+\item {} 
+nltk (natural language processing)
+
+\end{itemize}
+
+
+\chapter{Modules}
+\label{modules:modules}\label{modules::doc}
+
+\section{apis package}
+\label{apis:apis-package}\label{apis::doc}
+
+\subsection{Submodules}
+\label{apis:submodules}
+
+\subsection{apis.facebook\_api module}
+\label{apis:apis-facebook-api-module}\label{apis:module-apis.facebook_api}\index{apis.facebook\_api (module)}
+
+\subsection{apis.flickr\_api module}
+\label{apis:module-apis.flickr_api}\label{apis:apis-flickr-api-module}\index{apis.flickr\_api (module)}
+Classes and functions which abstract over the flickr api.
+\index{FlickrQuery (class in apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.FlickrQuery}\pysiglinewithargsret{\strong{class }\code{apis.flickr\_api.}\bfcode{FlickrQuery}}{\emph{tags=None}, \emph{woe\_id=None}, \emph{year=None}, \emph{only\_geotagged=False}}{}
+Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
+
+\end{fulllineitems}
+
+\index{PhotoCollection (class in apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.PhotoCollection}\pysiglinewithargsret{\strong{class }\code{apis.flickr\_api.}\bfcode{PhotoCollection}}{\emph{iterator}}{}~\index{count\_photos() (apis.flickr\_api.PhotoCollection method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.PhotoCollection.count_photos}\pysiglinewithargsret{\bfcode{count\_photos}}{}{}
+\end{fulllineitems}
+
+\index{get\_random\_link() (apis.flickr\_api.PhotoCollection method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.PhotoCollection.get_random_link}\pysiglinewithargsret{\bfcode{get\_random\_link}}{}{}
+\end{fulllineitems}
+
+\index{to\_points() (apis.flickr\_api.PhotoCollection method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.PhotoCollection.to_points}\pysiglinewithargsret{\bfcode{to\_points}}{}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{get\_photo\_collection() (in module apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.get_photo_collection}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{get\_photo\_collection}}{\emph{query}, \emph{per\_page=200}}{}
+\end{fulllineitems}
+
+\index{get\_points() (in module apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.get_points}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{get\_points}}{\emph{query}, \emph{per\_page=200}}{}
+\end{fulllineitems}
+
+\index{retrieve\_place\_name() (in module apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.retrieve_place_name}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{retrieve\_place\_name}}{\emph{woe\_id=None}, \emph{place\_id=None}}{}
+\end{fulllineitems}
+
+
+
+\subsection{apis.instagram\_api module}
+\label{apis:apis-instagram-api-module}\label{apis:module-apis.instagram_api}\index{apis.instagram\_api (module)}
+
+\subsection{apis.twitter\_api module}
+\label{apis:module-apis.twitter_api}\label{apis:apis-twitter-api-module}\index{apis.twitter\_api (module)}
+Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery. Enable downloading tweets for search queries and to start streaming with filtering according to a given TwitterStreamingQuery.
+\index{PrintingListener (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.PrintingListener}\pysigline{\strong{class }\code{apis.twitter\_api.}\bfcode{PrintingListener}}
+Bases: {\hyperref[apis:apis.twitter_api.TwitterStreamListener]{\emph{\code{apis.twitter\_api.TwitterStreamListener}}}}
+\index{on\_status() (apis.twitter\_api.PrintingListener method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.PrintingListener.on_status}\pysiglinewithargsret{\bfcode{on\_status}}{\emph{status}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{StoringListener (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.StoringListener}\pysiglinewithargsret{\strong{class }\code{apis.twitter\_api.}\bfcode{StoringListener}}{\emph{status\_handler}}{}
+Bases: {\hyperref[apis:apis.twitter_api.TwitterStreamListener]{\emph{\code{apis.twitter\_api.TwitterStreamListener}}}}
+\index{on\_connect() (apis.twitter\_api.StoringListener method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.StoringListener.on_connect}\pysiglinewithargsret{\bfcode{on\_connect}}{}{}
+\end{fulllineitems}
+
+\index{on\_status() (apis.twitter\_api.StoringListener method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.StoringListener.on_status}\pysiglinewithargsret{\bfcode{on\_status}}{\emph{status}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{Tweet (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.Tweet}\pysiglinewithargsret{\strong{class }\code{apis.twitter\_api.}\bfcode{Tweet}}{\emph{status=None}}{}
+Bases: \code{object}
+
+\end{fulllineitems}
+
+\index{TwitterSearchQuery (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.TwitterSearchQuery}\pysiglinewithargsret{\strong{class }\code{apis.twitter\_api.}\bfcode{TwitterSearchQuery}}{\emph{place\_id=None}, \emph{date=None}}{}
+Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
+
+\end{fulllineitems}
+
+\index{TwitterStreamListener (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.TwitterStreamListener}\pysigline{\strong{class }\code{apis.twitter\_api.}\bfcode{TwitterStreamListener}}
+Bases: \code{tweepy.streaming.StreamListener}
+\index{on\_error() (apis.twitter\_api.TwitterStreamListener method)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.TwitterStreamListener.on_error}\pysiglinewithargsret{\bfcode{on\_error}}{\emph{status\_code}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{TwitterStreamingQuery (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.TwitterStreamingQuery}\pysiglinewithargsret{\strong{class }\code{apis.twitter\_api.}\bfcode{TwitterStreamingQuery}}{\emph{bounding\_box}}{}
+Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
+
+\end{fulllineitems}
+
+\index{date\_string\_to\_datetime() (in module apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.date_string_to_datetime}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{date\_string\_to\_datetime}}{\emph{date}}{}
+\end{fulllineitems}
+
+\index{download\_search\_tweets() (in module apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.download_search_tweets}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{download\_search\_tweets}}{\emph{query}}{}
+\end{fulllineitems}
+
+\index{print\_place\_info() (in module apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.print_place_info}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{print\_place\_info}}{\emph{place\_id}}{}
+\end{fulllineitems}
+
+\index{print\_places() (in module apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.print_places}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{print\_places}}{\emph{query\_string}}{}
+\end{fulllineitems}
+
+\index{start\_streaming() (in module apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.start_streaming}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{start\_streaming}}{\emph{stream\_listener}, \emph{bounding\_box=None}}{}
+\end{fulllineitems}
+
+
+
+\subsection{Module contents}
+\label{apis:module-contents}\label{apis:module-apis}\index{apis (module)}\index{Query (class in apis)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.Query}\pysigline{\strong{class }\code{apis.}\bfcode{Query}}
+Bases: \code{object}
+
+\end{fulllineitems}
+
+
+
+\section{config module}
+\label{config:module-config}\label{config::doc}\label{config:config-module}\index{config (module)}
+
+\section{flickr\_analysis module}
+\label{flickr_analysis:flickr-analysis-module}\label{flickr_analysis::doc}\label{flickr_analysis:module-flickr_analysis}\index{flickr\_analysis (module)}\index{compute\_geotag\_usage() (in module flickr\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{flickr_analysis:flickr_analysis.compute_geotag_usage}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{compute\_geotag\_usage}}{}{}
+\end{fulllineitems}
+
+\index{plot\_photos\_per\_year() (in module flickr\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{flickr_analysis:flickr_analysis.plot_photos_per_year}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_photos\_per\_year}}{\emph{woe\_id=None}, \emph{use\_cache=False}}{}
+\end{fulllineitems}
+
+\index{plot\_statistics() (in module flickr\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{flickr_analysis:flickr_analysis.plot_statistics}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_statistics}}{}{}
+\end{fulllineitems}
+
+\index{save\_map() (in module flickr\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{flickr_analysis:flickr_analysis.save_map}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{save\_map}}{\emph{queries, use\_cache=False, n\_bins=60, color\_maps={[}\textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7f7abf648ed0\textgreater{}, \textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7f7abf648f50\textgreater{}, \textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7f7abf648f90\textgreater{}{]}, mix\_points=False, formats={[}'png'{]}}}{}
+\end{fulllineitems}
+
+
+
+\section{geo module}
+\label{geo:module-geo}\label{geo::doc}\label{geo:geo-module}\index{geo (module)}\index{BoundingBox (class in geo)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.BoundingBox}\pysigline{\strong{class }\code{geo.}\bfcode{BoundingBox}}
+Bases: \code{object}
+
+\end{fulllineitems}
+
+\index{Map (class in geo)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.Map}\pysiglinewithargsret{\strong{class }\code{geo.}\bfcode{Map}}{\emph{bounding\_box}, \emph{map\_resolution=\textless{}MapResolution.INTERMEDIATE: 1\textgreater{}}}{}
+Bases: \code{object}
+\index{draw\_densities() (geo.Map method)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.Map.draw_densities}\pysiglinewithargsret{\bfcode{draw\_densities}}{\emph{points}, \emph{n\_bins}, \emph{color\_map='Blues'}}{}
+\end{fulllineitems}
+
+\index{draw\_points() (geo.Map method)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.Map.draw_points}\pysiglinewithargsret{\bfcode{draw\_points}}{\emph{points}}{}
+\end{fulllineitems}
+
+\index{save() (geo.Map method)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.Map.save}\pysiglinewithargsret{\bfcode{save}}{\emph{path}, \emph{format='png'}}{}
+\end{fulllineitems}
+
+\index{show() (geo.Map method)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.Map.show}\pysiglinewithargsret{\bfcode{show}}{}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{MapResolution (class in geo)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.MapResolution}\pysigline{\strong{class }\code{geo.}\bfcode{MapResolution}}
+Bases: \code{enum.Enum}
+
+\end{fulllineitems}
+
+\index{Point (class in geo)}
+
+\begin{fulllineitems}
+\phantomsection\label{geo:geo.Point}\pysigline{\strong{class }\code{geo.}\bfcode{Point}}
+Bases: \code{object}
+
+\end{fulllineitems}
+
+
+
+\section{secrets module}
+\label{secrets:module-secrets}\label{secrets::doc}\label{secrets:secrets-module}\index{secrets (module)}
+
+\section{store module}
+\label{store:store-module}\label{store:module-store}\label{store::doc}\index{store (module)}\index{StoreType (class in store)}
+
+\begin{fulllineitems}
+\phantomsection\label{store:store.StoreType}\pysiglinewithargsret{\strong{class }\code{store.}\bfcode{StoreType}}{\emph{directory}}{}
+Bases: \code{object}
+
+\end{fulllineitems}
+
+\index{get\_search\_tweets() (in module store)}
+
+\begin{fulllineitems}
+\phantomsection\label{store:store.get_search_tweets}\pysiglinewithargsret{\code{store.}\bfcode{get\_search\_tweets}}{\emph{place\_id}, \emph{begin}, \emph{end=None}, \emph{use\_cache=False}}{}
+\end{fulllineitems}
+
+\index{read() (in module store)}
+
+\begin{fulllineitems}
+\phantomsection\label{store:store.read}\pysiglinewithargsret{\code{store.}\bfcode{read}}{\emph{query}, \emph{store\_type}}{}
+\end{fulllineitems}
+
+\index{save() (in module store)}
+
+\begin{fulllineitems}
+\phantomsection\label{store:store.save}\pysiglinewithargsret{\code{store.}\bfcode{save}}{\emph{query}, \emph{store\_type}}{}
+\end{fulllineitems}
+
+
+
+\section{twitter\_analysis module}
+\label{twitter_analysis:module-twitter_analysis}\label{twitter_analysis:twitter-analysis-module}\label{twitter_analysis::doc}\index{twitter\_analysis (module)}\index{Topic (class in twitter\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{twitter_analysis:twitter_analysis.Topic}\pysiglinewithargsret{\strong{class }\code{twitter\_analysis.}\bfcode{Topic}}{\emph{terms}}{}
+Bases: \code{object}
+
+\end{fulllineitems}
+
+\index{contains\_topic() (in module twitter\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{twitter_analysis:twitter_analysis.contains_topic}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{contains\_topic}}{\emph{tweet}, \emph{topic}}{}
+\end{fulllineitems}
+
+\index{plot\_rain\_data() (in module twitter\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{twitter_analysis:twitter_analysis.plot_rain_data}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{plot\_rain\_data}}{}{}
+\end{fulllineitems}
+
+\index{print\_search\_tweet\_counts() (in module twitter\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{twitter_analysis:twitter_analysis.print_search_tweet_counts}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{print\_search\_tweet\_counts}}{\emph{place\_id=None}, \emph{begin\_date=None}, \emph{end\_date=None}, \emph{use\_cache=False}}{}
+\end{fulllineitems}
+
+\index{topic\_distribution() (in module twitter\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{twitter_analysis:twitter_analysis.topic_distribution}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{topic\_distribution}}{\emph{topic=None}, \emph{place\_id=None}, \emph{begin=None}, \emph{end=None}, \emph{use\_cache=False}}{}
+\end{fulllineitems}
+
+
+
+\section{utils module}
+\label{utils:utils-module}\label{utils:module-utils}\label{utils::doc}\index{utils (module)}\index{Stopwatch (class in utils)}
+
+\begin{fulllineitems}
+\phantomsection\label{utils:utils.Stopwatch}\pysigline{\strong{class }\code{utils.}\bfcode{Stopwatch}}
+Bases: \code{object}
+\index{start() (utils.Stopwatch method)}
+
+\begin{fulllineitems}
+\phantomsection\label{utils:utils.Stopwatch.start}\pysiglinewithargsret{\bfcode{start}}{}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{measure\_download\_time() (in module utils)}
+
+\begin{fulllineitems}
+\phantomsection\label{utils:utils.measure_download_time}\pysiglinewithargsret{\code{utils.}\bfcode{measure\_download\_time}}{\emph{query}, \emph{per\_page}}{}
+\end{fulllineitems}
+
+\index{print\_totals() (in module utils)}
+
+\begin{fulllineitems}
+\phantomsection\label{utils:utils.print_totals}\pysiglinewithargsret{\code{utils.}\bfcode{print\_totals}}{\emph{queries}}{}
+\end{fulllineitems}
+
+
+
+\renewcommand{\indexname}{Python Module Index}
+\begin{theindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+\bigletter{a}
+\item {\texttt{apis}}, \pageref{apis:module-apis}
+\item {\texttt{apis.facebook\_api}}, \pageref{apis:module-apis.facebook_api}
+\item {\texttt{apis.flickr\_api}}, \pageref{apis:module-apis.flickr_api}
+\item {\texttt{apis.instagram\_api}}, \pageref{apis:module-apis.instagram_api}
+\item {\texttt{apis.twitter\_api}}, \pageref{apis:module-apis.twitter_api}
+\indexspace
+\bigletter{c}
+\item {\texttt{config}}, \pageref{config:module-config}
+\indexspace
+\bigletter{f}
+\item {\texttt{flickr\_analysis}}, \pageref{flickr_analysis:module-flickr_analysis}
+\indexspace
+\bigletter{g}
+\item {\texttt{geo}}, \pageref{geo:module-geo}
+\indexspace
+\bigletter{s}
+\item {\texttt{secrets}}, \pageref{secrets:module-secrets}
+\item {\texttt{store}}, \pageref{store:module-store}
+\indexspace
+\bigletter{t}
+\item {\texttt{twitter\_analysis}}, \pageref{twitter_analysis:module-twitter_analysis}
+\indexspace
+\bigletter{u}
+\item {\texttt{utils}}, \pageref{utils:module-utils}
+\end{theindex}
 
 \renewcommand{\indexname}{Index}
 \printindex

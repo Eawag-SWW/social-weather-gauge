@@ -251,9 +251,10 @@ def flickr_data():
 def flickr_plot():
     flickr_analysis.plot_photos_per_year(woe_id=flickr_api.WOE_ID_SWITZERLAND, use_cache=True)
 
-
+def places():
+    flickr_api.print_place_info(woe_id=flickr_api.WOE_ID_SWITZERLAND)
 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    flickr_plot()
+    places()

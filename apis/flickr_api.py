@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """ Classes and functions which abstract over the flickr api. """
+from pprint import pprint
 
 import random
 import logging
+from lxml import etree
 
 import flickrapi
 
@@ -100,13 +102,10 @@ def get_photo_collection(query, per_page=PER_PAGE_DEFAULT):
     return collection
 
 
-def count_photos(query):
-    params = query.params
-    response = flickr.photos.search(**params)
-    photos = response[0]
-    total = int(photos.attrib['total'])
-    logger.info('counted %d photos for query %s', total, query)
-    return total
+def retrieve_place_name(woe_id=None, place_id=None):
+    response = flickr.places.getInfo(woe_id=woe_id)
+    response.find('')
+    print etree.tostring(response, pretty_print=True)
 
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):
