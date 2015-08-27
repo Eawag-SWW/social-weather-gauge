@@ -13,11 +13,7 @@ from geo import Point
 import secrets
 
 
-FLOODING_TAGS = dict()
-FLOODING_TAGS['de'] = 'hochwasser, überschwemmung, überflutung, flut'
-FLOODING_TAGS['fr'] = 'crue, inondation'
-FLOODING_TAGS['en'] = 'flood, high-water'
-FLOODING_TAGS['it'] = 'inondazione, alluvione'
+
 
 FORMAT = 'etree'  # 'parsed-json'
 API_KEY = secrets.API_KEY
@@ -27,6 +23,8 @@ PER_PAGE_DEFAULT = 200
 
 
 WOE_ID_SWITZERLAND = 23424957
+WOE_ID_USA = 23424977
+WOE_ID_GERMANY = 23424829
 # PLACE_ID_SWITZERLAND = 'HfSZnNxTUb7.Mo5Vpg'
 
 logger = logging.getLogger('main')
@@ -102,11 +100,28 @@ def get_photo_collection(query, per_page=PER_PAGE_DEFAULT):
     return collection
 
 
-def retrieve_place_name(woe_id=None, place_id=None):
-    response = flickr.places.getInfo(woe_id=woe_id)
-    response.find('')
-    print etree.tostring(response, pretty_print=True)
+def count_photos(query):
+    params = query.params
+    response = flickr.photos.search(**params)
+    photos = response[0]
+    total = int(photos.attrib['total'])
+    logger.info('counted %d photos for query %s', total, query)
+    return total
 
+
+def retrieve_place_name(woe_id):
+    response = flickr.places.getInfo(woe_id=woe_id)
+    name = response.find('place').attrib['name']
+    return name
+
+def print_places(query):
+    response = flickr.places.find(query=query)
+    for place in response[0]:
+        template = '{name}({type}): woe_id {woe_id}'
+        name = place.attrib['woe_name']
+        type = place.attrib['place_type']
+        woe_id = place.attrib['woeid']
+        print template.format(name=name, type=type, woe_id=woe_id)
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):
     logger.info('Querying points from Flickr ...')

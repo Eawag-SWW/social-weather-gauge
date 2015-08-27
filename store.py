@@ -35,10 +35,13 @@ def read(query, store_type):
     logger.info('Reading store for %s ...', query)
     path = _get_storage_path(query, store_type)
 
-    f = open(path, 'rb')
-    answer = pickle.load(f)
-    logger.debug('... finished.')
-    return answer
+    if not os.path.exists(path):
+        save(query, store_type)
+
+    with open(path, 'rb') as f:
+        answer = pickle.load(f)
+        logger.debug('... finished.')
+        return answer
 
 
 def save(query, store_type):

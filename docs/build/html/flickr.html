@@ -57,39 +57,65 @@
 </ul>
 <div class="section" id="flickr-photos-search">
 <h3>flickr.photos.search<a class="headerlink" href="#flickr-photos-search" title="Permalink to this headline">¶</a></h3>
-<p>Parameters:
-- woe_id: A 32-bit identifier that uniquely represents spatial entities
-- place_id: A Flickr place id</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li>woe_id: A 32-bit identifier that uniquely represents spatial entities</li>
+<li>place_id: A Flickr place id</li>
+</ul>
 <p>Response structure:</p>
-<ul>
-<li><dl class="first docutils">
-<dt>photos</dt>
-<dd><ul class="first last">
-<li><p class="first">page</p>
-</li>
-<li><p class="first">pages</p>
-</li>
-<li><p class="first">perpage</p>
-</li>
-<li><dl class="first docutils">
-<dt>photo</dt>
-<dd><ul class="first last simple">
-<li>id</li>
-<li>latitude</li>
-<li>longitude</li>
-<li>place_id</li>
-<li>title</li>
-<li>woeid</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
+<div class="line-block">
+<div class="line">photos &gt; photo</div>
 </div>
+<div class="line-block">
+<div class="line">photos: page, pages, perpage, total</div>
+<div class="line">photo: id, latitude, longitude, place_id, title, woeid</div>
+</div>
+</div>
+<div class="section" id="flickr-places-getinfo">
+<h3>flickr.places.getInfo<a class="headerlink" href="#flickr-places-getinfo" title="Permalink to this headline">¶</a></h3>
+<p>Get informations about a place.
+Parameters:</p>
+<ul class="simple">
+<li>woe_id</li>
+<li>place_id</li>
+</ul>
+<p>response structure:</p>
+<div class="line-block">
+<div class="line">rsp &gt; place</div>
+<div class="line">place &gt; country</div>
+<div class="line">country &gt; shapedata</div>
+<div class="line">shapedate &gt; polylines, urls</div>
+<div class="line">polylines &gt; polyline</div>
+<div class="line">urls &gt; shapefile</div>
+</div>
+<div class="line-block">
+<div class="line">rsp: stat</div>
+<div class="line">place: place_id, woeid, latitutude, longitude, place_url, place_type, place_type_id, timezone, name, woe_name, has_shapedata</div>
+<div class="line">country: place_id, woeid, latitutde, longitude, place_url</div>
+<div class="line">shapedata: created, alpha, count_points, count_edges, has_donuthole, is_donuthole</div>
+</div>
+</div>
+<div class="section" id="flickr-places-find">
+<h3>flickr.places.find<a class="headerlink" href="#flickr-places-find" title="Permalink to this headline">¶</a></h3>
+<p>Returns a list of place objects for a given query string.</p>
+<p>Parameter: query</p>
+<p>Response:
+| rsp &gt; places
+| places &gt; place*</p>
+<div class="line-block">
+<div class="line">rsp: stat</div>
+<div class="line">places: query, total</div>
+<div class="line">place: place_id, woeid, latitude, longitude, place_url, place_type</div>
+</div>
+</div>
+<div class="section" id="woe-id-vs-place-id">
+<h3>woe id vs place id<a class="headerlink" href="#woe-id-vs-place-id" title="Permalink to this headline">¶</a></h3>
+<p>WOE = where on earth</p>
+</div>
+</div>
+<div class="section" id="python-library">
+<h2>Python Library<a class="headerlink" href="#python-library" title="Permalink to this headline">¶</a></h2>
+<p>We use the library called flickrapi. Documentation: <a class="reference external" href="http://stuvel.eu/media/flickrapi-docs/documentation/">http://stuvel.eu/media/flickrapi-docs/documentation/</a></p>
 </div>
 </div>
 
@@ -104,8 +130,12 @@
 <li><a class="reference internal" href="#">Flickr</a><ul>
 <li><a class="reference internal" href="#api">API</a><ul>
 <li><a class="reference internal" href="#flickr-photos-search">flickr.photos.search</a></li>
+<li><a class="reference internal" href="#flickr-places-getinfo">flickr.places.getInfo</a></li>
+<li><a class="reference internal" href="#flickr-places-find">flickr.places.find</a></li>
+<li><a class="reference internal" href="#woe-id-vs-place-id">woe id vs place id</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#python-library">Python Library</a></li>
 </ul>
 </li>
 </ul>

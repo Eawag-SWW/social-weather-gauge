@@ -249,12 +249,15 @@ def flickr_data():
 
 
 def flickr_plot():
-    flickr_analysis.plot_photos_per_year(woe_id=flickr_api.WOE_ID_SWITZERLAND, use_cache=True)
+    tags = flickr_analysis.FLOODING_TAGS['de']
+    flickr_analysis.plot_normalized_tag_usage(tags, flickr_api.WOE_ID_SWITZERLAND, True)
+
 
 def places():
-    flickr_api.print_place_info(woe_id=flickr_api.WOE_ID_SWITZERLAND)
+    query = 'Deutschland'
+    flickr_api.print_places(query)
 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    places()
+    flickr_plot()
