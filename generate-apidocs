@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-DOC_SOURCE=docs/source
-sphinx-apidoc -o $DOC_SOURCE . secrets.py sandbox.py old_stuff.py
-

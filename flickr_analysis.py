@@ -103,11 +103,13 @@ def plot_normalized_tag_usage(tags=None, woe_id=None, save2docs=False):
         plt.savefig(path)
 
 
-
 def plot_wsl_flooding_data():
     series = pd.Series.from_csv('data/switzerland_flooding_money.csv', ';')
     series.index = series.index.map(lambda t: t.strftime('%Y'))
     series[str(PLOT_START_YEAR):str(PLOT_END_YEAR)].plot(kind='bar')
+
+    plt.title('WSL flooding data')
+
     path = join(DOCS_IMG_PATH, 'wsl')
     plt.savefig(path)
 
@@ -149,7 +151,7 @@ def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    compute_geotag_usage()
+    plot_wsl_flooding_data()
 
 
 
