@@ -50,17 +50,20 @@
   \bigletter O
   \item on\_connect() (apis.twitter\_api.StoringListener method), \hyperpage{2}
   \item on\_error() (apis.twitter\_api.TwitterStreamListener method), \hyperpage{2}
-  \item on\_status() (apis.twitter\_api.PrintingListener method), \hyperpage{1}
+  \item on\_status() (apis.twitter\_api.PrintingListener method), \hyperpage{2}
   \item on\_status() (apis.twitter\_api.StoringListener method), \hyperpage{2}
 
   \indexspace
   \bigletter P
   \item PhotoCollection (class in apis.flickr\_api), \hyperpage{1}
+  \item Place (class in apis.twitter\_api), \hyperpage{1}
   \item plot\_normalized\_tag\_usage() (in module flickr\_analysis), \hyperpage{5}
   \item plot\_photos\_per\_year() (in module flickr\_analysis), \hyperpage{5}
   \item plot\_rain\_data() (in module twitter\_analysis), \hyperpage{13}
+  \item plot\_topic\_distribution() (in module twitter\_analysis), \hyperpage{13}
   \item plot\_wsl\_flooding\_data() (in module flickr\_analysis), \hyperpage{5}
   \item Point (class in geo), \hyperpage{7}
+  \item print\_limit\_status() (in module apis.twitter\_api), \hyperpage{2}
   \item print\_place\_info() (in module apis.twitter\_api), \hyperpage{2}
   \item print\_places() (in module apis.flickr\_api), \hyperpage{1}
   \item print\_places() (in module apis.twitter\_api), \hyperpage{2}
@@ -89,13 +92,12 @@
   \item Stopwatch (class in utils), \hyperpage{15}
   \item store (module), \hyperpage{11}
   \item StoreType (class in store), \hyperpage{11}
-  \item StoringListener (class in apis.twitter\_api), \hyperpage{1}
+  \item StoringListener (class in apis.twitter\_api), \hyperpage{2}
 
   \indexspace
   \bigletter T
   \item to\_points() (apis.flickr\_api.PhotoCollection method), \hyperpage{1}
   \item Topic (class in twitter\_analysis), \hyperpage{13}
-  \item topic\_distribution() (in module twitter\_analysis), \hyperpage{13}
   \item Tweet (class in apis.twitter\_api), \hyperpage{2}
   \item twitter\_analysis (module), \hyperpage{13}
   \item TwitterSearchQuery (class in apis.twitter\_api), \hyperpage{2}

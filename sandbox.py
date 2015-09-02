@@ -215,12 +215,7 @@ def get_twitter_text():
     return Text(tokens)
 
 
-def dublin_rain_tweets():
-    topic = twitter_analysis.RAIN
-    place = twitter_api.PLACE_ID_DUBLIN
-    begin = datetime(2015, 7, 15)
-    end = datetime(2015, 7, 21)
-    twitter_analysis.topic_distribution(topic, place, begin, end, use_cache=True)
+
 
 
 def print_number_of_dublin_tweets():
@@ -257,7 +252,14 @@ def places():
     query = 'Deutschland'
     flickr_api.print_places(query)
 
+def rain_tweets(place):
+    topic = twitter_analysis.RAIN
+    begin = datetime(2015, 8, 25)
+    end = datetime(2015, 9, 1)
+    twitter_analysis.plot_topic_distribution(topic, place, begin, end)
+
+
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    flickr_plot()
+    rain_tweets(twitter_api.PLACE_ID_LONDON_CITY)

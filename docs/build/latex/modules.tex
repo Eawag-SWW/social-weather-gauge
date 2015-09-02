@@ -212,6 +212,14 @@ Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
 \section{apis.twitter\_api module}
 \label{apis:module-apis.twitter_api}\label{apis:apis-twitter-api-module}\index{apis.twitter\_api (module)}
 Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery. Enable downloading tweets for search queries and to start streaming with filtering according to a given TwitterStreamingQuery.
+\index{Place (class in apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.Place}\pysiglinewithargsret{\strong{class }\code{apis.twitter\_api.}\bfcode{Place}}{\emph{place\_id}}{}
+Bases: \code{object}
+
+\end{fulllineitems}
+
 \index{PrintingListener (class in apis.twitter\_api)}
 
 \begin{fulllineitems}
@@ -294,6 +302,12 @@ Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
 
 \begin{fulllineitems}
 \phantomsection\label{apis:apis.twitter_api.download_search_tweets}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{download\_search\_tweets}}{\emph{query}}{}
+\end{fulllineitems}
+
+\index{print\_limit\_status() (in module apis.twitter\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.twitter_api.print_limit_status}\pysiglinewithargsret{\code{apis.twitter\_api.}\bfcode{print\_limit\_status}}{}{}
 \end{fulllineitems}
 
 \index{print\_place\_info() (in module apis.twitter\_api)}
@@ -437,7 +451,7 @@ Bases: \code{object}
 \index{get\_search\_tweets() (in module store)}
 
 \begin{fulllineitems}
-\phantomsection\label{store:store.get_search_tweets}\pysiglinewithargsret{\code{store.}\bfcode{get\_search\_tweets}}{\emph{place\_id}, \emph{begin}, \emph{end=None}, \emph{use\_cache=False}}{}
+\phantomsection\label{store:store.get_search_tweets}\pysiglinewithargsret{\code{store.}\bfcode{get\_search\_tweets}}{\emph{place\_id}, \emph{begin}, \emph{end=None}}{}
 \end{fulllineitems}
 
 \index{read() (in module store)}
@@ -475,16 +489,16 @@ Bases: \code{object}
 \phantomsection\label{twitter_analysis:twitter_analysis.plot_rain_data}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{plot\_rain\_data}}{}{}
 \end{fulllineitems}
 
+\index{plot\_topic\_distribution() (in module twitter\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{twitter_analysis:twitter_analysis.plot_topic_distribution}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{plot\_topic\_distribution}}{\emph{topic=None}, \emph{place\_id=None}, \emph{begin=None}, \emph{end=None}}{}
+\end{fulllineitems}
+
 \index{print\_search\_tweet\_counts() (in module twitter\_analysis)}
 
 \begin{fulllineitems}
 \phantomsection\label{twitter_analysis:twitter_analysis.print_search_tweet_counts}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{print\_search\_tweet\_counts}}{\emph{place\_id=None}, \emph{begin\_date=None}, \emph{end\_date=None}, \emph{use\_cache=False}}{}
-\end{fulllineitems}
-
-\index{topic\_distribution() (in module twitter\_analysis)}
-
-\begin{fulllineitems}
-\phantomsection\label{twitter_analysis:twitter_analysis.topic_distribution}\pysiglinewithargsret{\code{twitter\_analysis.}\bfcode{topic\_distribution}}{\emph{topic=None}, \emph{place\_id=None}, \emph{begin=None}, \emph{end=None}, \emph{use\_cache=False}}{}
 \end{fulllineitems}
 
 

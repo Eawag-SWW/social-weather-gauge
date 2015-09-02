@@ -4,7 +4,7 @@ deploy: html commit
 	git subtree push --prefix docs/build/html origin gh-pages
 
 commit: 
-	git commit -am 'misc'
+	git commit -am 'docs deploy'
 
 html:
 	cd docs && make html

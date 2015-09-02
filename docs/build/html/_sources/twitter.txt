@@ -1,10 +1,8 @@
-#######
 Twitter
-#######
+=======
 
-****
-Misc
-****
+Basics
+------
 
 - 140 Characters per tweet
 - 1.9 million tweets January 2009 (twitter api: up and running, p.4)
@@ -12,9 +10,9 @@ Misc
 - launched July 2006
 - Twitter Inc in San Francisco
 
-***
-Api
-***
+
+API
+---
 
 - rest-api vs. streaming api
 
@@ -29,19 +27,19 @@ schema:
         - text
 
 REST-api
-========
+^^^^^^^^
 
 https://api.twitter.com/{version}
 
 Search
-------
+^^^^^^
 
 The Search API is not complete index of all Tweets, but instead an index of recent Tweets.
 At the moment that index includes between 6-9 days of Tweets. (https://dev.twitter.com/rest/public/search)
 
-******
+
 Tweepy
-******
+------
 
 Python library used to connect to Twitter API through python.
 
@@ -67,6 +65,26 @@ Schema Status streaming-api:
         verified
         profile_image_url_https
         profile_sidebar_fill_color
+
+API
+^^^
+
+- API.rate_limit_status (http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status)
+
+Response Schema::
+
+    {
+        rate_limit_context 
+            access_token
+        resources 
+            *resource_type*
+                *resource_name*
+                    limit
+                    remaining
+                    reset
+    }   
+  
+    
     
 ***********       
 Geolocation

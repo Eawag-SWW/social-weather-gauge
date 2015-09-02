@@ -26,6 +26,7 @@ class StoreType(object):
         self.directory = directory
 
 
+
 STREAMING_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'stream'))
 SEARCH_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'search'))
 N_PHOTOS = StoreType(join(STORE_DIR, FLICKR_DIR, 'n_photos'))
@@ -36,7 +37,9 @@ def read(query, store_type):
     path = _get_storage_path(query, store_type)
 
     if not os.path.exists(path):
+        logger.info('... no data found in store. Will retrieve new data ...')
         save(query, store_type)
+        logger.info('... data retrieved and saved in store.')
 
     with open(path, 'rb') as f:
         answer = pickle.load(f)
@@ -52,12 +55,12 @@ def save(query, store_type):
         listener = twitter_api.StoringListener(status_handler=_save_streaming_tweet)
         twitter_api.start_streaming(listener, query.bounding_box)
 
-    if store_type == SEARCH_TWEETS:
+    elif store_type == SEARCH_TWEETS:
         tweets = twitter_api.download_search_tweets(query)
         with open(storage_path, 'wb') as f:
             pickle.dump(tweets, f)
 
-    if store_type == N_PHOTOS:
+    elif store_type == N_PHOTOS:
        n_photos = flickr_api.count_photos(query)
        with open(storage_path, 'wb') as f:
            pickle.dump(n_photos, f)
@@ -82,15 +85,13 @@ def save(query, store_type):
         #
 
 
-def get_search_tweets(place_id, begin, end=None, use_cache=False):
+def get_search_tweets(place_id, begin, end=None):
 
     tweets = []
     if end == None:
         end = begin
     for day in rrule(DAILY, dtstart=begin, until=end):
         query = TwitterSearchQuery(place_id=place_id, date=day)
-        if not use_cache:
-            save(query, store_type=SEARCH_TWEETS)
         statuses = read(query, store_type=SEARCH_TWEETS)
         for status in statuses:
             tweets.append(Tweet(status))

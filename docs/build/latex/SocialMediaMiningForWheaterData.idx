@@ -12,9 +12,10 @@
 \indexentry{retrieve\_place\_name() (in module apis.flickr\_api)|hyperpage}{11}
 \indexentry{apis.instagram\_api (module)|hyperpage}{11}
 \indexentry{apis.twitter\_api (module)|hyperpage}{11}
+\indexentry{Place (class in apis.twitter\_api)|hyperpage}{11}
 \indexentry{PrintingListener (class in apis.twitter\_api)|hyperpage}{11}
-\indexentry{on\_status() (apis.twitter\_api.PrintingListener method)|hyperpage}{11}
-\indexentry{StoringListener (class in apis.twitter\_api)|hyperpage}{11}
+\indexentry{on\_status() (apis.twitter\_api.PrintingListener method)|hyperpage}{12}
+\indexentry{StoringListener (class in apis.twitter\_api)|hyperpage}{12}
 \indexentry{on\_connect() (apis.twitter\_api.StoringListener method)|hyperpage}{12}
 \indexentry{on\_status() (apis.twitter\_api.StoringListener method)|hyperpage}{12}
 \indexentry{Tweet (class in apis.twitter\_api)|hyperpage}{12}
@@ -24,6 +25,7 @@
 \indexentry{TwitterStreamingQuery (class in apis.twitter\_api)|hyperpage}{12}
 \indexentry{date\_string\_to\_datetime() (in module apis.twitter\_api)|hyperpage}{12}
 \indexentry{download\_search\_tweets() (in module apis.twitter\_api)|hyperpage}{12}
+\indexentry{print\_limit\_status() (in module apis.twitter\_api)|hyperpage}{12}
 \indexentry{print\_place\_info() (in module apis.twitter\_api)|hyperpage}{12}
 \indexentry{print\_places() (in module apis.twitter\_api)|hyperpage}{12}
 \indexentry{start\_streaming() (in module apis.twitter\_api)|hyperpage}{12}
@@ -55,8 +57,8 @@
 \indexentry{Topic (class in twitter\_analysis)|hyperpage}{13}
 \indexentry{contains\_topic() (in module twitter\_analysis)|hyperpage}{13}
 \indexentry{plot\_rain\_data() (in module twitter\_analysis)|hyperpage}{13}
+\indexentry{plot\_topic\_distribution() (in module twitter\_analysis)|hyperpage}{13}
 \indexentry{print\_search\_tweet\_counts() (in module twitter\_analysis)|hyperpage}{13}
-\indexentry{topic\_distribution() (in module twitter\_analysis)|hyperpage}{13}
 \indexentry{utils (module)|hyperpage}{13}
 \indexentry{Stopwatch (class in utils)|hyperpage}{13}
 \indexentry{start() (utils.Stopwatch method)|hyperpage}{13}

@@ -16,8 +16,8 @@ import secrets
 
 
 FORMAT = 'etree'  # 'parsed-json'
-API_KEY = secrets.API_KEY
-API_SECRET = secrets.API_SECRET
+API_KEY = secrets.FLICKR_API_KEY
+API_SECRET = secrets.FLICKR_API_SECRET
 PER_PAGE_DEFAULT = 200
 
 

@@ -7,12 +7,13 @@
 \contentsline {subsection}{\numberline {1.1.4}woe id vs place id}{4}{subsection.1.1.4}
 \contentsline {section}{\numberline {1.2}Python Library}{4}{section.1.2}
 \contentsline {chapter}{\numberline {2}Twitter}{5}{chapter.2}
-\contentsline {section}{\numberline {2.1}Misc}{5}{section.2.1}
-\contentsline {section}{\numberline {2.2}Api}{5}{section.2.2}
+\contentsline {section}{\numberline {2.1}Basics}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}API}{5}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}REST-api}{5}{subsection.2.2.1}
-\contentsline {subsubsection}{Search}{5}{subsubsection*.3}
+\contentsline {subsection}{\numberline {2.2.2}Search}{5}{subsection.2.2.2}
 \contentsline {section}{\numberline {2.3}Tweepy}{6}{section.2.3}
-\contentsline {section}{\numberline {2.4}Geolocation}{6}{section.2.4}
+\contentsline {subsection}{\numberline {2.3.1}API}{6}{subsection.2.3.1}
+\contentsline {subsubsection}{Geolocation}{6}{subsubsection*.3}
 \contentsline {chapter}{\numberline {3}Results}{7}{chapter.3}
 \contentsline {chapter}{\numberline {4}Codebase}{9}{chapter.4}
 \contentsline {section}{\numberline {4.1}Important Libraries}{9}{section.4.1}
@@ -31,5 +32,5 @@
 \contentsline {section}{\numberline {5.6}store module}{13}{section.5.6}
 \contentsline {section}{\numberline {5.7}twitter\_analysis module}{13}{section.5.7}
 \contentsline {section}{\numberline {5.8}utils module}{13}{section.5.8}
-\contentsline {chapter}{Python Module Index}{15}{section*.56}
-\contentsline {chapter}{Index}{17}{section*.57}
+\contentsline {chapter}{Python Module Index}{15}{section*.58}
+\contentsline {chapter}{Index}{17}{section*.59}

@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="index.html" />
-    <link rel="next" title="Modules" href="modules.html" />
+    <link rel="next" title="Results" href="results.html" />
     <link rel="prev" title="Flickr" href="flickr.html" />
    
   
@@ -40,8 +40,8 @@
             
   <div class="section" id="twitter">
 <h1>Twitter<a class="headerlink" href="#twitter" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="misc">
-<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>140 Characters per tweet</li>
 <li>1.9 million tweets January 2009 (twitter api: up and running, p.4)</li>
@@ -51,7 +51,7 @@
 </ul>
 </div>
 <div class="section" id="api">
-<h2>Api<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>rest-api vs. streaming api</li>
 </ul>
@@ -84,11 +84,11 @@
 <div class="section" id="rest-api">
 <h3>REST-api<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://api.twitter.com">https://api.twitter.com</a>/{version}</p>
+</div>
 <div class="section" id="search">
-<h4>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h4>
+<h3>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h3>
 <p>The Search API is not complete index of all Tweets, but instead an index of recent Tweets.
 At the moment that index includes between 6-9 days of Tweets. (<a class="reference external" href="https://dev.twitter.com/rest/public/search">https://dev.twitter.com/rest/public/search</a>)</p>
-</div>
 </div>
 </div>
 <div class="section" id="tweepy">
@@ -121,9 +121,26 @@ profile_sidebar_fill_color</dd>
 </dl>
 </dd>
 </dl>
+<div class="section" id="id1">
+<h3>API<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>API.rate_limit_status (<a class="reference external" href="http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status">http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status</a>)</li>
+</ul>
+<p>Response Schema:</p>
+<div class="highlight-python"><div class="highlight"><pre>{
+    rate_limit_context
+        access_token
+    resources
+        *resource_type*
+            *resource_name*
+                limit
+                remaining
+                reset
+}
+</pre></div>
 </div>
 <div class="section" id="geolocation">
-<h2>Geolocation<a class="headerlink" href="#geolocation" title="Permalink to this headline">¶</a></h2>
+<h4>Geolocation<a class="headerlink" href="#geolocation" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>tweet is geotagged by user</li>
 <li>in germany 1% of tweets are geotagged</li>
@@ -131,6 +148,8 @@ profile_sidebar_fill_color</dd>
 <li>induce location from user profile</li>
 <li>induce location from tweet text</li>
 </ul>
+</div>
+</div>
 </div>
 </div>
 
@@ -143,16 +162,19 @@ profile_sidebar_fill_color</dd>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Twitter</a><ul>
-<li><a class="reference internal" href="#misc">Misc</a></li>
-<li><a class="reference internal" href="#api">Api</a><ul>
-<li><a class="reference internal" href="#rest-api">REST-api</a><ul>
+<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#rest-api">REST-api</a></li>
 <li><a class="reference internal" href="#search">Search</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#tweepy">Tweepy</a><ul>
+<li><a class="reference internal" href="#id1">API</a><ul>
+<li><a class="reference internal" href="#geolocation">Geolocation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tweepy">Tweepy</a></li>
-<li><a class="reference internal" href="#geolocation">Geolocation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -161,7 +183,7 @@ profile_sidebar_fill_color</dd>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="flickr.html" title="previous chapter">Flickr</a></li>
-      <li>Next: <a href="modules.html" title="next chapter">Modules</a></li>
+      <li>Next: <a href="results.html" title="next chapter">Results</a></li>
   </ul></li>
 </ul>
 </div>

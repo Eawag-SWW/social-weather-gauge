@@ -4,3 +4,4 @@ secrets.py
 *.sublime-workspace
 .idea
 .dist
+docs/build/latex
