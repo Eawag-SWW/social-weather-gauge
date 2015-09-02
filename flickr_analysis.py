@@ -6,6 +6,7 @@ import time
 import matplotlib.pyplot as plt
 from os.path import join
 import pandas as pd
+import seaborn
 
 from apis import flickr_api
 from apis.flickr_api import FlickrQuery
