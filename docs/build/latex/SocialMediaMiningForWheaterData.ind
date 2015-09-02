@@ -10,7 +10,7 @@
 
   \indexspace
   \bigletter B
-  \item BoundingBox (class in geo), \hyperpage{12}
+  \item BoundingBox (class in geo), \hyperpage{13}
 
   \indexspace
   \bigletter C
@@ -18,12 +18,13 @@
   \item config (module), \hyperpage{12}
   \item contains\_topic() (in module twitter\_analysis), \hyperpage{13}
   \item count\_photos() (apis.flickr\_api.PhotoCollection method), \hyperpage{11}
+  \item count\_photos() (in module apis.flickr\_api), \hyperpage{11}
 
   \indexspace
   \bigletter D
   \item date\_string\_to\_datetime() (in module apis.twitter\_api), \hyperpage{12}
   \item download\_search\_tweets() (in module apis.twitter\_api), \hyperpage{12}
-  \item draw\_densities() (geo.Map method), \hyperpage{12}
+  \item draw\_densities() (geo.Map method), \hyperpage{13}
   \item draw\_points() (geo.Map method), \hyperpage{13}
 
   \indexspace
@@ -33,7 +34,7 @@
 
   \indexspace
   \bigletter G
-  \item geo (module), \hyperpage{12}
+  \item geo (module), \hyperpage{13}
   \item get\_photo\_collection() (in module apis.flickr\_api), \hyperpage{11}
   \item get\_points() (in module apis.flickr\_api), \hyperpage{11}
   \item get\_random\_link() (apis.flickr\_api.PhotoCollection method), \hyperpage{11}
@@ -41,13 +42,13 @@
 
   \indexspace
   \bigletter M
-  \item Map (class in geo), \hyperpage{12}
+  \item Map (class in geo), \hyperpage{13}
   \item MapResolution (class in geo), \hyperpage{13}
-  \item measure\_download\_time() (in module utils), \hyperpage{13}
+  \item measure\_download\_time() (in module utils), \hyperpage{14}
 
   \indexspace
   \bigletter O
-  \item on\_connect() (apis.twitter\_api.StoringListener method), \hyperpage{11}
+  \item on\_connect() (apis.twitter\_api.StoringListener method), \hyperpage{12}
   \item on\_error() (apis.twitter\_api.TwitterStreamListener method), \hyperpage{12}
   \item on\_status() (apis.twitter\_api.PrintingListener method), \hyperpage{11}
   \item on\_status() (apis.twitter\_api.StoringListener method), \hyperpage{12}
@@ -55,14 +56,16 @@
   \indexspace
   \bigletter P
   \item PhotoCollection (class in apis.flickr\_api), \hyperpage{11}
+  \item plot\_normalized\_tag\_usage() (in module flickr\_analysis), \hyperpage{12}
   \item plot\_photos\_per\_year() (in module flickr\_analysis), \hyperpage{12}
   \item plot\_rain\_data() (in module twitter\_analysis), \hyperpage{13}
-  \item plot\_statistics() (in module flickr\_analysis), \hyperpage{12}
+  \item plot\_wsl\_flooding\_data() (in module flickr\_analysis), \hyperpage{12}
   \item Point (class in geo), \hyperpage{13}
   \item print\_place\_info() (in module apis.twitter\_api), \hyperpage{12}
+  \item print\_places() (in module apis.flickr\_api), \hyperpage{11}
   \item print\_places() (in module apis.twitter\_api), \hyperpage{12}
   \item print\_search\_tweet\_counts() (in module twitter\_analysis), \hyperpage{13}
-  \item print\_totals() (in module utils), \hyperpage{13}
+  \item print\_totals() (in module utils), \hyperpage{14}
   \item PrintingListener (class in apis.twitter\_api), \hyperpage{11}
 
   \indexspace

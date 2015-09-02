@@ -18,6 +18,7 @@
   \item config (module), \hyperpage{3}
   \item contains\_topic() (in module twitter\_analysis), \hyperpage{13}
   \item count\_photos() (apis.flickr\_api.PhotoCollection method), \hyperpage{1}
+  \item count\_photos() (in module apis.flickr\_api), \hyperpage{1}
 
   \indexspace
   \bigletter D
@@ -47,7 +48,7 @@
 
   \indexspace
   \bigletter O
-  \item on\_connect() (apis.twitter\_api.StoringListener method), \hyperpage{1}
+  \item on\_connect() (apis.twitter\_api.StoringListener method), \hyperpage{2}
   \item on\_error() (apis.twitter\_api.TwitterStreamListener method), \hyperpage{2}
   \item on\_status() (apis.twitter\_api.PrintingListener method), \hyperpage{1}
   \item on\_status() (apis.twitter\_api.StoringListener method), \hyperpage{2}
@@ -55,11 +56,13 @@
   \indexspace
   \bigletter P
   \item PhotoCollection (class in apis.flickr\_api), \hyperpage{1}
+  \item plot\_normalized\_tag\_usage() (in module flickr\_analysis), \hyperpage{5}
   \item plot\_photos\_per\_year() (in module flickr\_analysis), \hyperpage{5}
   \item plot\_rain\_data() (in module twitter\_analysis), \hyperpage{13}
-  \item plot\_statistics() (in module flickr\_analysis), \hyperpage{5}
+  \item plot\_wsl\_flooding\_data() (in module flickr\_analysis), \hyperpage{5}
   \item Point (class in geo), \hyperpage{7}
   \item print\_place\_info() (in module apis.twitter\_api), \hyperpage{2}
+  \item print\_places() (in module apis.flickr\_api), \hyperpage{1}
   \item print\_places() (in module apis.twitter\_api), \hyperpage{2}
   \item print\_search\_tweet\_counts() (in module twitter\_analysis), \hyperpage{13}
   \item print\_totals() (in module utils), \hyperpage{15}

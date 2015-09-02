@@ -1,3 +1,5 @@
+all: html pdf deploy
+
 deploy: html commit
 	git subtree push --prefix docs/build/html origin gh-pages
 
@@ -9,3 +11,6 @@ html:
 
 apidocs:
 	sphinx-apidoc -o docs/source . secrets.py sandbox.py old_stuff.py
+
+pdf:
+	cd docs && make latexpdf

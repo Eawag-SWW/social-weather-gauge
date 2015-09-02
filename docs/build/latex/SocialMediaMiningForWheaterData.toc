@@ -2,8 +2,9 @@
 \contentsline {chapter}{\numberline {1}Flickr}{3}{chapter.1}
 \contentsline {section}{\numberline {1.1}API}{3}{section.1.1}
 \contentsline {subsection}{\numberline {1.1.1}flickr.photos.search}{3}{subsection.1.1.1}
-\contentsline {subsection}{\numberline {1.1.2}flickr.places.getInfo}{4}{subsection.1.1.2}
-\contentsline {subsection}{\numberline {1.1.3}woe id vs place id}{4}{subsection.1.1.3}
+\contentsline {subsection}{\numberline {1.1.2}flickr.places.getInfo}{3}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}flickr.places.find}{4}{subsection.1.1.3}
+\contentsline {subsection}{\numberline {1.1.4}woe id vs place id}{4}{subsection.1.1.4}
 \contentsline {section}{\numberline {1.2}Python Library}{4}{section.1.2}
 \contentsline {chapter}{\numberline {2}Twitter}{5}{chapter.2}
 \contentsline {section}{\numberline {2.1}Misc}{5}{section.2.1}
@@ -25,10 +26,10 @@
 \contentsline {subsection}{\numberline {5.1.6}Module contents}{12}{subsection.5.1.6}
 \contentsline {section}{\numberline {5.2}config module}{12}{section.5.2}
 \contentsline {section}{\numberline {5.3}flickr\_analysis module}{12}{section.5.3}
-\contentsline {section}{\numberline {5.4}geo module}{12}{section.5.4}
+\contentsline {section}{\numberline {5.4}geo module}{13}{section.5.4}
 \contentsline {section}{\numberline {5.5}secrets module}{13}{section.5.5}
 \contentsline {section}{\numberline {5.6}store module}{13}{section.5.6}
 \contentsline {section}{\numberline {5.7}twitter\_analysis module}{13}{section.5.7}
 \contentsline {section}{\numberline {5.8}utils module}{13}{section.5.8}
-\contentsline {chapter}{Python Module Index}{15}{section*.53}
-\contentsline {chapter}{Index}{17}{section*.54}
+\contentsline {chapter}{Python Module Index}{15}{section*.56}
+\contentsline {chapter}{Index}{17}{section*.57}

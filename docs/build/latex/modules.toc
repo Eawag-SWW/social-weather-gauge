@@ -13,5 +13,5 @@
 \contentsline {chapter}{\numberline {6}store module}{11}{chapter.6}
 \contentsline {chapter}{\numberline {7}twitter\_analysis module}{13}{chapter.7}
 \contentsline {chapter}{\numberline {8}utils module}{15}{chapter.8}
-\contentsline {chapter}{Python Module Index}{17}{section*.52}
-\contentsline {chapter}{Index}{19}{section*.53}
+\contentsline {chapter}{Python Module Index}{17}{section*.55}
+\contentsline {chapter}{Index}{19}{section*.56}

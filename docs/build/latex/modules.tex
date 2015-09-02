@@ -19,7 +19,7 @@
 
 
 \title{Modules}
-\date{August 26, 2015}
+\date{September 02, 2015}
 \release{0.1}
 \author{Dominic}
 \newcommand{\sphinxlogo}{}
@@ -174,6 +174,12 @@ Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
 
 \end{fulllineitems}
 
+\index{count\_photos() (in module apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.count_photos}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{count\_photos}}{\emph{query}}{}
+\end{fulllineitems}
+
 \index{get\_photo\_collection() (in module apis.flickr\_api)}
 
 \begin{fulllineitems}
@@ -186,10 +192,16 @@ Bases: {\hyperref[apis:apis.Query]{\emph{\code{apis.Query}}}}
 \phantomsection\label{apis:apis.flickr_api.get_points}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{get\_points}}{\emph{query}, \emph{per\_page=200}}{}
 \end{fulllineitems}
 
+\index{print\_places() (in module apis.flickr\_api)}
+
+\begin{fulllineitems}
+\phantomsection\label{apis:apis.flickr_api.print_places}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{print\_places}}{\emph{query}}{}
+\end{fulllineitems}
+
 \index{retrieve\_place\_name() (in module apis.flickr\_api)}
 
 \begin{fulllineitems}
-\phantomsection\label{apis:apis.flickr_api.retrieve_place_name}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{retrieve\_place\_name}}{\emph{woe\_id=None}, \emph{place\_id=None}}{}
+\phantomsection\label{apis:apis.flickr_api.retrieve_place_name}\pysiglinewithargsret{\code{apis.flickr\_api.}\bfcode{retrieve\_place\_name}}{\emph{woe\_id}}{}
 \end{fulllineitems}
 
 
@@ -325,22 +337,28 @@ Bases: \code{object}
 \phantomsection\label{flickr_analysis:flickr_analysis.compute_geotag_usage}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{compute\_geotag\_usage}}{}{}
 \end{fulllineitems}
 
+\index{plot\_normalized\_tag\_usage() (in module flickr\_analysis)}
+
+\begin{fulllineitems}
+\phantomsection\label{flickr_analysis:flickr_analysis.plot_normalized_tag_usage}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_normalized\_tag\_usage}}{\emph{tags=None}, \emph{woe\_id=None}, \emph{save2docs=False}}{}
+\end{fulllineitems}
+
 \index{plot\_photos\_per\_year() (in module flickr\_analysis)}
 
 \begin{fulllineitems}
-\phantomsection\label{flickr_analysis:flickr_analysis.plot_photos_per_year}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_photos\_per\_year}}{\emph{woe\_id=None}, \emph{use\_cache=False}}{}
+\phantomsection\label{flickr_analysis:flickr_analysis.plot_photos_per_year}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_photos\_per\_year}}{\emph{woe\_id=None}, \emph{use\_cache=False}, \emph{save2docs=False}}{}
 \end{fulllineitems}
 
-\index{plot\_statistics() (in module flickr\_analysis)}
+\index{plot\_wsl\_flooding\_data() (in module flickr\_analysis)}
 
 \begin{fulllineitems}
-\phantomsection\label{flickr_analysis:flickr_analysis.plot_statistics}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_statistics}}{}{}
+\phantomsection\label{flickr_analysis:flickr_analysis.plot_wsl_flooding_data}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{plot\_wsl\_flooding\_data}}{}{}
 \end{fulllineitems}
 
 \index{save\_map() (in module flickr\_analysis)}
 
 \begin{fulllineitems}
-\phantomsection\label{flickr_analysis:flickr_analysis.save_map}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{save\_map}}{\emph{queries, use\_cache=False, n\_bins=60, color\_maps={[}\textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7f7abf648ed0\textgreater{}, \textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7f7abf648f50\textgreater{}, \textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7f7abf648f90\textgreater{}{]}, mix\_points=False, formats={[}'png'{]}}}{}
+\phantomsection\label{flickr_analysis:flickr_analysis.save_map}\pysiglinewithargsret{\code{flickr\_analysis.}\bfcode{save\_map}}{\emph{queries, use\_cache=False, n\_bins=60, color\_maps={[}\textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7fc04ab55610\textgreater{}, \textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7fc04ab55650\textgreater{}, \textless{}matplotlib.colors.LinearSegmentedColormap object at 0x7fc04ab55690\textgreater{}{]}, mix\_points=False, formats={[}'png'{]}}}{}
 \end{fulllineitems}
 
 
