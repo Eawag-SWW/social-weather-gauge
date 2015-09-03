@@ -17,4 +17,4 @@ seaborn
 # misc
 enum34
 sphinx
-
+requests

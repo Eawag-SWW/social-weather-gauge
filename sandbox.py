@@ -178,8 +178,8 @@ def print_tweet_counts_last_days():
 
 
 def place_infos():
-    twitter_api.print_place_info(twitter_api.PLACE_ID_GERMANY)
-    twitter_api.print_place_info(twitter_api.PLACE_ID_ZURICH)
+    twitter_api.construct_place(twitter_api.PLACE_ID_GERMANY)
+    twitter_api.construct_place(twitter_api.PLACE_ID_ZURICH)
 
 
 def twitter_streaming_response():

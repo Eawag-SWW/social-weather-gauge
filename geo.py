@@ -27,11 +27,13 @@ ZURICH_EXTENDED.north_east_lon = 8.625370
 ZURICH_EXTENDED.south_west_lat = 47.320230
 ZURICH_EXTENDED.south_west_lon = 8.448060
 
+class Place(object):
+    pass
+
 
 class MapResolution(Enum):
     INTERMEDIATE = 1
     FULL = 2
-
 
 
 class Map(object):

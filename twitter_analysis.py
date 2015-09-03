@@ -1,15 +1,19 @@
 from __future__ import division
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+import os
+import time
 from dateutil.rrule import DAILY, rrule
 import logging
 
 import nltk
+from os.path import join
 import pandas as pd
 import matplotlib.pyplot as plt
+from apis import worldweatheronline_api
+from apis import twitter_api
 
 import store
-
-
+import seaborn
 
 
 logger = logging.getLogger('main')
@@ -24,7 +28,7 @@ RAIN_TERMS = dict({'en': ['rain']})
 RAIN = Topic(RAIN_TERMS)
 
 
-def plot_rain_data():
+def plot_swiss_rain_data():
     df = pd.read_csv('data/rain-zurich-2015.dat', skiprows=8, header=1, delim_whitespace=True)
     df.rename(columns={'267': 'rain'}, inplace=True)
     datetime_labels = ['JAHR', 'MO', 'TG', 'HH', 'MM']
@@ -82,6 +86,33 @@ def plot_topic_distribution(topic=None, place_id=None, begin=None, end=None):
     print frame
     frame['fraction'].plot()
     plt.show()
+
+
+def plot_wolrdwheateronline_precipitation(place, begin, end):
+    series = pd.Series()
+    for day in rrule(DAILY, dtstart=begin, until=end):
+        precipitation = worldweatheronline_api.retrieve_precipitation(place, day)
+        series.set_value(day, precipitation)
+    series.index = series.index.map(lambda t: t.strftime('%m/%d'))
+    series.plot('bar')
+    dir = join('plots', 'twitter')
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+    path = join(dir, 'wwo_%s.png' % time.time())
+    plt.savefig(path)
+
+if __name__ == '__main__':
+    twitter_place_id = twitter_api.PLACE_ID_LONDON_CITY
+    place = twitter_api.construct_place(place_id=twitter_place_id)
+    begin = date(2015, 8, 25)
+    end = date(2015, 9, 2)
+
+    plot_wolrdwheateronline_precipitation(place=place, begin=begin, end=end)
+    plot_topic_distribution(topic=RAIN, place_id=twitter_place_id, begin=begin, end=end)
+
+
+
+
 
 
 # def plot_streaming_tweets():

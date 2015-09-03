@@ -10,6 +10,7 @@ import tweepy
 from tweepy import Cursor, StreamListener, Stream
 
 from apis import Query
+from geo import Place
 import secrets
 
 PLACE_ID_ZURICH_CITY = '3acb748d0f1e9265'
@@ -59,13 +60,6 @@ class Tweet(object):
         %s
         ---
         ''' % (self.created_at, self.coordinates, place_string, self.text.encode('UTF-8'))
-
-
-class Place(object):
-    def __init__(self, place_id):
-        response = api.geo_id(place_id)
-        self.centroid_lat = response.centroid[0]
-        self.centroid_lon = response.centroid[1]
 
 
 class TwitterSearchQuery(Query):
@@ -148,9 +142,12 @@ def date_string_to_datetime(date):
     pass
 
 
-def print_place_info(place_id):
+def construct_place(place_id):
     response = api.geo_id(place_id)
-    pprint(vars(response))
+    place = Place()
+    place.centroid_lat = response.centroid[0]
+    place.centroid_lon = response.centroid[1]
+    return place
 
 
 def print_places(query_string):
@@ -160,6 +157,7 @@ def print_places(query_string):
     for place in result:
         print ' - %s (id: %s, type: %s)' % (place.full_name, place.id, place.place_type)
 
+
 def print_limit_status():
     status = api.rate_limit_status()
     search_status = status['resources']['search']
@@ -167,4 +165,4 @@ def print_limit_status():
 
 
 if __name__ == '__main__':
-    print_place_info(PLACE_ID_LONDON_CITY)
+    construct_place(PLACE_ID_LONDON_CITY)
