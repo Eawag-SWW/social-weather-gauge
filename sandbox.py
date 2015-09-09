@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
+from dateutil.rrule import rrule, DAILY
 import logging
 
 
@@ -15,7 +16,7 @@ import pandas as pd
 from PyDictionary import PyDictionary
 from nltk import Text
 
-from apis import instagram_api, flickr_api, twitter_api
+from apis import instagram_api, flickr_api, twitter_api, wunderground, wwo_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 import config
@@ -215,9 +216,6 @@ def get_twitter_text():
     return Text(tokens)
 
 
-
-
-
 def print_number_of_dublin_tweets():
     begin = datetime(2015, 7, 15)
     end = datetime(2015, 7, 22)
@@ -258,8 +256,23 @@ def rain_tweets(place):
     end = datetime(2015, 9, 1)
     twitter_analysis.plot_topic_distribution(topic, place, begin, end)
 
+def compare_rain_measurements():
+    begin = date(2015, 8, 25)
+    end = date(2015, 9, 2)
+    place = geo.LONDON_CITY
+    wunderground_precip = wunderground.get_precipitation_series()
+
+    for day in rrule(DAILY, dtstart=begin, until=end):
+        print day
+        print 'wunderground: %f' % wunderground_precip[day]
+        for nMeasurements in (1, 3, 6, 12, 24):
+            wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
+            print '%d: %s' % (nMeasurements, wwo_precips)
+
+
+
 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    rain_tweets(twitter_api.PLACE_ID_LONDON_CITY)
+    compare_rain_measurements()

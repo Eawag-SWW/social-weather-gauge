@@ -1,5 +1,8 @@
 all: html pdf deploy
 
+docs:
+	make html && make pdf
+	
 deploy: html commit
 	git subtree push --prefix docs/build/html origin gh-pages
 
@@ -14,3 +17,6 @@ apidocs:
 
 pdf:
 	cd docs && make latexpdf
+
+watch:
+	watchman watch docs; watchman -- trigger docs build -- make html 

@@ -10,7 +10,7 @@ import tweepy
 from tweepy import Cursor, StreamListener, Stream
 
 from apis import Query
-from geo import Place
+
 import secrets
 
 PLACE_ID_ZURICH_CITY = '3acb748d0f1e9265'
@@ -142,14 +142,6 @@ def date_string_to_datetime(date):
     pass
 
 
-def construct_place(place_id):
-    response = api.geo_id(place_id)
-    place = Place()
-    place.centroid_lat = response.centroid[0]
-    place.centroid_lon = response.centroid[1]
-    return place
-
-
 def print_places(query_string):
     result = api.geo_search(query=query_string)
     print 'Places for query "%s" (%d results)' % (query_string, len(result))
@@ -165,4 +157,4 @@ def print_limit_status():
 
 
 if __name__ == '__main__':
-    construct_place(PLACE_ID_LONDON_CITY)
+    pass

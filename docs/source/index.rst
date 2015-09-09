@@ -14,6 +14,7 @@ Contents:
 
    flickr
    twitter
+   helper-apis
    results
    codebase
    modules

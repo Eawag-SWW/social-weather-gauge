@@ -9,7 +9,7 @@ import nltk
 from os.path import join
 import pandas as pd
 import matplotlib.pyplot as plt
-from apis import worldweatheronline_api
+from apis import wwo_api
 from apis import twitter_api
 
 import store
@@ -91,7 +91,7 @@ def plot_topic_distribution(topic=None, place_id=None, begin=None, end=None):
 def plot_wolrdwheateronline_precipitation(place, begin, end):
     series = pd.Series()
     for day in rrule(DAILY, dtstart=begin, until=end):
-        precipitation = worldweatheronline_api.retrieve_precipitation(place, day)
+        precipitation = wwo_api.get_precipitation(place, day)
         series.set_value(day, precipitation)
     series.index = series.index.map(lambda t: t.strftime('%m/%d'))
     series.plot('bar')

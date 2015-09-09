@@ -1,12 +1,21 @@
 import numpy as np
-from enum import Enum
 
+from enum import Enum
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
+
+from apis import twitter_api
 
 
 class BoundingBox(object):
     pass
+
+
+class Place(object):
+    def __init__(self, twitter_place_id):
+        response = twitter_api.api.geo_id(twitter_place_id)
+        self.centroid_lat = response.centroid[0]
+        self.centroid_lon = response.centroid[1]
 
 
 EUROPE_RESTRICTED = BoundingBox()
@@ -27,8 +36,7 @@ ZURICH_EXTENDED.north_east_lon = 8.625370
 ZURICH_EXTENDED.south_west_lat = 47.320230
 ZURICH_EXTENDED.south_west_lon = 8.448060
 
-class Place(object):
-    pass
+LONDON_CITY = Place(twitter_api.PLACE_ID_LONDON_CITY)
 
 
 class MapResolution(Enum):
@@ -37,7 +45,6 @@ class MapResolution(Enum):
 
 
 class Map(object):
-
     def __init__(self, bounding_box, map_resolution=MapResolution.INTERMEDIATE):
         basemap = Basemap(resolution=map_resolution.name[0].lower(),
                           urcrnrlat=bounding_box.north_east_lat,
