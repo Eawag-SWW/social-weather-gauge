@@ -16,5 +16,8 @@ seaborn
 
 # misc
 enum34
-sphinx
 requests
+
+# docs
+sphinx
+sphinxcontrib-httpdomain

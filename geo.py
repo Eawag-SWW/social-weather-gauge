@@ -53,7 +53,7 @@ class Map(object):
                           llcrnrlon=bounding_box.south_west_lon)
         basemap.drawcountries(linewidth=0.25)
         basemap.drawcoastlines(linewidth=0.25)
-        basemap.arcgisimage(xpixels=6000)
+        basemap.arcgisimage()
         # basemap.bluemarble()
         # map.shadedrelief()
         # basemap.fillcontinents(color='peru', lake_color='yellow')
@@ -92,6 +92,14 @@ class Map(object):
 
 class Point(object):
     pass
+
+
+def draw_map(place):
+    bounding_box = place.bounding_box
+    map = Map(bounding_box)
+    map.show()
+
+
 
 
 if __name__ == '__main__':

@@ -150,6 +150,9 @@ def print_places(query_string):
         print ' - %s (id: %s, type: %s)' % (place.full_name, place.id, place.place_type)
 
 
+def print_place(place_id):
+
+
 def print_limit_status():
     status = api.rate_limit_status()
     search_status = status['resources']['search']
@@ -157,4 +160,3 @@ def print_limit_status():
 
 
 if __name__ == '__main__':
-    pass

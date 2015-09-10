@@ -2,6 +2,6 @@
 secrets.py
 *.sublime-project
 *.sublime-workspace
-.idea
 .dist
 docs/build
+.idea/workspace.xml

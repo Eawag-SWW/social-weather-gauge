@@ -2,14 +2,12 @@
 from __future__ import division
 from dateutil.rrule import rrule, DAILY
 import logging
-
-
 import numpy as np
 from matplotlib import pyplot as plotter
 from pprint import pprint
 from datetime import date, datetime
-import nltk
 
+import nltk
 from tweepy import Cursor
 from pattern.web import Twitter
 import pandas as pd
@@ -25,6 +23,7 @@ import geo
 import store
 import twitter_analysis
 import utils
+
 
 logger = logging.getLogger('main')
 
@@ -205,7 +204,6 @@ def print_berlin_tweet_counts():
 
 
 def get_twitter_text():
-
     begin = datetime(2015, 7, 8)
     end = datetime(2015, 7, 9)
     tweets = store.get_search_tweets(twitter_api.PLACE_ID_LONDON_ADMIN, begin, end, use_cache=True)
@@ -250,11 +248,13 @@ def places():
     query = 'Deutschland'
     flickr_api.print_places(query)
 
+
 def rain_tweets(place):
     topic = twitter_analysis.RAIN
     begin = datetime(2015, 8, 25)
     end = datetime(2015, 9, 1)
     twitter_analysis.plot_topic_distribution(topic, place, begin, end)
+
 
 def compare_rain_measurements():
     begin = date(2015, 8, 25)
@@ -268,7 +268,6 @@ def compare_rain_measurements():
         for nMeasurements in (1, 3, 6, 12, 24):
             wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
             print '%d: %s' % (nMeasurements, wwo_precips)
-
 
 
 

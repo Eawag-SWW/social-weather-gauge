@@ -16,6 +16,23 @@ API
 
 - rest-api vs. streaming api
 
+.. http:get:: geo/id/:place_id
+
+   `docs <https://dev.twitter.com/rest/reference/get/geo/id/%3Aplace_id>`_
+
+   response format::
+
+      bounding_box 
+         [coordinates]
+            [float]
+         type
+      contained_within
+      country
+      country_code
+      full_name
+      name
+      place_type
+      geometry 
 schema: 
 
 - text 

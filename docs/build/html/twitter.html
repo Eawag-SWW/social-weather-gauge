@@ -55,6 +55,26 @@
 <ul class="simple">
 <li>rest-api vs. streaming api</li>
 </ul>
+<dl class="get">
+<dt id="get-geo-id--place_id">
+<code class="descname">GET </code><code class="descname">geo/id/:place_id</code><a class="headerlink" href="#get-geo-id--place_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://dev.twitter.com/rest/reference/get/geo/id/%3Aplace_id">docs</a></p>
+<p>response format:</p>
+<div class="highlight-python"><div class="highlight"><pre>bounding_box
+   [coordinates]
+      [float]
+   type
+contained_within
+country
+country_code
+full_name
+name
+place_type
+geometry
+</pre></div>
+</div>
+</dd></dl>
+
 <p>schema:</p>
 <ul>
 <li><p class="first">text</p>
