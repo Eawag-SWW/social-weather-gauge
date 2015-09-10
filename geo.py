@@ -8,15 +8,23 @@ from apis import twitter_api
 
 
 class BoundingBox(object):
-    pass
+    def __init__(self, twitter_bounding_box=None):
+        if twitter_bounding_box:
+            points = twitter_bounding_box.coordinates[0]
+            self.north_east_lat = points[2][1]  # 51.5164655
+            self.north_east_lon = points[2][0]  # -0.109978
+            self.south_west_lat = points[0][1]
+            self.south_west_lon = points[0][0]
 
 
 class Place(object):
     def __init__(self, twitter_place_id):
-        response = twitter_api.api.geo_id(twitter_place_id)
-        self.centroid_lat = response.centroid[0]
-        self.centroid_lon = response.centroid[1]
-
+        self.twitter_place_id = twitter_place_id
+        twitter_place = twitter_api.api.geo_id(twitter_place_id)
+        self.centroid_lat = twitter_place.centroid[0]
+        self.centroid_lon = twitter_place.centroid[1]
+        twitter_bounding_box = twitter_place.bounding_box
+        self.bounding_box = BoundingBox(twitter_bounding_box)
 
 EUROPE_RESTRICTED = BoundingBox()
 EUROPE_RESTRICTED.north_east_lat = 72  # 62
@@ -37,7 +45,7 @@ ZURICH_EXTENDED.south_west_lat = 47.320230
 ZURICH_EXTENDED.south_west_lon = 8.448060
 
 LONDON_CITY = Place(twitter_api.PLACE_ID_LONDON_CITY)
-
+LONDON_ADMIN = Place(twitter_api.PLACE_ID_LONDON_ADMIN)
 
 class MapResolution(Enum):
     INTERMEDIATE = 1
@@ -100,8 +108,5 @@ def draw_map(place):
     map.show()
 
 
-
-
 if __name__ == '__main__':
-    map = Map(ZURICH_EXTENDED)
-    map.show()
+    draw_map(LONDON_ADMIN)

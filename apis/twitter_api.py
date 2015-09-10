@@ -151,7 +151,8 @@ def print_places(query_string):
 
 
 def print_place(place_id):
-
+    response = api.geo_id(place_id)
+    pprint(vars(response))
 
 def print_limit_status():
     status = api.rate_limit_status()
@@ -160,3 +161,4 @@ def print_limit_status():
 
 
 if __name__ == '__main__':
+    print_place(PLACE_ID_LONDON_CITY)

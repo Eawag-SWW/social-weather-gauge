@@ -47,14 +47,153 @@
 <div class="section" id="module-apis.facebook_api">
 <span id="apis-facebook-api-module"></span><h2>apis.facebook_api module<a class="headerlink" href="#module-apis.facebook_api" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="apis-flickr-api-module">
-<h2>apis.flickr_api module<a class="headerlink" href="#apis-flickr-api-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-apis.flickr_api">
+<span id="apis-flickr-api-module"></span><h2>apis.flickr_api module<a class="headerlink" href="#module-apis.flickr_api" title="Permalink to this headline">¶</a></h2>
+<p>Classes and functions which abstract over the flickr api.</p>
+<dl class="class">
+<dt id="apis.flickr_api.FlickrQuery">
+<em class="property">class </em><code class="descclassname">apis.flickr_api.</code><code class="descname">FlickrQuery</code><span class="sig-paren">(</span><em>tags=None</em>, <em>woe_id=None</em>, <em>year=None</em>, <em>only_geotagged=False</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.FlickrQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.Query" title="apis.Query"><code class="xref py py-class docutils literal"><span class="pre">apis.Query</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.flickr_api.PhotoCollection">
+<em class="property">class </em><code class="descclassname">apis.flickr_api.</code><code class="descname">PhotoCollection</code><span class="sig-paren">(</span><em>iterator</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.PhotoCollection" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="apis.flickr_api.PhotoCollection.count_photos">
+<code class="descname">count_photos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.PhotoCollection.count_photos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apis.flickr_api.PhotoCollection.get_random_link">
+<code class="descname">get_random_link</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.PhotoCollection.get_random_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apis.flickr_api.PhotoCollection.to_points">
+<code class="descname">to_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.PhotoCollection.to_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.flickr_api.count_photos">
+<code class="descclassname">apis.flickr_api.</code><code class="descname">count_photos</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.count_photos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.flickr_api.get_photo_collection">
+<code class="descclassname">apis.flickr_api.</code><code class="descname">get_photo_collection</code><span class="sig-paren">(</span><em>query</em>, <em>per_page=200</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.get_photo_collection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.flickr_api.get_points">
+<code class="descclassname">apis.flickr_api.</code><code class="descname">get_points</code><span class="sig-paren">(</span><em>query</em>, <em>per_page=200</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.get_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.flickr_api.print_places">
+<code class="descclassname">apis.flickr_api.</code><code class="descname">print_places</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.print_places" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.flickr_api.retrieve_place_name">
+<code class="descclassname">apis.flickr_api.</code><code class="descname">retrieve_place_name</code><span class="sig-paren">(</span><em>woe_id</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.flickr_api.retrieve_place_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-apis.instagram_api">
 <span id="apis-instagram-api-module"></span><h2>apis.instagram_api module<a class="headerlink" href="#module-apis.instagram_api" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="apis-twitter-api-module">
-<h2>apis.twitter_api module<a class="headerlink" href="#apis-twitter-api-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-apis.twitter_api">
+<span id="apis-twitter-api-module"></span><h2>apis.twitter_api module<a class="headerlink" href="#module-apis.twitter_api" title="Permalink to this headline">¶</a></h2>
+<p>Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery. Enable downloading tweets for search queries and to start streaming with filtering according to a given TwitterStreamingQuery.</p>
+<dl class="class">
+<dt id="apis.twitter_api.PrintingListener">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">PrintingListener</code><a class="headerlink" href="#apis.twitter_api.PrintingListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.twitter_api.TwitterStreamListener" title="apis.twitter_api.TwitterStreamListener"><code class="xref py py-class docutils literal"><span class="pre">apis.twitter_api.TwitterStreamListener</span></code></a></p>
+<dl class="method">
+<dt id="apis.twitter_api.PrintingListener.on_status">
+<code class="descname">on_status</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.PrintingListener.on_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.StoringListener">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">StoringListener</code><span class="sig-paren">(</span><em>status_handler</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.StoringListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.twitter_api.TwitterStreamListener" title="apis.twitter_api.TwitterStreamListener"><code class="xref py py-class docutils literal"><span class="pre">apis.twitter_api.TwitterStreamListener</span></code></a></p>
+<dl class="method">
+<dt id="apis.twitter_api.StoringListener.on_connect">
+<code class="descname">on_connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.StoringListener.on_connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apis.twitter_api.StoringListener.on_status">
+<code class="descname">on_status</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.StoringListener.on_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.Tweet">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">Tweet</code><span class="sig-paren">(</span><em>status=None</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.Tweet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.TwitterSearchQuery">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">TwitterSearchQuery</code><span class="sig-paren">(</span><em>place_id=None</em>, <em>date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.TwitterSearchQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.Query" title="apis.Query"><code class="xref py py-class docutils literal"><span class="pre">apis.Query</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.TwitterStreamListener">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">TwitterStreamListener</code><a class="headerlink" href="#apis.twitter_api.TwitterStreamListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tweepy.streaming.StreamListener</span></code></p>
+<dl class="method">
+<dt id="apis.twitter_api.TwitterStreamListener.on_error">
+<code class="descname">on_error</code><span class="sig-paren">(</span><em>status_code</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.TwitterStreamListener.on_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.TwitterStreamingQuery">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">TwitterStreamingQuery</code><span class="sig-paren">(</span><em>bounding_box</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.TwitterStreamingQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.Query" title="apis.Query"><code class="xref py py-class docutils literal"><span class="pre">apis.Query</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.date_string_to_datetime">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">date_string_to_datetime</code><span class="sig-paren">(</span><em>date</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.date_string_to_datetime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.download_search_tweets">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">download_search_tweets</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.download_search_tweets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.print_limit_status">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">print_limit_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.print_limit_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.print_place">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">print_place</code><span class="sig-paren">(</span><em>place_id</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.print_place" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.print_places">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">print_places</code><span class="sig-paren">(</span><em>query_string</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.print_places" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.start_streaming">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">start_streaming</code><span class="sig-paren">(</span><em>stream_listener</em>, <em>bounding_box=None</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.start_streaming" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-apis">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apis" title="Permalink to this headline">¶</a></h2>
@@ -78,9 +217,9 @@
 <li><a class="reference internal" href="#">apis package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-apis.facebook_api">apis.facebook_api module</a></li>
-<li><a class="reference internal" href="#apis-flickr-api-module">apis.flickr_api module</a></li>
+<li><a class="reference internal" href="#module-apis.flickr_api">apis.flickr_api module</a></li>
 <li><a class="reference internal" href="#module-apis.instagram_api">apis.instagram_api module</a></li>
-<li><a class="reference internal" href="#apis-twitter-api-module">apis.twitter_api module</a></li>
+<li><a class="reference internal" href="#module-apis.twitter_api">apis.twitter_api module</a></li>
 <li><a class="reference internal" href="#module-apis">Module contents</a></li>
 </ul>
 </li>

@@ -52,14 +52,21 @@
 </div>
 <div class="section" id="api">
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>rest-api vs. streaming api</li>
-</ul>
-<dl class="get">
-<dt id="get-geo-id--place_id">
-<code class="descname">GET </code><code class="descname">geo/id/:place_id</code><a class="headerlink" href="#get-geo-id--place_id" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference external" href="https://dev.twitter.com/rest/reference/get/geo/id/%3Aplace_id">docs</a></p>
-<p>response format:</p>
+<p>Schema Tweet:</p>
+<div class="highlight-python"><div class="highlight"><pre>id
+lang
+text
+created_at
+coordinates
+   [coordinates]
+place
+entities
+   [hashtags]
+      text
+   [urls]
+</pre></div>
+</div>
+<p>Schema Place:</p>
 <div class="highlight-python"><div class="highlight"><pre>bounding_box
    [coordinates]
       [float]
@@ -73,34 +80,6 @@ place_type
 geometry
 </pre></div>
 </div>
-</dd></dl>
-
-<p>schema:</p>
-<ul>
-<li><p class="first">text</p>
-</li>
-<li><p class="first">created_at</p>
-</li>
-<li><p class="first">coordinates</p>
-</li>
-<li><p class="first">place</p>
-</li>
-<li><dl class="first docutils">
-<dt>entities</dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>hashtags</dt>
-<dd><ul class="first last simple">
-<li>text</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
 <div class="section" id="rest-api">
 <h3>REST-api<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://api.twitter.com">https://api.twitter.com</a>/{version}</p>

@@ -14,34 +14,35 @@ Basics
 API
 ---
 
-- rest-api vs. streaming api
+Schema Tweet::
 
-.. http:get:: geo/id/:place_id
+   id
+   lang
+   text 
+   created_at
+   coordinates
+      [coordinates]
+   place
+   entities
+      [hashtags]
+         text
+      [urls]
 
-   `docs <https://dev.twitter.com/rest/reference/get/geo/id/%3Aplace_id>`_
+Schema Place::
 
-   response format::
+   bounding_box 
+      [coordinates]
+         [float]
+      type
+   contained_within
+   country
+   country_code
+   full_name
+   name
+   place_type
+   geometry 
 
-      bounding_box 
-         [coordinates]
-            [float]
-         type
-      contained_within
-      country
-      country_code
-      full_name
-      name
-      place_type
-      geometry 
-schema: 
 
-- text 
-- created_at
-- coordinates
-- place
-- entities
-    - hashtags
-        - text
 
 REST-api
 ^^^^^^^^

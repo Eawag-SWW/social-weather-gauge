@@ -2,7 +2,7 @@ from StringIO import StringIO
 import requests
 import pandas as pd
 
-def get_precipitation_series():
+def get_rain():
     """
 
     :rtype : pd.Series
@@ -20,5 +20,5 @@ def get_precipitation_series():
 
 
 if __name__ == '__main__':
-    precipitation = get_precipitation_series()
+    precipitation = get_rain()
     print precipitation.index

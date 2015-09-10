@@ -3,7 +3,7 @@ from __future__ import division
 from dateutil.rrule import rrule, DAILY
 import logging
 import numpy as np
-from matplotlib import pyplot as plotter
+from matplotlib import pyplot as plt
 from pprint import pprint
 from datetime import date, datetime
 
@@ -257,21 +257,33 @@ def rain_tweets(place):
 
 
 def compare_rain_measurements():
+
     begin = date(2015, 8, 25)
     end = date(2015, 9, 2)
     place = geo.LONDON_CITY
-    wunderground_precip = wunderground.get_precipitation_series()
+    wunderground_rain = wunderground.get_rain()
+    twitter_rain = twitter_analysis.get_twitter_rain(place, begin, end)
+    wunderground_rain.plot(label='Wunderground')
+    twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
+    plt.show()
 
-    for day in rrule(DAILY, dtstart=begin, until=end):
-        print day
-        print 'wunderground: %f' % wunderground_precip[day]
-        for nMeasurements in (1, 3, 6, 12, 24):
-            wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
-            print '%d: %s' % (nMeasurements, wwo_precips)
+    #
+    # plt.show()
+
+    # for day in rrule(DAILY, dtstart=begin, until=end):
+    #     print day
+    #     print 'wunderground: %f' % wunderground_precip[day]
+    #     for nMeasurements in (1, 3, 6, 12, 24):
+    #         wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
+    #         print '%d: %s' % (nMeasurements, wwo_precips)
 
 
+def coordinate():
+    response = twitter_api.api.geo_id(twitter_api.PLACE_ID_LONDON_CITY)
+    for point in response.bounding_box.coordinates[0]:
+        print point
 
 if __name__ == '__main__':
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
     compare_rain_measurements()

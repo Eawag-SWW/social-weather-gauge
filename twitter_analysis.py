@@ -61,16 +61,22 @@ def contains_topic(tweet, topic):
     stemmed_tokens = map(stemmer.stem, tokens)
     query = stemmer.stem(topic.terms[lang][0])
     if query in stemmed_tokens:
+        logger.debug(tweet)
+        logger.debug(stemmed_tokens)
+        logger.debug('')
         return True
     else:
         return False
 
 
-def plot_topic_distribution(topic=None, place_id=None, begin=None, end=None):
+def get_topic_distribution(topic, place, begin, end):
+
     rows = []
+
     for day in rrule(DAILY, dtstart=begin, until=end):
         n_tweets = 0
         n_positive = 0
+        place_id = place.twitter_place_id
         tweets = store.get_search_tweets(place_id, day)
         for tweet in tweets:
             n_tweets += 1
@@ -79,13 +85,20 @@ def plot_topic_distribution(topic=None, place_id=None, begin=None, end=None):
         if n_tweets == 0:
             continue
         else:
-            row = (day, [n_tweets, n_positive, n_positive / n_tweets])
+            percent = 100 * n_positive / n_tweets
+            row = (day, [n_tweets, n_positive, percent])
             rows.append(row)
 
-    frame = pd.DataFrame.from_items(rows, columns=['n_tweets', 'n_positive', 'fraction'], orient='index')
-    print frame
-    frame['fraction'].plot()
-    plt.show()
+    frame = pd.DataFrame.from_items(rows, columns=['n_tweets', 'n_positive', 'percent'], orient='index')
+
+    logger.info(frame)
+
+    return frame['fraction']
+
+
+
+def get_twitter_rain(place, begin, end):
+    return get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
 
 
 def plot_wolrdwheateronline_precipitation(place, begin, end):
@@ -107,8 +120,8 @@ if __name__ == '__main__':
     begin = date(2015, 8, 25)
     end = date(2015, 9, 2)
 
-    plot_wolrdwheateronline_precipitation(place=place, begin=begin, end=end)
-    plot_topic_distribution(topic=RAIN, place_id=twitter_place_id, begin=begin, end=end)
+    # plot_wolrdwheateronline_precipitation(place=place, begin=begin, end=end)
+    # plot_topic_distribution(topic=RAIN, place_id=twitter_place_id, begin=begin, end=end)
 
 
 
