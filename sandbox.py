@@ -1,28 +1,29 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
+from dateutil.rrule import rrule, DAILY
 import logging
-
-
 import numpy as np
-from matplotlib import pyplot as plotter
+from matplotlib import pyplot as plt
 from pprint import pprint
 from datetime import date, datetime
-import nltk
 
+import nltk
 from tweepy import Cursor
 from pattern.web import Twitter
 import pandas as pd
 from PyDictionary import PyDictionary
 from nltk import Text
 
-from apis import instagram_api, flickr_api, twitter_api
+from apis import instagram_api, flickr_api, twitter_api, wunderground, wwo_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 import config
+import flickr_analysis
 import geo
 import store
 import twitter_analysis
 import utils
+
 
 logger = logging.getLogger('main')
 
@@ -177,8 +178,8 @@ def print_tweet_counts_last_days():
 
 
 def place_infos():
-    twitter_api.print_place_info(twitter_api.PLACE_ID_GERMANY)
-    twitter_api.print_place_info(twitter_api.PLACE_ID_ZURICH)
+    twitter_api.construct_place(twitter_api.PLACE_ID_GERMANY)
+    twitter_api.construct_place(twitter_api.PLACE_ID_ZURICH)
 
 
 def twitter_streaming_response():
@@ -203,7 +204,6 @@ def print_berlin_tweet_counts():
 
 
 def get_twitter_text():
-
     begin = datetime(2015, 7, 8)
     end = datetime(2015, 7, 9)
     tweets = store.get_search_tweets(twitter_api.PLACE_ID_LONDON_ADMIN, begin, end, use_cache=True)
@@ -212,14 +212,6 @@ def get_twitter_text():
         raw_text += tweet.text
     tokens = nltk.word_tokenize(raw_text)
     return Text(tokens)
-
-
-def dublin_rain_tweets():
-    topic = twitter_analysis.RAIN
-    place = twitter_api.PLACE_ID_DUBLIN
-    begin = datetime(2015, 7, 15)
-    end = datetime(2015, 7, 21)
-    twitter_analysis.topic_distribution(topic, place, begin, end, use_cache=True)
 
 
 def print_number_of_dublin_tweets():
@@ -247,7 +239,51 @@ def flickr_data():
     print '%s: %.2f' % (tags, geotagged / total)
 
 
+def flickr_plot():
+    tags = flickr_analysis.FLOODING_TAGS['de']
+    flickr_analysis.plot_normalized_tag_usage(tags, flickr_api.WOE_ID_SWITZERLAND, True)
+
+
+def places():
+    query = 'Deutschland'
+    flickr_api.print_places(query)
+
+
+def rain_tweets(place):
+    topic = twitter_analysis.RAIN
+    begin = datetime(2015, 8, 25)
+    end = datetime(2015, 9, 1)
+    twitter_analysis.plot_topic_distribution(topic, place, begin, end)
+
+
+def compare_rain_measurements():
+
+    begin = date(2015, 8, 25)
+    end = date(2015, 9, 2)
+    place = geo.LONDON_CITY
+    wunderground_rain = wunderground.get_rain()
+    twitter_rain = twitter_analysis.get_twitter_rain(place, begin, end)
+    wunderground_rain.plot(label='Wunderground')
+    twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
+    plt.show()
+
+    #
+    # plt.show()
+
+    # for day in rrule(DAILY, dtstart=begin, until=end):
+    #     print day
+    #     print 'wunderground: %f' % wunderground_precip[day]
+    #     for nMeasurements in (1, 3, 6, 12, 24):
+    #         wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
+    #         print '%d: %s' % (nMeasurements, wwo_precips)
+
+
+def coordinate():
+    response = twitter_api.api.geo_id(twitter_api.PLACE_ID_LONDON_CITY)
+    for point in response.bounding_box.coordinates[0]:
+        print point
+
 if __name__ == '__main__':
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
-    flickr_data()
+    compare_rain_measurements()

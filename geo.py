@@ -1,13 +1,30 @@
 import numpy as np
-from enum import Enum
 
+from enum import Enum
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
+from apis import twitter_api
+
 
 class BoundingBox(object):
-    pass
+    def __init__(self, twitter_bounding_box=None):
+        if twitter_bounding_box:
+            points = twitter_bounding_box.coordinates[0]
+            self.north_east_lat = points[2][1]  # 51.5164655
+            self.north_east_lon = points[2][0]  # -0.109978
+            self.south_west_lat = points[0][1]
+            self.south_west_lon = points[0][0]
 
+
+class Place(object):
+    def __init__(self, twitter_place_id):
+        self.twitter_place_id = twitter_place_id
+        twitter_place = twitter_api.api.geo_id(twitter_place_id)
+        self.centroid_lat = twitter_place.centroid[0]
+        self.centroid_lon = twitter_place.centroid[1]
+        twitter_bounding_box = twitter_place.bounding_box
+        self.bounding_box = BoundingBox(twitter_bounding_box)
 
 EUROPE_RESTRICTED = BoundingBox()
 EUROPE_RESTRICTED.north_east_lat = 72  # 62
@@ -27,15 +44,15 @@ ZURICH_EXTENDED.north_east_lon = 8.625370
 ZURICH_EXTENDED.south_west_lat = 47.320230
 ZURICH_EXTENDED.south_west_lon = 8.448060
 
+LONDON_CITY = Place(twitter_api.PLACE_ID_LONDON_CITY)
+LONDON_ADMIN = Place(twitter_api.PLACE_ID_LONDON_ADMIN)
 
 class MapResolution(Enum):
     INTERMEDIATE = 1
     FULL = 2
 
 
-
 class Map(object):
-
     def __init__(self, bounding_box, map_resolution=MapResolution.INTERMEDIATE):
         basemap = Basemap(resolution=map_resolution.name[0].lower(),
                           urcrnrlat=bounding_box.north_east_lat,
@@ -44,7 +61,7 @@ class Map(object):
                           llcrnrlon=bounding_box.south_west_lon)
         basemap.drawcountries(linewidth=0.25)
         basemap.drawcoastlines(linewidth=0.25)
-        basemap.arcgisimage(xpixels=6000)
+        basemap.arcgisimage()
         # basemap.bluemarble()
         # map.shadedrelief()
         # basemap.fillcontinents(color='peru', lake_color='yellow')
@@ -85,6 +102,11 @@ class Point(object):
     pass
 
 
-if __name__ == '__main__':
-    map = Map(ZURICH_EXTENDED)
+def draw_map(place):
+    bounding_box = place.bounding_box
+    map = Map(bounding_box)
     map.show()
+
+
+if __name__ == '__main__':
+    draw_map(LONDON_ADMIN)

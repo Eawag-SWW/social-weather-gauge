@@ -1,3 +1,7 @@
+""" 
+Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery. Enable downloading tweets for search queries and to start streaming with filtering according to a given TwitterStreamingQuery. 
+"""
+
 from datetime import timedelta, datetime
 import logging
 from pprint import pprint
@@ -6,21 +10,22 @@ import tweepy
 from tweepy import Cursor, StreamListener, Stream
 
 from apis import Query
+
 import secrets
 
-
-logger = logging.getLogger('main')
-
-CONSUMER_KEY = secrets.TWITTER_CONSUMER_KEY
-CONSUMER_SECRET = secrets.TWITTER_CONSUMER_SECRET
-
-PLACE_ID_ZURICH = '3acb748d0f1e9265'
+PLACE_ID_ZURICH_CITY = '3acb748d0f1e9265'
+PLACE_ID_ZURICH_ADMIN = 'db94c1cccc67c4f4'
 PLACE_ID_GERMANY = 'fdcd221ac44fa326'
 PLACE_ID_BERLIN_CITY = '3078869807f9dd36'
 PLACE_ID_LONDON_CITY = '457b4814b4240d87'
 PLACE_ID_LONDON_ADMIN = '5d838f7a011f4a2d'
 PLACE_ID_UGANDA = '939067979a7f3b95'
-PLACE_ID_DUBLIN = '7dde0febc9ef245b'
+PLACE_ID_DUBLIN_CITY = '7dde0febc9ef245b'
+
+CONSUMER_KEY = secrets.TWITTER_CONSUMER_KEY
+CONSUMER_SECRET = secrets.TWITTER_CONSUMER_SECRET
+
+logger = logging.getLogger('main')
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token('56120535-CkZqukNLJXx66Buxv8DTVdirmbJP6IuBSJvRdQApT',
@@ -137,14 +142,23 @@ def date_string_to_datetime(date):
     pass
 
 
-def print_place_info(place_id):
-    response = api.geo_id(place_id)
-    pprint(vars(response))
-
-
 def print_places(query_string):
     result = api.geo_search(query=query_string)
     print 'Places for query "%s" (%d results)' % (query_string, len(result))
     print '---'
     for place in result:
         print ' - %s (id: %s, type: %s)' % (place.full_name, place.id, place.place_type)
+
+
+def print_place(place_id):
+    response = api.geo_id(place_id)
+    pprint(vars(response))
+
+def print_limit_status():
+    status = api.rate_limit_status()
+    search_status = status['resources']['search']
+    pprint(search_status)
+
+
+if __name__ == '__main__':
+    print_place(PLACE_ID_LONDON_CITY)

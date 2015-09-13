@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import datetime, timedelta
 from dateutil.rrule import DAILY, rrule
 import logging
@@ -7,11 +8,14 @@ from os.path import join
 
 import pandas as pd
 
-from apis import twitter_api
+from apis import twitter_api, flickr_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
 
 
 STORE_DIR = 'store'
+FLICKR_DIR = 'flickr'
+TWITTER_DIR = 'twitter'
+
 logger = logging.getLogger('main')
 
 
@@ -22,46 +26,44 @@ class StoreType(object):
         self.directory = directory
 
 
-STREAMING_TWEETS = StoreType(join(STORE_DIR, 'tweets', 'stream'))
-SEARCH_TWEETS = StoreType(join(STORE_DIR, 'tweets', 'search'))
-FLICKR_PLOT = StoreType(join(STORE_DIR, 'flickr', 'plot'))
 
-# POINTS = 2
-
+STREAMING_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'stream'))
+SEARCH_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'search'))
+N_PHOTOS = StoreType(join(STORE_DIR, FLICKR_DIR, 'n_photos'))
 
 
 def read(query, store_type):
     logger.info('Reading store for %s ...', query)
     path = _get_storage_path(query, store_type)
 
-    if store_type == FLICKR_PLOT:
-        answer = pd.Series.from_csv(path)
-    else:
-        f = open(path, 'rb')
+    if not os.path.exists(path):
+        logger.info('... no data found in store. Will retrieve new data ...')
+        save(query, store_type)
+        logger.info('... data retrieved and saved in store.')
+
+    with open(path, 'rb') as f:
         answer = pickle.load(f)
-        logger.debug('... finished. %n items read.', len(answer))
-    return answer
+        logger.debug('... finished.')
+        return answer
 
 
 def save(query, store_type):
+
+    storage_path = _get_storage_path(query, store_type)
+
     if store_type == STREAMING_TWEETS:
         listener = twitter_api.StoringListener(status_handler=_save_streaming_tweet)
         twitter_api.start_streaming(listener, query.bounding_box)
 
-    if store_type == SEARCH_TWEETS:
+    elif store_type == SEARCH_TWEETS:
         tweets = twitter_api.download_search_tweets(query)
-        path = _get_storage_path(query, store_type)
-        with open(path, 'wb') as f:
+        with open(storage_path, 'wb') as f:
             pickle.dump(tweets, f)
 
-    if type == StoreType.FLICKR_PLOT:
-        data = dict()
-        for year in range(START_YEAR, END_YEAR):
-            n_photos = flickr_api.count_photos(query, year)
-            data[year] = n_photos
-        series = pd.Series(data)
-        series.to_csv(path)
-
+    elif store_type == N_PHOTOS:
+       n_photos = flickr_api.count_photos(query)
+       with open(storage_path, 'wb') as f:
+           pickle.dump(n_photos, f)
 
     else:
         raise RuntimeError('Store for %s not yet implemented.', store_type)
@@ -83,15 +85,13 @@ def save(query, store_type):
         #
 
 
-def get_search_tweets(place_id, begin, end=None, use_cache=False):
+def get_search_tweets(place_id, begin, end=None):
 
     tweets = []
     if end == None:
         end = begin
     for day in rrule(DAILY, dtstart=begin, until=end):
         query = TwitterSearchQuery(place_id=place_id, date=day)
-        if not use_cache:
-            save(query, store_type=SEARCH_TWEETS)
         statuses = read(query, store_type=SEARCH_TWEETS)
         for status in statuses:
             tweets.append(Tweet(status))
@@ -128,10 +128,8 @@ def get_search_tweets(place_id, begin, end=None, use_cache=False):
 
 
 def _get_storage_path(query, store_type):
-    if store_type == FLICKR_PLOT:
-        extension = 'csv'
-    else:
-        extension = 'p'
+
+    extension = 'p'
 
     dirname = store_type.directory
     filename = '%s.%s' % (repr(query), extension)
