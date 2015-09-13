@@ -1,11 +1,9 @@
 % Wheater Measurement Through Social Media Data Mining: Report
 % Dominic Looser
 
-Background
-==========
-
 Flickr
-------
+======
+
 - Created by Ludicorp in 2004
 - Acquired by Yahoo in 2005
 - 6 billion images in 2011 (we) 
@@ -17,14 +15,24 @@ interesting numbers:
 - number of photos total
 - number of photos per region / year / geotagged
 
+API
+---
+- REST endpoint: https://api.flickr.com/services/rest/
+- Return formats: XML, JSON, ...
+- Parameters: method, api_key, format 
+
+### flickr.photos.search
+
+Parameters:
+- woe_id: A 32-bit identifier that uniquely represents spatial entities
+- place_id: A Flickr place id 
+
 
 Twitter
--------
+=======
 
-Implementation
+Python Codebase
 ==============
-
-
 
 Python 2.7
 
