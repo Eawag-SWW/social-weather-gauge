@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 """ Classes and functions which abstract over the flickr api. """
-from pprint import pprint
 
 import random
 import logging
-from lxml import etree
 
 import flickrapi
 
 from apis import Query
-from geo import Point
+from main.geo import Point
 import secrets
-
-
-
 
 FORMAT = 'etree'  # 'parsed-json'
 API_KEY = secrets.FLICKR_API_KEY

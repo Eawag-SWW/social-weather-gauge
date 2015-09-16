@@ -10,8 +10,7 @@ import tweepy
 from tweepy import Cursor, StreamListener, Stream
 
 from apis import Query
-
-import secrets
+from main import secrets
 
 PLACE_ID_ZURICH_CITY = '3acb748d0f1e9265'
 PLACE_ID_ZURICH_ADMIN = 'db94c1cccc67c4f4'

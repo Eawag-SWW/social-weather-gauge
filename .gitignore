@@ -1,5 +1,5 @@
 *.pyc
-secrets.py
+main/secrets.py
 *.sublime-project
 *.sublime-workspace
 .dist

@@ -1,9 +1,9 @@
 from datetime import datetime
-
 from dateutil.rrule import DAILY, rrule
+
 from apis import twitter_api
 from apis.twitter_api import PLACE_ID_LONDON_CITY
-import secrets
+from main import secrets
 
 __author__ = 'dominic'
 

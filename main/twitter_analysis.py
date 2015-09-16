@@ -4,17 +4,14 @@ import os
 import time
 from dateutil.rrule import DAILY, rrule
 import logging
+from os.path import join
 
 import nltk
-from os.path import join
 import pandas as pd
 import matplotlib.pyplot as plt
-from apis import wwo_api
-from apis import twitter_api
 
+from apis import wwo_api, twitter_api, wunderground
 import store
-import seaborn
-
 
 logger = logging.getLogger('main')
 
@@ -93,13 +90,26 @@ def get_topic_distribution(topic, place, begin, end):
 
     logger.info(frame)
 
-    return frame['fraction']
+    return frame['percent']
 
 
+def plot_rain_comparison(place, begin, end):
 
-def get_twitter_rain(place, begin, end):
-    return get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
+    wunderground_rain = wunderground.get_rain()
+    twitter_rain = get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
 
+    plt.subplot(2, 1, 1)
+    wunderground_rain.plot(label='Wunderground', legend=True)
+    twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
+
+    plt.subplot(2, 1, 2)
+    plt.scatter(twitter_rain, wunderground_rain)
+
+    frame = pd.DataFrame({'twitter': twitter_rain, 'wunderground': wunderground_rain})
+    print 'correlation:'
+    print frame.corr()
+
+    plt.show()
 
 def plot_wolrdwheateronline_precipitation(place, begin, end):
     series = pd.Series()

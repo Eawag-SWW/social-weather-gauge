@@ -1,6 +1,7 @@
 from unittest import TestCase
+
 from apis.twitter_api import Tweet
-import twitter_analysis
+from main import twitter_analysis
 
 __author__ = 'dominic'
 

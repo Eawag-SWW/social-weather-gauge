@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
-from dateutil.rrule import rrule, DAILY
 import logging
 import numpy as np
 from matplotlib import pyplot as plt
@@ -14,7 +13,7 @@ import pandas as pd
 from PyDictionary import PyDictionary
 from nltk import Text
 
-from apis import instagram_api, flickr_api, twitter_api, wunderground, wwo_api
+from apis import instagram_api, flickr_api, twitter_api, wunderground
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 import config
@@ -23,7 +22,7 @@ import geo
 import store
 import twitter_analysis
 import utils
-
+import seaborn
 
 logger = logging.getLogger('main')
 
@@ -262,9 +261,19 @@ def compare_rain_measurements():
     end = date(2015, 9, 2)
     place = geo.LONDON_CITY
     wunderground_rain = wunderground.get_rain()
+
+    plt.subplot(2, 1, 1)
     twitter_rain = twitter_analysis.get_twitter_rain(place, begin, end)
     wunderground_rain.plot(label='Wunderground')
     twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
+
+    plt.subplot(2, 1, 2)
+    plt.scatter(twitter_rain, wunderground_rain)
+
+    frame = pd.DataFrame({'twitter': twitter_rain, 'wunderground': wunderground_rain})
+    print 'correlation:'
+    print frame.corr()
+
     plt.show()
 
     #
@@ -284,6 +293,6 @@ def coordinate():
         print point
 
 if __name__ == '__main__':
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
     compare_rain_measurements()

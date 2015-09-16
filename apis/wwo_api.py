@@ -1,8 +1,9 @@
 from datetime import date
-from pprint import pprint
+
 import requests
+
 from apis import twitter_api
-import secrets
+from main import secrets
 
 __author__ = 'dominic'
 
