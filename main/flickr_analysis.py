@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
+
 import logging
 import time
 from os.path import join
@@ -41,7 +41,7 @@ def compute_geotag_usage():
 
         total = flickr_api.count_photos(query)
         geotagged = flickr_api.count_photos(geotagged_query)
-        print '%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged)
+        print('%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged))
 
 
 def plot_photos_per_year(woe_id=None, use_cache=False, save2docs=False):

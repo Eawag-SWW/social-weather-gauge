@@ -17,10 +17,10 @@ def print_forecast(twitter_place_id, begin, end):
         forecast = load_forecast(KEY, lat=place.centroid_lat, lng=place.centroid_lon, time=day)
         datablock = forecast.daily()
         for data in datablock.data:
-            print(data.time)
-            print(data.summary)
+            print data.time
+            print data.summary
             if hasattr(data, 'precipAccumulation'):
-                print(data.precipAccumulation)
+                print data.precipAccumulation
 
 if __name__ == '__main__':
     begin = datetime(2015, 8, 25)

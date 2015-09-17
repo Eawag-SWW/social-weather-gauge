@@ -116,7 +116,7 @@ def print_places(query):
         name = place.attrib['woe_name']
         type = place.attrib['place_type']
         woe_id = place.attrib['woeid']
-        print template.format(name=name, type=type, woe_id=woe_id)
+        print(template.format(name=name, type=type, woe_id=woe_id))
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):
     logger.info('Querying points from Flickr ...')

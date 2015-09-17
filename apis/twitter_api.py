@@ -80,7 +80,7 @@ class TwitterStreamListener(StreamListener):
         super(TwitterStreamListener, self).__init__()
 
     def on_error(self, status_code):
-        print 'ERROR. Code: %s.' % status_code
+        print('ERROR. Code: %s.' % status_code)
 
 
 class StoringListener(TwitterStreamListener):
@@ -102,7 +102,7 @@ class StoringListener(TwitterStreamListener):
 
 class PrintingListener(TwitterStreamListener):
     def on_status(self, status):
-        print 'Status:'
+        print('Status:')
         pprint(vars(status))
 
 
@@ -116,7 +116,7 @@ def download_search_tweets(query):
     until = (date + timedelta(days=1)).strftime(fmt)
     query = 'place:%s since:%s until:%s' % (place_id, since, until)
     cursor = Cursor(api.search, q=query, count=100)
-    for tweet in cursor.items():
+    for tweet in list(cursor.items()):
         tweets.append(tweet)
     logger.info('... finished.')
     return tweets
@@ -143,10 +143,10 @@ def date_string_to_datetime(date):
 
 def print_places(query_string):
     result = api.geo_search(query=query_string)
-    print 'Places for query "%s" (%d results)' % (query_string, len(result))
-    print '---'
+    print('Places for query "%s" (%d results)' % (query_string, len(result)))
+    print('---')
     for place in result:
-        print ' - %s (id: %s, type: %s)' % (place.full_name, place.id, place.place_type)
+        print(' - %s (id: %s, type: %s)' % (place.full_name, place.id, place.place_type))
 
 
 def print_place(place_id):
@@ -155,9 +155,11 @@ def print_place(place_id):
 
 def print_limit_status():
     status = api.rate_limit_status()
+    # pprint(status)
     search_status = status['resources']['search']
     pprint(search_status)
-
+    geo_status = status['resources']['geo']
+    pprint(geo_status)
 
 if __name__ == '__main__':
-    print_place(PLACE_ID_LONDON_CITY)
+    print_limit_status()

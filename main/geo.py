@@ -17,14 +17,7 @@ class BoundingBox(object):
             self.south_west_lon = points[0][0]
 
 
-class Place(object):
-    def __init__(self, twitter_place_id):
-        self.twitter_place_id = twitter_place_id
-        twitter_place = twitter_api.api.geo_id(twitter_place_id)
-        self.centroid_lat = twitter_place.centroid[0]
-        self.centroid_lon = twitter_place.centroid[1]
-        twitter_bounding_box = twitter_place.bounding_box
-        self.bounding_box = BoundingBox(twitter_bounding_box)
+
 
 EUROPE_RESTRICTED = BoundingBox()
 EUROPE_RESTRICTED.north_east_lat = 72  # 62
@@ -43,6 +36,16 @@ ZURICH_EXTENDED.north_east_lat = 47.434680
 ZURICH_EXTENDED.north_east_lon = 8.625370
 ZURICH_EXTENDED.south_west_lat = 47.320230
 ZURICH_EXTENDED.south_west_lon = 8.448060
+
+
+class Place(object):
+    def __init__(self, twitter_place_id):
+        self.twitter_place_id = twitter_place_id
+        twitter_place = twitter_api.api.geo_id(twitter_place_id)
+        self.centroid_lat = twitter_place.centroid[0]
+        self.centroid_lon = twitter_place.centroid[1]
+        twitter_bounding_box = twitter_place.bounding_box
+        self.bounding_box = BoundingBox(twitter_bounding_box)
 
 LONDON_CITY = Place(twitter_api.PLACE_ID_LONDON_CITY)
 LONDON_ADMIN = Place(twitter_api.PLACE_ID_LONDON_ADMIN)
