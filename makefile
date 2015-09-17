@@ -18,5 +18,9 @@ apidocs:
 pdf:
 	cd docs && make latexpdf
 
+dependecies-graph:
+	sfood main/twitter_analysis.py --follow --internal | sfood-graph | dot -Tpdf | xargf evince
+
 watch:
 	watchman watch docs; watchman -- trigger docs build -- make html 
+

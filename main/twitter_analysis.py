@@ -95,8 +95,12 @@ def get_topic_distribution(topic, place, begin, end):
 
 def plot_rain_comparison(place, begin, end):
 
-    wunderground_rain = wunderground.get_rain()
+    wunderground_place_id = place.wunderground_place_id
+    wunderground_rain = wunderground.get_rain(wunderground_place_id, begin, end)
+
     twitter_rain = get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
+
+    title = '%s\n%s-%s' % (place, begin)
 
     plt.subplot(2, 1, 1)
     wunderground_rain.plot(label='Wunderground', legend=True)
