@@ -8,7 +8,7 @@ import flickrapi
 
 from apis import Query
 from main.geo import Point
-import secrets
+from main import secrets
 
 FORMAT = 'etree'  # 'parsed-json'
 API_KEY = secrets.FLICKR_API_KEY

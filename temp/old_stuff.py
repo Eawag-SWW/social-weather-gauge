@@ -1,4 +1,7 @@
 
+wunderground:
+
+
 
 def print_random_links(query):
     params = flickr_api._get_params(query)
@@ -9,6 +12,7 @@ def print_random_links(query):
         print(url)
 
 def _get_params(query, with_geotags=False):
+
     """
 
     :rtype : dict

@@ -8,13 +8,14 @@ from os.path import join
 
 import pandas as pd
 
-from apis import twitter_api, flickr_api
+from apis import twitter_api, flickr_api, Query, wunderground_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
 
 
 STORE_DIR = 'store'
 FLICKR_DIR = 'flickr'
 TWITTER_DIR = 'twitter'
+WUNDERGROUND_DIR = 'wunderground'
 
 logger = logging.getLogger('main')
 
@@ -26,24 +27,23 @@ class StoreType(object):
         self.directory = directory
 
 
-
 STREAMING_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'stream'))
 SEARCH_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'search'))
 N_PHOTOS = StoreType(join(STORE_DIR, FLICKR_DIR, 'n_photos'))
+WUNDERGROUND_RAIN = StoreType(join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
 
 
 def read(query, store_type):
-    logger.info('Reading store for %s ...', query)
+    logger.info('Reading store for %s.', query)
     path = _get_storage_path(query, store_type)
 
     if not os.path.exists(path):
-        logger.info('... no data found in store. Will retrieve new data ...')
+        logger.info('No data found in store. Will retrieve new data.')
         save(query, store_type)
-        logger.info('... data retrieved and saved in store.')
+        logger.info('Data retrieved and saved in store.')
 
     with open(path, 'rb') as f:
         answer = pickle.load(f)
-        logger.debug('... finished.')
         return answer
 
 
@@ -61,9 +61,12 @@ def save(query, store_type):
             pickle.dump(tweets, f)
 
     elif store_type == N_PHOTOS:
-       n_photos = flickr_api.count_photos(query)
-       with open(storage_path, 'wb') as f:
-           pickle.dump(n_photos, f)
+        n_photos = flickr_api.count_photos(query)
+        with open(storage_path, 'wb') as f:
+            pickle.dump(n_photos, f)
+
+    elif store_type == WUNDERGROUND_RAIN:
+        ...
 
     else:
         raise RuntimeError('Store for %s not yet implemented.', store_type)
@@ -98,6 +101,27 @@ def get_search_tweets(place_id, begin, end=None):
     return tweets
 
 
+def remove(query: Query, store_type: StoreType):
+    return None
+
+
+def _get_storage_path(query, store_type):
+
+    extension = 'p'
+
+    dirname = store_type.directory
+    filename = '%s.%s' % (repr(query), extension)
+    return os.path.join(dirname, filename)
+
+
+def _save_streaming_tweet(status):
+    now = datetime.now()
+    timestamp = (now - datetime(1970, 1, 1)).total_seconds()
+    filename = '%s.p' % timestamp
+    path = os.path.join(STREAMING_TWEETS.directory, filename)
+
+    with open(path, mode='w') as f:
+        pickle.dump(status, f)
 
 
 # def get_tweets(store_type):
@@ -125,24 +149,3 @@ def get_search_tweets(place_id, begin, end=None):
 #     dataframe.sort(inplace=True)
 #     dataframe = dataframe[begin:end]
 #     return dataframe
-
-
-def _get_storage_path(query, store_type):
-
-    extension = 'p'
-
-    dirname = store_type.directory
-    filename = '%s.%s' % (repr(query), extension)
-    return os.path.join(dirname, filename)
-
-
-def _save_streaming_tweet(status):
-    now = datetime.now()
-    timestamp = (now - datetime(1970, 1, 1)).total_seconds()
-    filename = '%s.p' % timestamp
-    path = os.path.join(STREAMING_TWEETS.directory, filename)
-
-    with open(path, mode='w') as f:
-        pickle.dump(status, f)
-
-

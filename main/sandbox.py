@@ -13,7 +13,7 @@ import pandas as pd
 from PyDictionary import PyDictionary
 from nltk import Text
 
-from apis import instagram_api, flickr_api, twitter_api, wunderground
+from apis import instagram_api, flickr_api, twitter_api, wunderground_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 import config
@@ -260,7 +260,7 @@ def compare_rain_measurements():
     begin = date(2015, 8, 25)
     end = date(2015, 9, 2)
     place = geo.LONDON_CITY
-    wunderground_rain = wunderground.get_rain()
+    wunderground_rain = wunderground_api.get_rain()
 
     plt.subplot(2, 1, 1)
     twitter_rain = twitter_analysis.get_twitter_rain(place, begin, end)

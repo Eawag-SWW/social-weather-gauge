@@ -10,7 +10,7 @@ import nltk
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from apis import wwo_api, twitter_api, wunderground
+from apis import wwo_api, twitter_api, wunderground_api
 import store
 
 logger = logging.getLogger('main')
@@ -100,7 +100,7 @@ def plot_rain_comparison(place, begin, end):
     else:
         raise Exception('Place has no wunderground id.')
 
-    wunderground_rain = wunderground.get_rain(wunderground_place_id, begin, end)
+    wunderground_rain = wunderground_api.get_rain(wunderground_place_id, begin, end)
 
     twitter_rain = get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
 
