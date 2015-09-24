@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="to-inspect" pattern="file[social-media-mining]:main/*&amp;&amp;!file:main/sandbox.py||file[social-media-mining]:apis/*" />
+</component>

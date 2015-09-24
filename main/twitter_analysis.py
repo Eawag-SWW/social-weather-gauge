@@ -1,17 +1,15 @@
-
-from datetime import datetime, timedelta, date
-import os
-import time
-from dateutil.rrule import DAILY, rrule
+from datetime import datetime, date
 import logging
-from os.path import join
 
+from dateutil.rrule import DAILY, rrule
 import nltk
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from apis import wwo_api, twitter_api, wunderground_api
-import store
+from apis import wunderground_api
+from apis.wunderground_api import WundergroundQuery
+from main import store
+from main.geo import Place
 
 logger = logging.getLogger('main')
 
@@ -41,15 +39,6 @@ def plot_swiss_rain_data():
     plt.show()
 
 
-def print_search_tweet_counts(place_id=None, begin_date=None, end_date=None, use_cache=False):
-    n_days = int((end_date - begin_date).days)
-
-    for day in [begin_date + timedelta(days=i) for i in range(n_days)]:
-        tweets = store.get_search_tweets(place_id, day, day + timedelta(days=1), use_cache=use_cache)
-        date_string = day.strftime('%d/%m')
-        print('%s: %d' % (date_string, len(tweets)))
-
-
 def contains_topic(tweet, topic):
     lang = 'en'
     stemmer = nltk.PorterStemmer()
@@ -66,7 +55,7 @@ def contains_topic(tweet, topic):
         return False
 
 
-def get_topic_distribution(topic, place, begin, end):
+def get_topic_distribution(topic: Topic, place: Place, begin: date, end: date):
 
     rows = []
 
@@ -93,18 +82,19 @@ def get_topic_distribution(topic, place, begin, end):
     return frame['percent']
 
 
-def plot_rain_comparison(place, begin, end):
+def plot_rain_comparison(place: Place, begin: date, end: date):
 
     if hasattr(place, 'wunderground_place_id'):
         wunderground_place_id = place.wunderground_place_id
     else:
         raise Exception('Place has no wunderground id.')
 
-    wunderground_rain = wunderground_api.get_rain(wunderground_place_id, begin, end)
+    wunderground_query = WundergroundQuery(wunderground_place_id, begin, end)
+    wunderground_rain = wunderground_api.get_rain(wunderground_query)
 
     twitter_rain = get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
 
-    title = '%s\n%s-%s' % (place, begin)
+    title = '%s\n%s-%s' % (place, begin, end)
 
     plt.subplot(2, 1, 1)
     wunderground_rain.plot(label='Wunderground', legend=True)
@@ -119,22 +109,22 @@ def plot_rain_comparison(place, begin, end):
 
     plt.show()
 
-def plot_wolrdwheateronline_precipitation(place, begin, end):
-    series = pd.Series()
-    for day in rrule(DAILY, dtstart=begin, until=end):
-        precipitation = wwo_api.get_precipitation(place, day)
-        series.set_value(day, precipitation)
-    series.index = series.index.map(lambda t: t.strftime('%m/%d'))
-    series.plot('bar')
-    dir = join('plots', 'twitter')
-    if not os.path.exists(dir):
-        os.makedirs(dir)
-    path = join(dir, 'wwo_%s.png' % time.time())
-    plt.savefig(path)
+
+#
+# def plot_wolrdwheateronline_precipitation(place, begin, end):
+#     series = pd.Series()
+#     for day in rrule(DAILY, dtstart=begin, until=end):
+#         precipitation = wwo_api.get_precipitation(place, day)
+#         series.set_value(day, precipitation)
+#     series.index = series.index.map(lambda t: t.strftime('%m/%d'))
+#     series.plot('bar')
+#     dir = join('plots', 'twitter')
+#     if not os.path.exists(dir):
+#         os.makedirs(dir)
+#     path = join(dir, 'wwo_%s.png' % time.time())
+#     plt.savefig(path)
 
 if __name__ == '__main__':
-    twitter_place_id = twitter_api.PLACE_ID_LONDON_CITY
-    place = twitter_api.construct_place(place_id=twitter_place_id)
     begin = date(2015, 8, 25)
     end = date(2015, 9, 2)
 

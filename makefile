@@ -9,11 +9,11 @@ deploy: html commit
 commit: 
 	git commit -am 'docs deploy'
 
-html:
+html: apidocs
 	cd docs && make html
 
 apidocs:
-	sphinx-apidoc -o docs/source . secrets.py sandbox.py old_stuff.py
+	cd main; sphinx-apidoc -f -o ../docs/source . config.py secrets.py sandbox.py old_stuff.py
 
 pdf:
 	cd docs && make latexpdf
@@ -22,5 +22,5 @@ dependecies-graph:
 	sfood main/twitter_analysis.py --follow --internal | sfood-graph | dot -Tpdf | xargf evince
 
 watch:
-	watchman watch docs; watchman -- trigger docs build -- make html 
+	watchman watch . ; watchman -- trigger docs build -- make html 
 

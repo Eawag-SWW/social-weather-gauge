@@ -5,8 +5,8 @@ import random
 import logging
 
 import flickrapi
-
 from apis import Query
+
 from main.geo import Point
 from main import secrets
 
@@ -14,8 +14,6 @@ FORMAT = 'etree'  # 'parsed-json'
 API_KEY = secrets.FLICKR_API_KEY
 API_SECRET = secrets.FLICKR_API_SECRET
 PER_PAGE_DEFAULT = 200
-
-
 
 WOE_ID_SWITZERLAND = 23424957
 WOE_ID_USA = 23424977
@@ -27,9 +25,9 @@ logger = logging.getLogger('main')
 flickr = flickrapi.FlickrAPI(API_KEY, API_SECRET, format=FORMAT)
 
 
-
 class FlickrQuery(Query):
-    def __init__(self, tags=None, woe_id=None, year=None, only_geotagged=False):
+    def __init__(self, tags=None, woe_id: str = None,
+                 year: int = None, only_geotagged=False):
 
         self.tags = tags
         self.woe_id = woe_id
@@ -109,6 +107,7 @@ def retrieve_place_name(woe_id):
     name = response.find('place').attrib['name']
     return name
 
+
 def print_places(query):
     response = flickr.places.find(query=query)
     for place in response[0]:
@@ -117,6 +116,7 @@ def print_places(query):
         type = place.attrib['place_type']
         woe_id = place.attrib['woeid']
         print(template.format(name=name, type=type, woe_id=woe_id))
+
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):
     logger.info('Querying points from Flickr ...')

@@ -1,28 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from pprint import pprint
+from datetime import datetime
+
 import numpy as np
 from matplotlib import pyplot as plt
-from pprint import pprint
-from datetime import date, datetime
-
 import nltk
 from tweepy import Cursor
-
-import pandas as pd
 from PyDictionary import PyDictionary
 from nltk import Text
 
-from apis import instagram_api, flickr_api, twitter_api, wunderground_api
+from apis import flickr_api, twitter_api
+from temp import instagram_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
-import config
-import flickr_analysis
-import geo
-import store
-import twitter_analysis
-import utils
-import seaborn
+from main import twitter_analysis
+from main.twitter_analysis import RAIN
 
 logger = logging.getLogger('main')
 
@@ -37,26 +31,6 @@ def find_place(query):
     print(response)
 
 
-def count():
-    year = 2012
-    print(flickr_api.count_photos(FlickrQuery.geotagged_flooding_tags, year=year))
-    print(flickr_api.count_photos(FlickrQuery.switzerland_flooding_tags, year=year))
-
-
-def walking():
-    query = flickr_api.FlickrQuery.switzerland_flooding_tags
-    for photo in flickr_api.get_photo_collection(query, with_geotags=True)._iterator:
-        print(photo.get('latitude'))
-
-
-
-
-
-
-        # for photo in flickr.walk(**params):
-        # print photo.get('title')
-
-
 def array():
     x = [1, 2, 3]
     y = [1, 4, 9]
@@ -65,34 +39,9 @@ def array():
     loaded = np.loadtxt('test.csv')
     x = loaded[0]
     y = loaded[1]
-    plotter.plot(x, y)
-    plotter.show()
+    plt.plot(x, y)
+    plt.show()
     print(data)
-
-
-def facebook():
-    api = Twitter()
-
-    results = api.search('Hochwasser')
-    print(len(results))
-    for result in results:
-        print(dir(result))
-        break
-
-
-def pandas():
-    index = list(range(2004, 2015))
-    data = np.random.randn(len(index))
-    series = pd.Series(data, index=index)
-    series.plot()
-    plotter.show()
-
-
-def pandas_plotting():
-    ts = pd.Series(np.random.randn(1000), index=pd.date_range('1/1/2000', periods=1000))
-    ts = ts.cumsum()
-    ts.plot()
-    plotter.show()
 
 
 def instagram():
@@ -141,14 +90,14 @@ def histogram():
     print(xedges)
     print(yedges)
 
-    # plotter.imshow(H, interpolation='nearest', origin='low',
+    # plt.imshow(H, interpolation='nearest', origin='low',
     # extent=[xedges[0], xedges[-1], yedges[0], yedges[-1]])
 
     X, Y = np.meshgrid(xedges, yedges)
-    plotter.pcolormesh(X, Y, H)
+    plt.pcolormesh(X, Y, H)
     # figure.set_aspect('equal')
 
-    plotter.savefig('testplot.jpg')
+    plt.savefig('testplot.jpg')
 
 
 def dictionary():
@@ -161,19 +110,6 @@ def dictionary():
 
     flood = PyDictionary('flood', 'flooding', 'deluge')
     print(flood.printSynonyms())
-
-
-def totals():
-    queries = [config.FLOODING_GERMAN_TAGS_QUERY, config.FLOODING_FRENCH_TAGS_QUERY, config.FLOODING_ENGLISH_TAGS_QUERY]
-    utils.print_totals(queries)
-
-
-def print_tweet_counts_last_days():
-    place_id = twitter_api.PLACE_ID_ZURICH
-    begin = date(2015, 6, 1)
-    end = date(2015, 6, 12)
-
-    twitter_analysis.print_tweet_counts(place_id, begin, end, use_cache=False)
 
 
 def place_infos():
@@ -249,42 +185,42 @@ def places():
 
 
 def rain_tweets(place):
-    topic = twitter_analysis.RAIN
+    topic = RAIN
     begin = datetime(2015, 8, 25)
     end = datetime(2015, 9, 1)
     twitter_analysis.plot_topic_distribution(topic, place, begin, end)
 
-
-def compare_rain_measurements():
-
-    begin = date(2015, 8, 25)
-    end = date(2015, 9, 2)
-    place = geo.LONDON_CITY
-    wunderground_rain = wunderground_api.get_rain()
-
-    plt.subplot(2, 1, 1)
-    twitter_rain = twitter_analysis.get_twitter_rain(place, begin, end)
-    wunderground_rain.plot(label='Wunderground')
-    twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
-
-    plt.subplot(2, 1, 2)
-    plt.scatter(twitter_rain, wunderground_rain)
-
-    frame = pd.DataFrame({'twitter': twitter_rain, 'wunderground': wunderground_rain})
-    print('correlation:')
-    print(frame.corr())
-
-    plt.show()
-
-    #
-    # plt.show()
-
-    # for day in rrule(DAILY, dtstart=begin, until=end):
-    #     print day
-    #     print 'wunderground: %f' % wunderground_precip[day]
-    #     for nMeasurements in (1, 3, 6, 12, 24):
-    #         wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
-    #         print '%d: %s' % (nMeasurements, wwo_precips)
+#
+# def compare_rain_measurements():
+#
+#     begin = date(2015, 8, 25)
+#     end = date(2015, 9, 2)
+#     place = geo.LONDON_CITY
+#     wunderground_rain = wunderground_api.get_rain()
+#
+#     plt.subplot(2, 1, 1)
+#     twitter_rain = twitter_analysis.get_twitter_rain(place, begin, end)
+#     wunderground_rain.plot(label='Wunderground')
+#     twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
+#
+#     plt.subplot(2, 1, 2)
+#     plt.scatter(twitter_rain, wunderground_rain)
+#
+#     frame = pd.DataFrame({'twitter': twitter_rain, 'wunderground': wunderground_rain})
+#     print('correlation:')
+#     print(frame.corr())
+#
+#     plt.show()
+#
+#     #
+#     # plt.show()
+#
+#     # for day in rrule(DAILY, dtstart=begin, until=end):
+#     #     print day
+#     #     print 'wunderground: %f' % wunderground_precip[day]
+#     #     for nMeasurements in (1, 3, 6, 12, 24):
+#     #         wwo_precips = wwo_api.get_precips(place, day, nMeasurements)
+#     #         print '%d: %s' % (nMeasurements, wwo_precips)
 
 
 def coordinate():
@@ -295,4 +231,4 @@ def coordinate():
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    compare_rain_measurements()
+

@@ -9,6 +9,24 @@ from apis.flickr_api import FlickrQuery
 from main import store
 
 
+class RemoveTestCase(TestCase):
+
+    def test_remove_flickr_query(self):
+
+        query = FlickrQuery(woe_id=flickr_api.WOE_ID_SWITZERLAND, year=2012)
+        store_type = store.N_PHOTOS
+
+        path = store._get_storage_path(query, store_type)
+        if os.path.exists(path):
+            os.remove(path)
+        store.read(store.N_PHOTOS, query)
+
+        self.assertTrue(os.path.exists(path))
+
+        store.remove(store_type, query)
+        self.assertFalse(os.path.exists(path))
+
+
 class WundergroundTestCase(TestCase):
 
     def test_london_data_storage(self):
@@ -20,27 +38,9 @@ class WundergroundTestCase(TestCase):
 
         goal = wunderground_api.get_rain(query)
 
-        store.remove(query, store.WUNDERGROUND_RAIN)
-        fresh_data = store.read(query, store.WUNDERGROUND_RAIN)
-        cached_data = store.read(query, store.WUNDERGROUND_RAIN)
+        store.remove(store.WUNDERGROUND_RAIN, query)
+        fresh_data = store.read(store.WUNDERGROUND_RAIN, query)
+        cached_data = store.read(store.WUNDERGROUND_RAIN, query)
 
         pdt.assert_series_equal(fresh_data, goal)
         pdt.assert_series_equal(cached_data, goal)
-
-
-class RemoveTestCase(TestCase):
-
-    def test_remove_flickr_query(self):
-
-        query = FlickrQuery(woe_id=flickr_api.WOE_ID_SWITZERLAND, year=2012)
-        store_type = store.N_PHOTOS
-
-        path = store._get_storage_path(query, store_type)
-        if os.path.exists(path):
-            os.remove(path)
-        store.read(query, store.N_PHOTOS)
-
-        self.assertTrue(os.path.exists(path))
-
-        store.remove(query, store_type)
-        self.assertFalse(os.path.exists(path))

@@ -9,12 +9,11 @@ import pandas as pd
 
 from apis import flickr_api
 from apis.flickr_api import FlickrQuery
-import store
-from store import StoreType
-import config
-from geo import Map
+from main import store
 
-DOCS_IMG_PATH = join('docs', 'source', 'img')
+# todo: correct path
+... DOCS_IMG_PATH = path.join('docs', 'source', 'img')
+
 RADIUS = 30
 TEST_TAGS = ('flooding', 'Bob Dylan', 'house', 'music', 'grass', 'baby')
 PLOT_START_YEAR = 2004
@@ -36,7 +35,7 @@ def compute_geotag_usage():
 
         tags = [tag]
 
-        query = FlickrQuery(tags=tags, year=year )
+        query = FlickrQuery(tags=tags, year=year)
         geotagged_query = FlickrQuery(tags=tags, year=year, only_geotagged=True)
 
         total = flickr_api.count_photos(query)
@@ -49,12 +48,12 @@ def plot_photos_per_year(woe_id=None, use_cache=False, save2docs=False):
     if not use_cache:
         for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
             query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
-            store.save(query, store.N_PHOTOS)
+            store.save(store.N_PHOTOS, query)
 
     series = pd.Series()
     for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
         query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
-        n_photos = store.read(query, store.N_PHOTOS)
+        n_photos = store.read(store.N_PHOTOS, query)
         series.set_value(year, n_photos)
 
     series.plot(kind='bar', use_index=True)
@@ -80,9 +79,9 @@ def plot_normalized_tag_usage(tags=None, woe_id=None, save2docs=False):
 
     for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
         tag_query = FlickrQuery(tags=tags, woe_id=woe_id, year=year)
-        n_photos_tags = store.read(tag_query, store.N_PHOTOS)
+        n_photos_tags = store.read(store.N_PHOTOS, tag_query)
         total_query = FlickrQuery(woe_id=woe_id, year=year)
-        n_photos_total = store.read(total_query, store.N_PHOTOS)
+        n_photos_total = store.read(store.N_PHOTOS, total_query)
         series.set_value(year, n_photos_tags / n_photos_total)
 
     series.plot(kind='bar', use_index=True)
@@ -113,38 +112,42 @@ def plot_wsl_flooding_data():
     path = join(DOCS_IMG_PATH, 'wsl')
     plt.savefig(path)
 
+# TODO adapt method save_map to new store refactoring
 
-def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, mix_points=False, formats=['png']):
-    if not use_cache:
-        for query in queries:
-            store.save(query, StoreType.POINTS)
-
-    box = config.EUROPE_RESTRICTED
-    map = Map(bounding_box=box)
-
-    if mix_points:
-        all_points = []
-        for query in queries:
-            points = store.read(query, StoreType.POINTS)
-            all_points.append(points)
-        map.draw_densities(all_points, n_bins)
-
-    else:
-        i = 0
-        for query in queries:
-            points = store.read(query, StoreType.POINTS)
-            color_map = color_maps[i]
-            i += 1
-            map.draw_densities(points, n_bins=n_bins, color_map=color_map)
-
-    for format in formats:
-        path = 'plots/map%s.%s' % (time.time(), format)
-        map.save(path, format=format)
+#
+# def save_map(queries, use_cache=False, n_bins=60, color_maps=config.COLOR_MAPS, mix_points=False, formats=['png']):
+#     if not use_cache:
+#         for query in queries:
+#             store.save(query, StoreType.POINTS)
+#
+#     box = config.EUROPE_RESTRICTED
+#     map = Map(bounding_box=box)
+#
+#     if mix_points:
+#         all_points = []
+#         for query in queries:
+#             points = store.read(query, StoreType.POINTS)
+#             all_points.append(points)
+#         map.draw_densities(all_points, n_bins)
+#
+#     else:
+#         i = 0
+#         for query in queries:
+#             points = store.read(query, StoreType.POINTS)
+#             color_map = color_maps[i]
+#             i += 1
+#             map.draw_densities(points, n_bins=n_bins, color_map=color_map)
+#
+#     for format in formats:
+#         path = 'plots/map%s.%s' % (time.t
+# ime(), format)
+#         map.save(path, format=format)
 
 
 # def save_europa_map():
 #     languages = ['de', 'fr', 'it']
-#     queries = [FlickrQuery(language=language, query_type=FlickrQueryType.TAGS, only_geotagged=True) for language in languages]
+#     queries = [FlickrQuery(language=language, query_type=FlickrQueryType. \
+#       TAGS, only_geotagged=True) for language in languages]
 #     save_map(queries, use_cache=True, n_bins=40, formats=['png', 'svg'])
 
 

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
+# todo: highly refactor!
+
 from matplotlib import colors
 from matplotlib.colors import LinearSegmentedColormap
-
-from apis.flickr_api import FlickrQuery
-from geo import BoundingBox
 
 # LIGHT_BLUE = (166,206,227)
 # DARK_BLUE = 31,120,180

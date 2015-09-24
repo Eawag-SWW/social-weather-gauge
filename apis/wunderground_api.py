@@ -14,7 +14,7 @@ class WundergroundQuery(Query):
         self.end = end
 
 
-def get_rain(query: WundergroundQuery):
+def get_rain(query: Query):
 
     params = {
         'place': query.place_id,

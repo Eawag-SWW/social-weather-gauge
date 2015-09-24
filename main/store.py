@@ -1,12 +1,10 @@
-from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import datetime, date
 from dateutil.rrule import DAILY, rrule
 import logging
 import os
+from os import path
 import pickle
 from os.path import join
-
-import pandas as pd
 
 from apis import twitter_api, flickr_api, Query, wunderground_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
@@ -33,13 +31,13 @@ N_PHOTOS = StoreType(join(STORE_DIR, FLICKR_DIR, 'n_photos'))
 WUNDERGROUND_RAIN = StoreType(join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
 
 
-def read(query, store_type):
+def read(store_type: StoreType, query: Query):
     logger.info('Reading store for %s.', query)
     path = _get_storage_path(query, store_type)
 
     if not os.path.exists(path):
         logger.info('No data found in store. Will retrieve new data.')
-        save(query, store_type)
+        save(store_type, query)
         logger.info('Data retrieved and saved in store.')
 
     with open(path, 'rb') as f:
@@ -47,9 +45,12 @@ def read(query, store_type):
         return answer
 
 
-def save(query, store_type):
+def save(store_type: StoreType, query):
+    """Downloads and saves data on disc according to query and store_type."""
 
     storage_path = _get_storage_path(query, store_type)
+    if os.path.exists(storage_path):
+        raise Exception('Data for query %s already in store.', query)
 
     if store_type == STREAMING_TWEETS:
         listener = twitter_api.StoringListener(status_handler=_save_streaming_tweet)
@@ -66,52 +67,38 @@ def save(query, store_type):
             pickle.dump(n_photos, f)
 
     elif store_type == WUNDERGROUND_RAIN:
-        ...
+        rain_series = wunderground_api.get_rain(query)
+        with open(storage_path, 'wb') as f:
+            pickle.dump(rain_series, f)
 
     else:
         raise RuntimeError('Store for %s not yet implemented.', store_type)
 
-        # path = _get_path(query, type)
-        #
 
-        #
-        # elif type == StoreType.POINTS:
-        #     points = flickr_api.get_points(query)
-        #     f = open(path, 'wb')
-        #     pickle.dump(points, f)
-        #
-        # elif type == StoreType.TWEETS:
-        #     tweets = twitter_api.download_tweets(query)
-        #     f = open(path, 'wb')
-        #     pickle.dump(tweets, f)
-        #
-        #
-
-
-def get_search_tweets(place_id, begin, end=None):
+def get_search_tweets(place_id: str, begin: date, end: date = None):
 
     tweets = []
     if end == None:
         end = begin
     for day in rrule(DAILY, dtstart=begin, until=end):
         query = TwitterSearchQuery(place_id=place_id, date=day)
-        statuses = read(query, store_type=SEARCH_TWEETS)
+        statuses = read(store_type=SEARCH_TWEETS, query=query)
         for status in statuses:
             tweets.append(Tweet(status))
     return tweets
 
 
-def remove(query: Query, store_type: StoreType):
+def remove(store_type: StoreType, query: Query):
     return None
 
 
 def _get_storage_path(query, store_type):
 
     extension = 'p'
-
-    dirname = store_type.directory
+    dir_name = store_type.directory
     filename = '%s.%s' % (repr(query), extension)
-    return os.path.join(dirname, filename)
+
+    return os.path.join(dir_name, filename)
 
 
 def _save_streaming_tweet(status):
@@ -149,3 +136,22 @@ def _save_streaming_tweet(status):
 #     dataframe.sort(inplace=True)
 #     dataframe = dataframe[begin:end]
 #     return dataframe
+
+
+def _pickle_to_file(object, storage_path):
+    ...
+
+
+def get_twitter_place(twitter_place_id: str):
+
+    file_name = '%s.p' % twitter_place_id
+    storage_path = path.join(STORE_DIR, TWITTER_DIR, 'place', file_name)
+    if not path.exists(storage_path):
+        try:
+            twitter_place = twitter_api.api.geo_id(twitter_place_id)
+        except:
+            twitter_api.print_limit_status()
+            raise RuntimeError('No data from twitter api. Probably rate limit problem.')
+        _pickle_to_file(twitter_place, storage_path)
+    return _depickle_from_file(storage_path)
+
