@@ -13,6 +13,13 @@ class WundergroundQuery(Query):
         self.begin = begin
         self.end = end
 
+    def __repr__(self):
+        date_format = '%y-%m-%d'
+        representation = '%s_%s_%s' % (self.place_id,
+                                       self.begin.strftime(date_format),
+                                       self.end.strftime(date_format))
+        return representation
+
 
 def get_rain(query: Query):
 

@@ -1,5 +1,6 @@
 from datetime import date
 from apis import wunderground_api
+from apis.wunderground_api import WundergroundQuery
 
 __author__ = 'dominic'
 
@@ -20,7 +21,8 @@ class GetRainTest(unittest.TestCase):
 
         begin = date(2015, 8, 25)
         end = date(2015, 9, 2)
-        actual = wunderground_api.get_rain('EGLL', begin, end)
+        query = WundergroundQuery('EGLL', begin, end)
+        actual = wunderground_api.get_rain(query)
 
         pdt.assert_series_equal(actual, goal)
 

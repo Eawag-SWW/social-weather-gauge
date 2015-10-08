@@ -8,7 +8,7 @@ from os.path import join
 
 from apis import twitter_api, flickr_api, Query, wunderground_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
-
+from main.geo import Place
 
 STORE_DIR = 'store'
 FLICKR_DIR = 'flickr'
@@ -33,7 +33,7 @@ WUNDERGROUND_RAIN = StoreType(join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
 
 def read(store_type: StoreType, query: Query):
     logger.info('Reading store for %s.', query)
-    path = _get_storage_path(query, store_type)
+    path = _get_storage_path(store_type, query)
 
     if not os.path.exists(path):
         logger.info('No data found in store. Will retrieve new data.')
@@ -48,7 +48,7 @@ def read(store_type: StoreType, query: Query):
 def save(store_type: StoreType, query):
     """Downloads and saves data on disc according to query and store_type."""
 
-    storage_path = _get_storage_path(query, store_type)
+    storage_path = _get_storage_path(store_type, query)
     if os.path.exists(storage_path):
         raise Exception('Data for query %s already in store.', query)
 
@@ -89,10 +89,14 @@ def get_search_tweets(place_id: str, begin: date, end: date = None):
 
 
 def remove(store_type: StoreType, query: Query):
-    return None
+    storage_path = _get_storage_path(store_type, query)
+    if os.path.exists(storage_path):
+        logger.warning('Trying to remove store item which does not exist.')
+    else:
+        os.remove(storage_path)
 
 
-def _get_storage_path(query, store_type):
+def _get_storage_path(store_type: StoreType, query: Query):
 
     extension = 'p'
     dir_name = store_type.directory
@@ -110,6 +114,32 @@ def _save_streaming_tweet(status):
     with open(path, mode='w') as f:
         pickle.dump(status, f)
 
+
+def _pickle_to_file(object, storage_path):
+    with open(storage_path, 'wb') as f:
+        pickle.dump(object, f)
+
+
+def _depickle_from_file(storage_path):
+    with open(storage_path, 'rb') as f:
+        return pickle.load(f)
+
+
+def get_place(twitter_place_id: str):
+
+    file_name = '%s.p' % twitter_place_id
+    storage_path = path.join(STORE_DIR, TWITTER_DIR, 'place', file_name)
+    if not path.exists(storage_path):
+        try:
+            twitter_place = twitter_api.api.geo_id(twitter_place_id)
+        except:
+            twitter_api.print_limit_status()
+            raise RuntimeError('No data from twitter api. Probably rate limit problem.')
+        _pickle_to_file(twitter_place, storage_path)
+
+    twitter_place = _depickle_from_file(storage_path)
+
+    return Place(twitter_place)
 
 # def get_tweets(store_type):
 #     tweets = []
@@ -136,22 +166,3 @@ def _save_streaming_tweet(status):
 #     dataframe.sort(inplace=True)
 #     dataframe = dataframe[begin:end]
 #     return dataframe
-
-
-def _pickle_to_file(object, storage_path):
-    ...
-
-
-def get_twitter_place(twitter_place_id: str):
-
-    file_name = '%s.p' % twitter_place_id
-    storage_path = path.join(STORE_DIR, TWITTER_DIR, 'place', file_name)
-    if not path.exists(storage_path):
-        try:
-            twitter_place = twitter_api.api.geo_id(twitter_place_id)
-        except:
-            twitter_api.print_limit_status()
-            raise RuntimeError('No data from twitter api. Probably rate limit problem.')
-        _pickle_to_file(twitter_place, storage_path)
-    return _depickle_from_file(storage_path)
-

@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
 from apis import twitter_api
-from main import store
 
 
 class BoundingBox(object):
@@ -40,17 +39,11 @@ ZURICH_EXTENDED.south_west_lon = 8.448060
 
 
 class Place(object):
-    def __init__(self, twitter_place_id):
-        self.twitter_place_id = twitter_place_id
-        twitter_place = store.get_twitter_place(twitter_place_id)
-
+    def __init__(self, twitter_place):
         self.centroid_lat = twitter_place.centroid[0]
         self.centroid_lon = twitter_place.centroid[1]
         twitter_bounding_box = twitter_place.bounding_box
         self.bounding_box = BoundingBox(twitter_bounding_box)
-
-LONDON_CITY = Place(twitter_api.PLACE_ID_LONDON_CITY)
-LONDON_ADMIN = Place(twitter_api.PLACE_ID_LONDON_ADMIN)
 
 
 class MapResolution(Enum):

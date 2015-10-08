@@ -1,5 +1,7 @@
 """ 
-Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery. Enable downloading tweets for search queries and to start streaming with filtering according to a given TwitterStreamingQuery. 
+Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery.
+Enable downloading tweets for search queries and to start streaming with filtering
+ according to a given TwitterStreamingQuery.
 """
 
 from datetime import timedelta, datetime
@@ -132,13 +134,9 @@ def start_streaming(stream_listener, bounding_box=None):
         # track = []
     try:
         stream.filter(**parameters)
-    except:
+    except Exception:
         logger.error('Streaming error. Will try egain.')
         start_streaming(stream_listener, bounding_box)
-
-
-def date_string_to_datetime(date):
-    pass
 
 
 def print_places(query_string):
@@ -152,6 +150,7 @@ def print_places(query_string):
 def print_place(place_id):
     response = api.geo_id(place_id)
     pprint(vars(response))
+
 
 def print_limit_status():
     status = api.rate_limit_status()

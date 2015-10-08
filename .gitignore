@@ -1,7 +1,5 @@
 *.pyc
 main/secrets.py
-*.sublime-project
 *.sublime-workspace
-.dist
 docs/build
 .idea/workspace.xml
