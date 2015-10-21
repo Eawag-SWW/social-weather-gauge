@@ -1,5 +1,6 @@
 from datetime import datetime, date
 import logging
+from os.path import join
 
 from dateutil.rrule import DAILY, rrule
 import nltk
@@ -8,7 +9,7 @@ import matplotlib.pyplot as plt
 
 from apis import wunderground_api
 from apis.wunderground_api import WundergroundQuery
-from main import store
+from main import store, config
 from main.geo import Place
 
 logger = logging.getLogger('main')
@@ -84,13 +85,11 @@ def get_topic_distribution(topic: Topic, place: Place, begin: date, end: date):
 
 def plot_rain_comparison(place: Place, begin: date, end: date):
 
-    if hasattr(place, 'wunderground_place_id'):
-        wunderground_place_id = place.wunderground_place_id
-    else:
+    if not hasattr(place, 'wunderground_id'):
         raise Exception('Place has no wunderground id.')
 
-    wunderground_query = WundergroundQuery(wunderground_place_id, begin, end)
-    wunderground_rain = wunderground_api.get_rain(wunderground_query)
+    wunderground_query = WundergroundQuery(place.wunderground_id, begin, end)
+    wunderground_rain = store.read(store.WUNDERGROUND_RAIN, wunderground_query)
 
     twitter_rain = get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
 
@@ -107,7 +106,8 @@ def plot_rain_comparison(place: Place, begin: date, end: date):
     print('correlation:')
     print(frame.corr())
 
-    plt.show()
+    filename = join(config.TWITTER_PLOT_DIR, wunderground_query, '.png')
+    plt.savefig()
 
 
 #
@@ -127,6 +127,7 @@ def plot_rain_comparison(place: Place, begin: date, end: date):
 if __name__ == '__main__':
     begin = date(2015, 8, 25)
     end = date(2015, 9, 2)
+    plot_rain_comparison(store.)
 
     # plot_wolrdwheateronline_precipitation(place=place, begin=begin, end=end)
     # plot_topic_distribution(topic=RAIN, place_id=twitter_place_id, begin=begin, end=end)

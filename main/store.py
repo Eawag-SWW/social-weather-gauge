@@ -8,9 +8,10 @@ from os.path import join
 
 from apis import twitter_api, flickr_api, Query, wunderground_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
+from main import config
 from main.geo import Place
 
-STORE_DIR = 'store'
+STORE_DIR = join(config.ROOT_DIR, 'store')
 FLICKR_DIR = 'flickr'
 TWITTER_DIR = 'twitter'
 WUNDERGROUND_DIR = 'wunderground'
@@ -33,14 +34,14 @@ WUNDERGROUND_RAIN = StoreType(join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
 
 def read(store_type: StoreType, query: Query):
     logger.info('Reading store for %s.', query)
-    path = _get_storage_path(store_type, query)
+    storage_path = _get_storage_path(store_type, query)
 
-    if not os.path.exists(path):
+    if not os.path.exists(storage_path):
         logger.info('No data found in store. Will retrieve new data.')
         save(store_type, query)
         logger.info('Data retrieved and saved in store.')
 
-    with open(path, 'rb') as f:
+    with open(storage_path, 'rb') as f:
         answer = pickle.load(f)
         return answer
 
@@ -90,7 +91,7 @@ def get_search_tweets(place_id: str, begin: date, end: date = None):
 
 def remove(store_type: StoreType, query: Query):
     storage_path = _get_storage_path(store_type, query)
-    if os.path.exists(storage_path):
+    if not os.path.exists(storage_path):
         logger.warning('Trying to remove store item which does not exist.')
     else:
         os.remove(storage_path)

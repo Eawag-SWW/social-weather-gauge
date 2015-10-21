@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 # todo: highly refactor!
+from os.path import join
 
 from matplotlib import colors
 from matplotlib.colors import LinearSegmentedColormap
+
+ROOT_DIR = '/home/dominic/projects/social-media-mining'
+TWITTER_PLOT_DIR = join(ROOT_DIR, 'plots', 'twitter')
 
 # LIGHT_BLUE = (166,206,227)
 # DARK_BLUE = 31,120,180
