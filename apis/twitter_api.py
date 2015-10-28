@@ -22,6 +22,7 @@ PLACE_ID_LONDON_CITY = '457b4814b4240d87'
 PLACE_ID_LONDON_ADMIN = '5d838f7a011f4a2d'
 PLACE_ID_UGANDA = '939067979a7f3b95'
 PLACE_ID_DUBLIN_CITY = '7dde0febc9ef245b'
+PLACE_ID_SEATTLE = '300bcc6e23a88361'
 
 CONSUMER_KEY = secrets.TWITTER_CONSUMER_KEY
 CONSUMER_SECRET = secrets.TWITTER_CONSUMER_SECRET
@@ -108,8 +109,8 @@ class PrintingListener(TwitterStreamListener):
         pprint(vars(status))
 
 
-def download_search_tweets(query):
-    logger.info('Downloading Tweets for query %s ...', query)
+def download_search_tweets(query: TwitterSearchQuery):
+    logger.info('Downloading Tweets for query %s.', query)
     tweets = []
     place_id = query.place_id
     date = query.date
@@ -120,7 +121,7 @@ def download_search_tweets(query):
     cursor = Cursor(api.search, q=query, count=100)
     for tweet in list(cursor.items()):
         tweets.append(tweet)
-    logger.info('... finished.')
+    logger.info('Download finished.')
     return tweets
 
 
@@ -159,6 +160,7 @@ def print_limit_status():
     pprint(search_status)
     geo_status = status['resources']['geo']
     pprint(geo_status)
+
 
 if __name__ == '__main__':
     print_limit_status()

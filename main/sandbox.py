@@ -2,7 +2,7 @@
 
 import logging
 from pprint import pprint
-from datetime import datetime
+from datetime import datetime, date
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -15,7 +15,7 @@ from apis import flickr_api, twitter_api
 from temp import instagram_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
-from main import twitter_analysis
+from main import twitter_analysis, flickr_analysis, store, geo
 from main.twitter_analysis import RAIN
 
 logger = logging.getLogger('main')
@@ -228,7 +228,21 @@ def coordinate():
     for point in response.bounding_box.coordinates[0]:
         print(point)
 
+
+def twitter_place_id():
+    twitter_place = store.get_twitter_place(twitter_api.PLACE_ID_LONDON_CITY)
+    pprint(vars(twitter_place))
+
+
+def tweets():
+    place_id = twitter_api.PLACE_ID_SEATTLE
+    twitter_place = store.get_twitter_place(place_id)
+    place = geo.Place(twitter_place, 'KBFI')
+    begin = date(2015, 10, 20)
+    end = date(2015, 10, 27)
+    twitter_analysis.plot_rain_comparison(place, begin, end)
+
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-
+    tweets()

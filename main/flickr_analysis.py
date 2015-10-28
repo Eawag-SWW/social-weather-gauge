@@ -5,6 +5,7 @@ import time
 from os.path import join
 
 import matplotlib.pyplot as plt
+from os import path
 import pandas as pd
 
 from apis import flickr_api
@@ -12,7 +13,7 @@ from apis.flickr_api import FlickrQuery
 from main import store
 
 # todo: correct path
-... DOCS_IMG_PATH = path.join('docs', 'source', 'img')
+DOCS_IMG_PATH = path.join('docs', 'source', 'img')
 
 RADIUS = 30
 TEST_TAGS = ('flooding', 'Bob Dylan', 'house', 'music', 'grass', 'baby')
@@ -25,6 +26,14 @@ FLOODING_TAGS['en'] = 'flood, high-water'
 FLOODING_TAGS['it'] = 'inondazione, alluvione'
 
 logger = logging.getLogger('main')
+
+def print_totals(flickr_queries):
+    for query in flickr_queries:
+        string = '''
+        Query: %s
+        Total: %d
+        '''
+        print(string % (query, flickr_api.count_photos(query)))
 
 
 def compute_geotag_usage():

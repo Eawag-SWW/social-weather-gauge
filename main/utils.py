@@ -20,13 +20,7 @@ from apis import flickr_api
 #     print('time: %.2f seconds' % seconds)
 
 
-def print_totals(queries):
-    for query in queries:
-        string = '''
-        Query: %s
-        Total: %d
-        '''
-        print(string % (query, flickr_api.count_photos(query)))
+
 
 class Stopwatch(object):
     def start(self):

@@ -9,9 +9,9 @@ from os.path import join
 from apis import twitter_api, flickr_api, Query, wunderground_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
 from main import config
-from main.geo import Place
 
-STORE_DIR = join(config.ROOT_DIR, 'store')
+
+STORE_DIR = join(config.ROOT_DIR, 'store_room')
 FLICKR_DIR = 'flickr'
 TWITTER_DIR = 'twitter'
 WUNDERGROUND_DIR = 'wunderground'
@@ -28,15 +28,22 @@ class StoreType(object):
 
 STREAMING_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'stream'))
 SEARCH_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'search'))
+TWITTER_PLACE = StoreType(join(STORE_DIR, TWITTER_DIR, 'place'))
 N_PHOTOS = StoreType(join(STORE_DIR, FLICKR_DIR, 'n_photos'))
 WUNDERGROUND_RAIN = StoreType(join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
+
+store_types = [STREAMING_TWEETS, SEARCH_TWEETS, TWITTER_PLACE, N_PHOTOS, WUNDERGROUND_RAIN]
+for store_type in store_types:
+    directory = store_type.directory
+    if not path.exists(directory):
+        os.mkdir(directory)
 
 
 def read(store_type: StoreType, query: Query):
     logger.info('Reading store for %s.', query)
     storage_path = _get_storage_path(store_type, query)
 
-    if not os.path.exists(storage_path):
+    if not path.exists(storage_path):
         logger.info('No data found in store. Will retrieve new data.')
         save(store_type, query)
         logger.info('Data retrieved and saved in store.')
@@ -75,18 +82,18 @@ def save(store_type: StoreType, query):
     else:
         raise RuntimeError('Store for %s not yet implemented.', store_type)
 
-
-def get_search_tweets(place_id: str, begin: date, end: date = None):
-
-    tweets = []
-    if end == None:
-        end = begin
-    for day in rrule(DAILY, dtstart=begin, until=end):
-        query = TwitterSearchQuery(place_id=place_id, date=day)
-        statuses = read(store_type=SEARCH_TWEETS, query=query)
-        for status in statuses:
-            tweets.append(Tweet(status))
-    return tweets
+# TODO outdated?
+# def get_search_tweets(place_id: str, begin: date, end: date = None):
+#
+#     tweets = []
+#     if end is None:
+#         end = begin
+#     for day in rrule(DAILY, dtstart=begin, until=end):
+#         query = TwitterSearchQuery(place_id=place_id, date=day)
+#         statuses = read(store_type=SEARCH_TWEETS, query=query)
+#         for status in statuses:
+#             tweets.append(Tweet(status))
+#     return tweets
 
 
 def remove(store_type: StoreType, query: Query):
@@ -116,9 +123,9 @@ def _save_streaming_tweet(status):
         pickle.dump(status, f)
 
 
-def _pickle_to_file(object, storage_path):
+def _pickle_to_file(object_to_pickle, storage_path):
     with open(storage_path, 'wb') as f:
-        pickle.dump(object, f)
+        pickle.dump(object_to_pickle, f)
 
 
 def _depickle_from_file(storage_path):
@@ -126,10 +133,10 @@ def _depickle_from_file(storage_path):
         return pickle.load(f)
 
 
-def get_place(twitter_place_id: str):
+def get_twitter_place(twitter_place_id: str):
 
     file_name = '%s.p' % twitter_place_id
-    storage_path = path.join(STORE_DIR, TWITTER_DIR, 'place', file_name)
+    storage_path = join(TWITTER_PLACE.directory, file_name)
     if not path.exists(storage_path):
         try:
             twitter_place = twitter_api.api.geo_id(twitter_place_id)
@@ -139,8 +146,8 @@ def get_place(twitter_place_id: str):
         _pickle_to_file(twitter_place, storage_path)
 
     twitter_place = _depickle_from_file(storage_path)
+    return twitter_place
 
-    return Place(twitter_place)
 
 # def get_tweets(store_type):
 #     tweets = []

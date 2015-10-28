@@ -6,11 +6,15 @@ from dateutil.rrule import DAILY, rrule
 import nltk
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn
 
 from apis import wunderground_api
+from apis.twitter_api import PLACE_ID_LONDON_CITY, TwitterSearchQuery
 from apis.wunderground_api import WundergroundQuery
-from main import store, config
+from main import store, config, geo
+from main.config import TWITTER_PLOT_DIR
 from main.geo import Place
+from main.store import SEARCH_TWEETS
 
 logger = logging.getLogger('main')
 
@@ -64,7 +68,8 @@ def get_topic_distribution(topic: Topic, place: Place, begin: date, end: date):
         n_tweets = 0
         n_positive = 0
         place_id = place.twitter_place_id
-        tweets = store.get_search_tweets(place_id, day)
+        query = TwitterSearchQuery(place_id, day)
+        tweets = store.read(SEARCH_TWEETS, query)
         for tweet in tweets:
             n_tweets += 1
             if contains_topic(tweet, topic):
@@ -106,9 +111,17 @@ def plot_rain_comparison(place: Place, begin: date, end: date):
     print('correlation:')
     print(frame.corr())
 
-    filename = join(config.TWITTER_PLOT_DIR, wunderground_query, '.png')
-    plt.savefig()
+    filename = '%s.png' % wunderground_query
+    storage_path = join(TWITTER_PLOT_DIR, filename)
+    plt.savefig(storage_path)
 
+
+if __name__ == '__main__':
+    begin = date(2015, 8, 25)
+    end = date(2015, 9, 2)
+    twitter_place = store.get_twitter_place(PLACE_ID_LONDON_CITY)
+    place = Place(twitter_place, 'EGLL')
+    plot_rain_comparison(place, begin, end)
 
 #
 # def plot_wolrdwheateronline_precipitation(place, begin, end):
@@ -124,18 +137,8 @@ def plot_rain_comparison(place: Place, begin: date, end: date):
 #     path = join(dir, 'wwo_%s.png' % time.time())
 #     plt.savefig(path)
 
-if __name__ == '__main__':
-    begin = date(2015, 8, 25)
-    end = date(2015, 9, 2)
-    plot_rain_comparison(store.)
-
-    # plot_wolrdwheateronline_precipitation(place=place, begin=begin, end=end)
-    # plot_topic_distribution(topic=RAIN, place_id=twitter_place_id, begin=begin, end=end)
-
-
-
-
-
+# plot_wolrdwheateronline_precipitation(place=place, begin=begin, end=end)
+# plot_topic_distribution(topic=RAIN, place_id=twitter_place_id, begin=begin, end=end)
 
 # def plot_streaming_tweets():
 # begin = datetime(2015, 7, 8, 0)
@@ -152,4 +155,3 @@ if __name__ == '__main__':
 #     dataframe = store.get_tweets_dataframe(store_type, begin, end)
 #     pd.set_option('display.max_colwidth', -1)
 #     print dataframe.to_string(columns=['text', 'hashtags'])
-
