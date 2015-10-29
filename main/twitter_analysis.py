@@ -24,6 +24,9 @@ class Topic(object):
         self.terms = terms
 
 
+class TopicSummary(object):
+    pass
+
 RAIN_TERMS = dict({'en': ['rain']})
 RAIN = Topic(RAIN_TERMS)
 
@@ -60,7 +63,7 @@ def contains_topic(tweet, topic):
         return False
 
 
-def get_topic_distribution(topic: Topic, place: Place, begin: date, end: date):
+def get_topic_summary(topic: Topic, place: Place, begin: date, end: date) -> TopicSummary:
 
     rows = []
 
@@ -85,10 +88,12 @@ def get_topic_distribution(topic: Topic, place: Place, begin: date, end: date):
 
     logger.info(frame)
 
-    return frame['percent']
+    topic_summary = TopicSummary()
+    topic_summary.frequency_series = frame['percent']
+    return topic_summary
 
 
-def plot_rain_comparison(place: Place, begin: date, end: date):
+def save_place_overview(place: Place, begin: date, end: date):
 
     if not hasattr(place, 'wunderground_id'):
         raise Exception('Place has no wunderground id.')
@@ -96,9 +101,11 @@ def plot_rain_comparison(place: Place, begin: date, end: date):
     wunderground_query = WundergroundQuery(place.wunderground_id, begin, end)
     wunderground_rain = store.read(store.WUNDERGROUND_RAIN, wunderground_query)
 
-    twitter_rain = get_topic_distribution(topic=RAIN, place=place, begin=begin, end=end)
+    topic_summary = get_topic_summary(topic=RAIN, place=place, begin=begin, end=end)
+    twitter_rain = topic_summary.frequency_series
 
     title = '%s\n%s-%s' % (place, begin, end)
+    plt.title(title)
 
     plt.subplot(2, 1, 1)
     wunderground_rain.plot(label='Wunderground', legend=True)
@@ -111,9 +118,8 @@ def plot_rain_comparison(place: Place, begin: date, end: date):
     print('correlation:')
     print(frame.corr())
 
-    filename = '%s.png' % wunderground_query
-    storage_path = join(TWITTER_PLOT_DIR, filename)
-    plt.savefig(storage_path)
+    plot_id = '%s_%s_%s' % (place, begin, end)
+    util.save_plot(id=plot_id, directory=TWITTER_PLOT_DIR)
 
 
 if __name__ == '__main__':
@@ -121,7 +127,7 @@ if __name__ == '__main__':
     end = date(2015, 9, 2)
     twitter_place = store.get_twitter_place(PLACE_ID_LONDON_CITY)
     place = Place(twitter_place, 'EGLL')
-    plot_rain_comparison(place, begin, end)
+    save_place_overview(place, begin, end)
 
 #
 # def plot_wolrdwheateronline_precipitation(place, begin, end):

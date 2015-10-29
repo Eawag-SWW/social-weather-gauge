@@ -240,7 +240,7 @@ def tweets():
     place = geo.Place(twitter_place, 'KBFI')
     begin = date(2015, 10, 20)
     end = date(2015, 10, 27)
-    twitter_analysis.plot_rain_comparison(place, begin, end)
+    twitter_analysis.save_place_overview(place, begin, end)
 
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
