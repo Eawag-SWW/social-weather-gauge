@@ -3,3 +3,4 @@ main/secrets.py
 *.sublime-workspace
 docs/build
 .idea/workspace.xml
+.vagrant
