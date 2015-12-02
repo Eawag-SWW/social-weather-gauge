@@ -12,11 +12,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   flickr
-   twitter
-   helper-apis
-   results
-   codebase
+   main/flickr
+   main/twitter
+   main/helper-apis
+   main/results
+   main/code
    modules
 
 
