@@ -176,7 +176,7 @@ def flickr_data():
 
 def flickr_plot():
     tags = flickr_analysis.FLOODING_TAGS['de']
-    flickr_analysis.plot_normalized_tag_usage(tags, flickr_api.WOE_ID_SWITZERLAND, True)
+    flickr_analysis.plot_normalized_tag_usage_per_year(tags, flickr_api.WOE_ID_SWITZERLAND, True)
 
 
 def places():

@@ -4,14 +4,13 @@ import logging
 import os
 from os import path
 import pickle
-from os.path import join
 
 from apis import twitter_api, flickr_api, Query, wunderground_api
 from apis.twitter_api import Tweet, TwitterSearchQuery
-from main import config
+from main.local_config import ROOT_DIR
 
 
-STORE_DIR = join(config.ROOT_DIR, 'store_room')
+STORE_DIR = path.join(ROOT_DIR, 'store_room')
 FLICKR_DIR = 'flickr'
 TWITTER_DIR = 'twitter'
 WUNDERGROUND_DIR = 'wunderground'
@@ -26,11 +25,11 @@ class StoreType(object):
         self.directory = directory
 
 
-STREAMING_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'stream'))
-SEARCH_TWEETS = StoreType(join(STORE_DIR, TWITTER_DIR, 'search'))
-TWITTER_PLACE = StoreType(join(STORE_DIR, TWITTER_DIR, 'place'))
-N_PHOTOS = StoreType(join(STORE_DIR, FLICKR_DIR, 'n_photos'))
-WUNDERGROUND_RAIN = StoreType(join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
+STREAMING_TWEETS = StoreType(path.join(STORE_DIR, TWITTER_DIR, 'stream'))
+SEARCH_TWEETS = StoreType(path.join(STORE_DIR, TWITTER_DIR, 'search'))
+TWITTER_PLACE = StoreType(path.join(STORE_DIR, TWITTER_DIR, 'place'))
+N_PHOTOS = StoreType(path.join(STORE_DIR, FLICKR_DIR, 'n_photos'))
+WUNDERGROUND_RAIN = StoreType(path.join(STORE_DIR, WUNDERGROUND_DIR, 'rain'))
 
 store_types = [STREAMING_TWEETS, SEARCH_TWEETS, TWITTER_PLACE, N_PHOTOS, WUNDERGROUND_RAIN]
 for store_type in store_types:

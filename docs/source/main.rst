@@ -20,6 +20,14 @@ main.geo module
     :undoc-members:
     :show-inheritance:
 
+main.local_config module
+------------------------
+
+.. automodule:: main.local_config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 main.store module
 -----------------
 

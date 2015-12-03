@@ -2,10 +2,12 @@
 
 import logging
 import time
+import os
 from os import path
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn
 
 from apis import flickr_api
 from apis.flickr_api import FlickrQuery
@@ -13,7 +15,11 @@ from main import store
 from main.local_config import ROOT_DIR
 from main.config import DOCS_IMG_PATH
 
-FLICKR_PLOT_DIR =  path.join(ROOT_DIR, 'plots', 'flickr')
+FLICKR_PLOT_DIR = path.join(ROOT_DIR, 'plots', 'flickr')
+if not path.exists(FLICKR_PLOT_DIR):
+    os.makedirs(FLICKR_PLOT_DIR)
+
+
 RADIUS = 30
 TEST_TAGS = ('flooding', 'Bob Dylan', 'house', 'music', 'grass', 'baby')
 PLOT_START_YEAR = 2004
@@ -27,38 +33,16 @@ FLOODING_TAGS['it'] = 'inondazione, alluvione'
 logger = logging.getLogger('main')
 
 
-def print_places(search_string: str):
-    response = flickr_api.get_places(search_string)
-    for place in response[0]:
-        template = '{name}({type}): woe_id {woe_id}'
-        name = place.attrib['woe_name']
-        type = place.attrib['place_type']
-        woe_id = place.attrib['woeid']
-        print(template.format(name=name, type=type, woe_id=woe_id))
-
-
-def compute_geotag_usage():
-
-    year = 2014
-
-    for tag in TEST_TAGS:
-
-        tags = [tag]
-
-        query = FlickrQuery(tags=tags, year=year)
-        geotagged_query = FlickrQuery(tags=tags, year=year, only_geotagged=True)
-
-        total = flickr_api.count_photos(query)
-        geotagged = flickr_api.count_photos(geotagged_query)
-        print('%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged))
-
-
 def plot_photos_per_year(woe_id=None, save2docs=False):
+    """
+    Saves the plot in the flickr plots directory.
+    Attention: Results are incorrect if there are to many photo
+    uploads per year for this place/country.
 
-    # if not use_cache:
-    #     for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
-    #         query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
-    #         store.save(store.N_PHOTOS, query)
+    :param woe_id: id of the place/country the data is based on
+    :param save2docs: this flags saves the plot directly in the documentation
+
+    """
 
     series = pd.Series()
 
@@ -85,7 +69,7 @@ def plot_photos_per_year(woe_id=None, save2docs=False):
         plt.savefig(target_path)
 
 
-def plot_normalized_tag_usage(tags=None, woe_id=None, save2docs=False):
+def plot_normalized_tag_usage_per_year(tags, woe_id, save2docs=False):
 
     series = pd.Series()
 
@@ -99,19 +83,37 @@ def plot_normalized_tag_usage(tags=None, woe_id=None, save2docs=False):
     series.plot(kind='bar', use_index=True)
 
     place_name = flickr_api.get_place_name(woe_id=woe_id)
-    title = '{}: {}'.format(place_name, tags).decode('utf-8')
+    title = '{}: {}'.format(place_name, tags)
     plt.title(title)
-    plt.ylabel('normalized tag usage')
-    plt.xlabel('year')
+    plt.ylabel('Normalized tag usage')
+    plt.xlabel('Year')
 
-    path = join('plots', 'flickr', '%s.png' % time.time())
-    plt.savefig(path)
+    file_name = '%s.png' % time.time()
+    target_path = path.join(FLICKR_PLOT_DIR, file_name)
+    plt.savefig(target_path)
 
     if save2docs:
         place_name_formatted = place_name.lower().replace(' ', '-')
         file_name = 'flickr_flooding_%s' % place_name_formatted
-        path = join(DOCS_IMG_PATH, file_name)
-        plt.savefig(path)
+        target_path = path.join(DOCS_IMG_PATH, file_name)
+        plt.savefig(target_path)
+
+
+def compute_geotag_usage():
+    """
+    Prints the relative amount of geotted photos for different tags. 
+    """
+    year = 2014
+
+    for tag in TEST_TAGS:
+
+        tags = [tag]
+        query = FlickrQuery(tags=tags, year=year)
+        geotagged_query = FlickrQuery(tags=tags, year=year, only_geotagged=True)
+
+        total = flickr_api.count_photos(query)
+        geotagged = flickr_api.count_photos(geotagged_query)
+        print('%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged))
 
 
 def plot_wsl_flooding_data():
@@ -166,7 +168,10 @@ def plot_wsl_flooding_data():
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    plot_wsl_flooding_data()
+
+    id = flickr_api.WOE_ID_SWITZERLAND
+    plot_normalized_tag_usage_per_year(['Blocher'], woe_id=id)
+
 
 
 

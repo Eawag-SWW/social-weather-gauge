@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """ Classes and functions which abstract over the flickr api. """
 
-import random
 import logging
 
 import flickrapi
@@ -108,9 +107,14 @@ def get_place_name(woe_id):
     return name
 
 
-def get_places(query):
-    response = flickr.places.find(query=query)
-    return response
+def find_woe_ids(search_string: str):
+    response = flickr.places.find(query=search_string)
+    for place in response[0]:
+        template = '{name}({type}): woe_id {woe_id}'
+        name = place.attrib['woe_name']
+        type = place.attrib['place_type']
+        woe_id = place.attrib['woeid']
+        print(template.format(name=name, type=type, woe_id=woe_id))
 
 
 
