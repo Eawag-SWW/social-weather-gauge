@@ -1,6 +1,9 @@
 *.pyc
-main/secrets.py
 *.sublime-workspace
-docs/build
 .idea/workspace.xml
 .vagrant
+main/secrets.py
+main/local-config.py
+docs/build
+store_room
+plots

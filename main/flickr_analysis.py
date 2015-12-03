@@ -2,19 +2,18 @@
 
 import logging
 import time
-from os.path import join
+from os import path
 
 import matplotlib.pyplot as plt
-from os import path
 import pandas as pd
 
 from apis import flickr_api
 from apis.flickr_api import FlickrQuery
 from main import store
+from main.local_config import ROOT_DIR
+from main.config import DOCS_IMG_PATH
 
-# todo: correct path
-DOCS_IMG_PATH = path.join('docs', 'source', 'img')
-
+FLICKR_PLOT_DIR =  path.join(ROOT_DIR, 'plots', 'flickr')
 RADIUS = 30
 TEST_TAGS = ('flooding', 'Bob Dylan', 'house', 'music', 'grass', 'baby')
 PLOT_START_YEAR = 2004
@@ -27,13 +26,15 @@ FLOODING_TAGS['it'] = 'inondazione, alluvione'
 
 logger = logging.getLogger('main')
 
-def print_totals(flickr_queries):
-    for query in flickr_queries:
-        string = '''
-        Query: %s
-        Total: %d
-        '''
-        print(string % (query, flickr_api.count_photos(query)))
+
+def print_places(search_string: str):
+    response = flickr_api.get_places(search_string)
+    for place in response[0]:
+        template = '{name}({type}): woe_id {woe_id}'
+        name = place.attrib['woe_name']
+        type = place.attrib['place_type']
+        woe_id = place.attrib['woeid']
+        print(template.format(name=name, type=type, woe_id=woe_id))
 
 
 def compute_geotag_usage():
@@ -52,34 +53,36 @@ def compute_geotag_usage():
         print('%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged))
 
 
-def plot_photos_per_year(woe_id=None, use_cache=False, save2docs=False):
+def plot_photos_per_year(woe_id=None, save2docs=False):
 
-    if not use_cache:
-        for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
-            query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
-            store.save(store.N_PHOTOS, query)
+    # if not use_cache:
+    #     for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
+    #         query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
+    #         store.save(store.N_PHOTOS, query)
 
     series = pd.Series()
+
     for year in range(PLOT_START_YEAR, PLOT_END_YEAR):
-        query = flickr_api.FlickrQuery(woe_id=woe_id, year=year)
+        query = FlickrQuery(woe_id=woe_id, year=year)
         n_photos = store.read(store.N_PHOTOS, query)
         series.set_value(year, n_photos)
 
     series.plot(kind='bar', use_index=True)
 
-    place_name = flickr_api.retrieve_place_name(woe_id=woe_id)
+    place_name = flickr_api.get_place_name(woe_id=woe_id)
     plt.title(place_name)
-    plt.ylabel('number of flickr photo uploads')
-    plt.xlabel('year')
+    plt.ylabel('Number of flickr photo uploads')
+    plt.xlabel('Year')
 
-    path = join('plots', 'flickr', '%s.png' % time.time())
-    plt.savefig(path)
+    file_name = '%s.png' % time.time()
+    target_path = path.join(FLICKR_PLOT_DIR, file_name)
+    plt.savefig(target_path)
 
     if save2docs:
         place_name_formatted = place_name.lower().replace(' ', '-')
         file_name = 'flickr_%s' % place_name_formatted
-        path = join(DOCS_IMG_PATH, file_name)
-        plt.savefig(path)
+        target_path = path.join(DOCS_IMG_PATH, file_name)
+        plt.savefig(target_path)
 
 
 def plot_normalized_tag_usage(tags=None, woe_id=None, save2docs=False):
@@ -95,7 +98,7 @@ def plot_normalized_tag_usage(tags=None, woe_id=None, save2docs=False):
 
     series.plot(kind='bar', use_index=True)
 
-    place_name = flickr_api.retrieve_place_name(woe_id=woe_id)
+    place_name = flickr_api.get_place_name(woe_id=woe_id)
     title = '{}: {}'.format(place_name, tags).decode('utf-8')
     plt.title(title)
     plt.ylabel('normalized tag usage')

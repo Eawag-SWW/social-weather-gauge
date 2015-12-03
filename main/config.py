@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 
 # todo: highly refactor!
+
 import os
-from os.path import join
+from os import path
 
 from matplotlib import colors
 from matplotlib.colors import LinearSegmentedColormap
-from os import path
+try:
+    from main.local_config import ROOT_DIR
+except:
+    raise RuntimeError('No ROOT_DIR defined in module local_config')
 
-ROOT_DIR = '/home/dominic/projects/social-media-mining'
-TWITTER_PLOT_DIR = join(ROOT_DIR, 'plots', 'twitter')
+TWITTER_PLOT_DIR = path.join(ROOT_DIR, 'plots', 'twitter')
+DOCS_IMG_PATH = path.join(ROOT_DIR, 'docs', 'source', 'img')
+
 if not path.exists(TWITTER_PLOT_DIR):
     os.makedirs(TWITTER_PLOT_DIR)
 

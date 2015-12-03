@@ -1,0 +1,1 @@
+ROOT_DIR = '/home/dominic/projects/social-media-mining'

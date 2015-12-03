@@ -102,20 +102,17 @@ def count_photos(query):
     return total
 
 
-def retrieve_place_name(woe_id):
+def get_place_name(woe_id):
     response = flickr.places.getInfo(woe_id=woe_id)
     name = response.find('place').attrib['name']
     return name
 
 
-def print_places(query):
+def get_places(query):
     response = flickr.places.find(query=query)
-    for place in response[0]:
-        template = '{name}({type}): woe_id {woe_id}'
-        name = place.attrib['woe_name']
-        type = place.attrib['place_type']
-        woe_id = place.attrib['woeid']
-        print(template.format(name=name, type=type, woe_id=woe_id))
+    return response
+
+
 
 
 def get_points(query, per_page=PER_PAGE_DEFAULT):

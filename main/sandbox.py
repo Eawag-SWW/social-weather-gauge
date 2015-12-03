@@ -181,7 +181,7 @@ def flickr_plot():
 
 def places():
     query = 'Deutschland'
-    flickr_api.print_places(query)
+    flickr_api.get_places(query)
 
 
 def rain_tweets(place):
