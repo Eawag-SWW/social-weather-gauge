@@ -9,7 +9,7 @@ Install
 
 - Install anaconda (https://www.continuum.io/downloads)
 - make a new conda environment called social-media-mining with
-    conda env create -f .conda-requirements.yml
+    conda env create -f .conda_requirements.yml
 
 - activate this new environment with
     source activate social-media-mining
