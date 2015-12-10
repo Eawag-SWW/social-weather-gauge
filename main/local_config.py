@@ -1,1 +1,1 @@
-ROOT_DIR = '/home/dominic/projects/social-media-mining'
+ROOT_DIR = '/Users/dominic/projects/social-media-mining'

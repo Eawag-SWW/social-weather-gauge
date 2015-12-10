@@ -10,6 +10,13 @@ Installation
 - add a file called `local_config.py` to folder `main` defining constant
     todo
 
+- download nltk tokenizers
+
+
+Logging
+-------
+activate logging...
+
 
 Documentation
 -------------

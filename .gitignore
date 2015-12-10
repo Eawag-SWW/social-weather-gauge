@@ -3,7 +3,7 @@
 .idea/workspace.xml
 .vagrant
 main/secrets.py
-main/local-config.py
+main/local_config.py
 docs/build
 store_room
 plots

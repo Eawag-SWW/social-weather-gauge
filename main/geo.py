@@ -45,6 +45,9 @@ class Place(object):
         twitter_bounding_box = twitter_place.bounding_box
         self.bounding_box = BoundingBox(twitter_bounding_box)
 
+    def __repr__(self):
+        return self.twitter_place_id
+
 
 class MapResolution(Enum):
     INTERMEDIATE = 1

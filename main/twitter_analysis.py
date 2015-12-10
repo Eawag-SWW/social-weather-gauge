@@ -132,20 +132,20 @@ def save_place_overview(place: Place, begin: date, end: date):
     wunderground_query = WundergroundQuery(place.wunderground_id, begin, end)
     wunderground_rain = store.read(store.WUNDERGROUND_RAIN, wunderground_query)
 
-    print(wunderground_rain)
-
     topic_summary = get_topic_summary(topic=RAIN, place=place, begin=begin, end=end)
     twitter_rain = topic_summary.frequency_series
 
     title = '%s\n%s-%s' % (place, begin, end)
     plt.title(title)
 
-    plt.subplot(2, 1, 1)
+    plt.subplot(3, 1, 1)
     wunderground_rain.plot(label='Wunderground', legend=True)
     twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
-    plt.text(topic_summary.table)
 
-    plt.subplot(2, 1, 2)
+    plt.subplot(3, 1, 2)
+    topic_summary.table.plot(table=True, ax=plt.gca())
+
+    plt.subplot(3, 1, 3)
     plt.scatter(twitter_rain, wunderground_rain)
 
     frame = pd.DataFrame({'twitter': twitter_rain, 'wunderground': wunderground_rain})
