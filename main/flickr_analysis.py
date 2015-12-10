@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import time
 import os
 from os import path
+import time
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -13,9 +13,9 @@ from apis import flickr_api
 from apis.flickr_api import FlickrQuery
 from main import store
 from main.local_config import ROOT_DIR
-from main.config import DOCS_IMG_PATH
+from main.config import DOCS_IMG_DIR, MISC_PLOTS_DIR, PLOTS_DIR
 
-FLICKR_PLOT_DIR = path.join(ROOT_DIR, 'plots', 'flickr')
+FLICKR_PLOT_DIR = path.join(PLOTS_DIR, 'flickr')
 if not path.exists(FLICKR_PLOT_DIR):
     os.makedirs(FLICKR_PLOT_DIR)
 
@@ -65,7 +65,7 @@ def plot_photos_per_year(woe_id=None, save2docs=False):
     if save2docs:
         place_name_formatted = place_name.lower().replace(' ', '-')
         file_name = 'flickr_%s' % place_name_formatted
-        target_path = path.join(DOCS_IMG_PATH, file_name)
+        target_path = path.join(DOCS_IMG_DIR, file_name)
         plt.savefig(target_path)
 
 
@@ -95,7 +95,7 @@ def plot_normalized_tag_usage_per_year(tags, woe_id, save2docs=False):
     if save2docs:
         place_name_formatted = place_name.lower().replace(' ', '-')
         file_name = 'flickr_flooding_%s' % place_name_formatted
-        target_path = path.join(DOCS_IMG_PATH, file_name)
+        target_path = path.join(DOCS_IMG_DIR, file_name)
         plt.savefig(target_path)
 
 
@@ -116,15 +116,19 @@ def compute_geotag_usage():
         print('%s: %.2f (%d total) (%d)' % (tags, geotagged / total, total, geotagged))
 
 
-def plot_wsl_flooding_data():
-    series = pd.Series.from_csv('data/switzerland_flooding_money.csv', ';')
+def plot_wsl_flooding_data(save2docs=False):
+
+    data_path = path.join(ROOT_DIR, 'data', 'switzerland_flooding_money.csv')
+    series = pd.Series.from_csv(data_path, ';')
     series.index = series.index.map(lambda t: t.strftime('%Y'))
     series[str(PLOT_START_YEAR):str(PLOT_END_YEAR)].plot(kind='bar')
 
-    plt.title('WSL flooding data')
-
-    path = join(DOCS_IMG_PATH, 'wsl')
-    plt.savefig(path)
+    plt.title('WSL Flooding Data')
+    if save2docs:
+        plot_path = path.join(DOCS_IMG_DIR, 'wsl')
+    else:
+        plot_path = path.join(MISC_PLOTS_DIR, 'wsl-%.0f.png' % time.time())
+    plt.savefig(plot_path)
 
 # TODO adapt method save_map to new store refactoring
 
@@ -169,11 +173,4 @@ if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
 
-    id = flickr_api.WOE_ID_SWITZERLAND
-    plot_normalized_tag_usage_per_year(['Blocher'], woe_id=id)
-
-
-
-
-
-
+    plot_wsl_flooding_data(save2docs=False)

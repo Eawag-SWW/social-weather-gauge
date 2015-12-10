@@ -135,7 +135,7 @@ def _depickle_from_file(storage_path):
 def get_twitter_place(twitter_place_id: str):
 
     file_name = '%s.p' % twitter_place_id
-    storage_path = join(TWITTER_PLACE.directory, file_name)
+    storage_path = path.join(TWITTER_PLACE.directory, file_name)
     if not path.exists(storage_path):
         try:
             twitter_place = twitter_api.api.geo_id(twitter_place_id)

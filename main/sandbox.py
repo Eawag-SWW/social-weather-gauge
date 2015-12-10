@@ -8,11 +8,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 import nltk
 from tweepy import Cursor
-from PyDictionary import PyDictionary
 from nltk import Text
 
 from apis import flickr_api, twitter_api
-from temp import instagram_api
 from apis.flickr_api import flickr, FlickrQuery
 from apis.twitter_api import PrintingListener
 from main import twitter_analysis, flickr_analysis, store, geo
@@ -245,4 +243,4 @@ def tweets():
 if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(logging.StreamHandler())
-    tweets()
+    twitter_analysis.plot_swiss_rain_data('zurich-rain-dec-2015')

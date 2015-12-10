@@ -12,11 +12,14 @@ try:
 except:
     raise RuntimeError('No ROOT_DIR defined in module local_config')
 
-TWITTER_PLOT_DIR = path.join(ROOT_DIR, 'plots', 'twitter')
-DOCS_IMG_PATH = path.join(ROOT_DIR, 'docs', 'source', 'img')
+DATA_DIR = path.join(ROOT_DIR, 'data')
+PLOTS_DIR = path.join(ROOT_DIR, 'plots')
+MISC_PLOTS_DIR = path.join(PLOTS_DIR, 'misc')
+DOCS_IMG_DIR = path.join(ROOT_DIR, 'docs', 'source', 'img')
 
-if not path.exists(TWITTER_PLOT_DIR):
-    os.makedirs(TWITTER_PLOT_DIR)
+for dir_path in (MISC_PLOTS_DIR, DOCS_IMG_DIR):
+    os.makedirs(dir_path, exist_ok=True)
+
 
 # LIGHT_BLUE = (166,206,227)
 # DARK_BLUE = 31,120,180

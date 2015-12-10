@@ -1,4 +1,15 @@
-# social-media-mining
+Social Media Mining For Weather Data
+====================================
+
+Installation
+------------
+
+- add a file called `secrets.py` to folder `main` containing constants
+    todo
+
+- add a file called `local_config.py` to folder `main` defining constant
+    todo
+
 
 Documentation
 -------------

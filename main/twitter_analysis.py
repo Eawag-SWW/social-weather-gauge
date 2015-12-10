@@ -1,6 +1,7 @@
 from datetime import datetime, date
 import logging
-from os.path import join
+from os import path
+import os
 
 from dateutil.rrule import DAILY, rrule
 import nltk
@@ -8,15 +9,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn
 
-from apis import wunderground_api
-from apis.twitter_api import PLACE_ID_LONDON_CITY, TwitterSearchQuery
+from apis import twitter_api
+from apis.twitter_api import TwitterSearchQuery
 from apis.wunderground_api import WundergroundQuery
-from main import store, config, geo
-from main.config import TWITTER_PLOT_DIR
+from main import store, utils
+from main.config import PLOTS_DIR, DATA_DIR
 from main.geo import Place
+from main.local_config import ROOT_DIR
 from main.store import SEARCH_TWEETS
 
+TWITTER_PLOTS_DIR = path.join(PLOTS_DIR, 'twitter')
+os.makedirs(TWITTER_PLOTS_DIR, exist_ok=True)
+
 logger = logging.getLogger('main')
+
+
+class Language(object):
+    def __init__(self, code: str):
+        self.code = code
 
 
 class Topic(object):
@@ -27,37 +37,59 @@ class Topic(object):
 class TopicSummary(object):
     pass
 
-RAIN_TERMS = dict({'en': ['rain']})
+
+class Terms(object):
+    def __init__(self):
+        self.data = dict()
+
+    def set(self, language, words):
+        self.data[language.code] = words
+
+    def get(self, language):
+        return self.data[language.code]
+
+
+ENGLISH = Language('en')
+RAIN_TERMS = Terms()
+RAIN_TERMS.set(ENGLISH, ['rain'])
 RAIN = Topic(RAIN_TERMS)
 
 
-def plot_swiss_rain_data():
-    df = pd.read_csv('data/rain-zurich-2015.dat', skiprows=8, header=1, delim_whitespace=True)
-    df.rename(columns={'267': 'rain'}, inplace=True)
-    datetime_labels = ['JAHR', 'MO', 'TG', 'HH', 'MM']
-    transform = lambda s: datetime(*s)
-    df['datetime'] = df[datetime_labels].apply(transform, axis=1)
-    df.index = df.datetime
-    to_drop = ['datetime', 'STA'] + datetime_labels
-    df.drop(to_drop, axis=1, inplace=True)
-    df = df.resample('D', how='sum')
+def plot_swiss_rain_data(filename: str):
 
-    april_data = df['2015-04']
-    april_data.plot()
+    filepath = path.join(DATA_DIR, filename)
+
+    df = pd.read_csv(filepath, skiprows=7, header=1, delim_whitespace=True)
+    df.rename(columns={'237': 'rain'}, inplace=True)
+
+    date_labels = ['JAHR', 'MO', 'TG']
+    transform = lambda s: date(*s)
+    df['date'] = df[date_labels].apply(transform, axis=1)
+    df.index = df.date
+    to_drop = ['date', 'STA', 'MM', 'HH', '236'] + date_labels
+    df.drop(to_drop, axis=1, inplace=True)
+    # df = df.resample('D', how='sum')
+
+    df = df[1:]
+
+    df.plot()
     plt.show()
 
 
 def contains_topic(tweet, topic):
-    lang = 'en'
+    # todo: make language dynamic
+    language = ENGLISH
+
     stemmer = nltk.PorterStemmer()
+
     raw = tweet.text.lower()
     tokens = nltk.word_tokenize(raw)
-    stemmed_tokens = list(map(stemmer.stem, tokens))
-    query = stemmer.stem(topic.terms[lang][0])
-    if query in stemmed_tokens:
-        logger.debug(tweet)
-        logger.debug(stemmed_tokens)
-        logger.debug('')
+    stemmed_tokens = [stemmer.stem(token) for token in tokens]
+
+    query = topic.terms.get(language)[0]
+    stemmed_query = stemmer.stem(query)
+
+    if stemmed_query in stemmed_tokens:
         return True
     else:
         return False
@@ -84,12 +116,11 @@ def get_topic_summary(topic: Topic, place: Place, begin: date, end: date) -> Top
             row = (day, [n_tweets, n_positive, percent])
             rows.append(row)
 
-    frame = pd.DataFrame.from_items(rows, columns=['n_tweets', 'n_positive', 'percent'], orient='index')
-
-    logger.info(frame)
+    table = pd.DataFrame.from_items(rows, columns=['n_tweets', 'n_positive', 'percent'], orient='index')
 
     topic_summary = TopicSummary()
-    topic_summary.frequency_series = frame['percent']
+    topic_summary.frequency_series = table['percent']
+    topic_summary.table = table
     return topic_summary
 
 
@@ -101,6 +132,8 @@ def save_place_overview(place: Place, begin: date, end: date):
     wunderground_query = WundergroundQuery(place.wunderground_id, begin, end)
     wunderground_rain = store.read(store.WUNDERGROUND_RAIN, wunderground_query)
 
+    print(wunderground_rain)
+
     topic_summary = get_topic_summary(topic=RAIN, place=place, begin=begin, end=end)
     twitter_rain = topic_summary.frequency_series
 
@@ -110,6 +143,7 @@ def save_place_overview(place: Place, begin: date, end: date):
     plt.subplot(2, 1, 1)
     wunderground_rain.plot(label='Wunderground', legend=True)
     twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
+    plt.text(topic_summary.table)
 
     plt.subplot(2, 1, 2)
     plt.scatter(twitter_rain, wunderground_rain)
@@ -118,15 +152,18 @@ def save_place_overview(place: Place, begin: date, end: date):
     print('correlation:')
     print(frame.corr())
 
-    plot_id = '%s_%s_%s' % (place, begin, end)
-    util.save_plot(id=plot_id, directory=TWITTER_PLOT_DIR)
+    plot_id = '%s_%s_%s_%s' % ('rain', place, begin, end)
+    utils.save_plot(plot_id=plot_id, directory=TWITTER_PLOTS_DIR)
 
 
 if __name__ == '__main__':
-    begin = date(2015, 8, 25)
-    end = date(2015, 9, 2)
-    twitter_place = store.get_twitter_place(PLACE_ID_LONDON_CITY)
-    place = Place(twitter_place, 'EGLL')
+    logger.setLevel(logging.INFO)
+    logger.addHandler(logging.StreamHandler())
+    begin = date(2015, 12, 1)
+    end = date(2015, 12, 12)
+    twitter_place_id = twitter_api.PLACE_ID_ZURICH_ADMIN
+    twitter_place = store.get_twitter_place(twitter_place_id)
+    place = Place(twitter_place, 'LSMD')
     save_place_overview(place, begin, end)
 
 #
