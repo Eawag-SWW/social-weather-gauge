@@ -138,15 +138,18 @@ def save_place_overview(place: Place, begin: date, end: date):
     title = '%s\n%s-%s' % (place, begin, end)
     plt.title(title)
 
-    plt.subplot(3, 1, 1)
+    plt.subplot(211)
     wunderground_rain.plot(label='Wunderground', legend=True)
     twitter_rain.plot(secondary_y=True, label='Twitter', legend=True)
 
-    plt.subplot(3, 1, 2)
-    topic_summary.table.plot(table=True, ax=plt.gca())
+    axes2 = plt.subplot(212)
+    text = str(topic_summary.table)
+    # axes2.text(0, 0, text)
+    axes2.axis('off')
+    topic_summary.table.plot(table=True, ax=axes2)
 
-    plt.subplot(3, 1, 3)
-    plt.scatter(twitter_rain, wunderground_rain)
+    # plt.subplot(3, 1, 3)
+    # plt.scatter(twitter_rain, wunderground_rain)
 
     frame = pd.DataFrame({'twitter': twitter_rain, 'wunderground': wunderground_rain})
     print('correlation:')
