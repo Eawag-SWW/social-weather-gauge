@@ -3,7 +3,7 @@ all: html pdf deploy
 docs:
 	make html && make pdf
 	
-deploy: html commit
+deploy-docs: html commit
 	git subtree push --prefix docs/build/html origin gh-pages
 
 commit: 
