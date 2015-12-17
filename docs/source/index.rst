@@ -10,8 +10,9 @@ Social Media Mining For Wheater Data
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   main/overview
    main/flickr
    main/twitter
    main/helper-apis
