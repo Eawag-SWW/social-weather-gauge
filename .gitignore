@@ -6,3 +6,4 @@ main/secrets.py
 main/local_config.py
 store_room
 plots
+docs/build/doctrees/
