@@ -4,6 +4,5 @@
 .vagrant
 main/secrets.py
 main/local_config.py
-docs/build
 store_room
 plots

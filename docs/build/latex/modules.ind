@@ -1,0 +1,43 @@
+\begin{theindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+
+  \bigletter B
+  \item BoundingBox (class in main.geo), \hyperpage{1}
+
+  \indexspace
+  \bigletter D
+  \item draw\_densities() (main.geo.Map method), \hyperpage{1}
+  \item draw\_map() (in module main.geo), \hyperpage{1}
+  \item draw\_points() (main.geo.Map method), \hyperpage{1}
+
+  \indexspace
+  \bigletter F
+  \item FULL (main.geo.MapResolution attribute), \hyperpage{1}
+
+  \indexspace
+  \bigletter I
+  \item INTERMEDIATE (main.geo.MapResolution attribute), \hyperpage{1}
+
+  \indexspace
+  \bigletter M
+  \item main (module), \hyperpage{2}
+  \item main.geo (module), \hyperpage{1}
+  \item main.local\_config (module), \hyperpage{2}
+  \item main.utils (module), \hyperpage{2}
+  \item Map (class in main.geo), \hyperpage{1}
+  \item MapResolution (class in main.geo), \hyperpage{1}
+
+  \indexspace
+  \bigletter P
+  \item Place (class in main.geo), \hyperpage{1}
+  \item Point (class in main.geo), \hyperpage{1}
+
+  \indexspace
+  \bigletter S
+  \item save() (main.geo.Map method), \hyperpage{1}
+  \item save\_plot() (in module main.utils), \hyperpage{2}
+  \item show() (main.geo.Map method), \hyperpage{1}
+  \item start() (main.utils.Stopwatch method), \hyperpage{2}
+  \item Stopwatch (class in main.utils), \hyperpage{2}
+
+\end{theindex}

@@ -1,0 +1,35 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}Flickr}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}API}{3}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}flickr.photos.search}{3}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}flickr.places.getInfo}{3}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}flickr.places.find}{4}{subsection.1.1.3}
+\contentsline {subsection}{\numberline {1.1.4}woe id vs place id}{4}{subsection.1.1.4}
+\contentsline {section}{\numberline {1.2}Python Library}{4}{section.1.2}
+\contentsline {chapter}{\numberline {2}Twitter}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Basics}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}API}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}REST-api}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Search}{6}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}Tweepy}{6}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}API}{6}{subsection.2.3.1}
+\contentsline {subsubsection}{Geolocation}{6}{subsubsection*.3}
+\contentsline {chapter}{\numberline {3}Helper APIs}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}World Weather Online}{7}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Historical Weather API}{7}{subsection.3.1.1}
+\contentsline {chapter}{\numberline {4}Results}{9}{chapter.4}
+\contentsline {chapter}{\numberline {5}Code}{11}{chapter.5}
+\contentsline {section}{\numberline {5.1}Install}{11}{section.5.1}
+\contentsline {section}{\numberline {5.2}Important Libraries}{11}{section.5.2}
+\contentsline {chapter}{\numberline {6}.}{13}{chapter.6}
+\contentsline {section}{\numberline {6.1}main package}{13}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Submodules}{13}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}main.flickr\_analysis module}{13}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}main.geo module}{13}{subsection.6.1.3}
+\contentsline {subsection}{\numberline {6.1.4}main.local\_config module}{14}{subsection.6.1.4}
+\contentsline {subsection}{\numberline {6.1.5}main.store module}{14}{subsection.6.1.5}
+\contentsline {subsection}{\numberline {6.1.6}main.twitter\_analysis module}{14}{subsection.6.1.6}
+\contentsline {subsection}{\numberline {6.1.7}main.utils module}{14}{subsection.6.1.7}
+\contentsline {subsection}{\numberline {6.1.8}Module contents}{14}{subsection.6.1.8}
+\contentsline {chapter}{Python Module Index}{15}{section*.19}
+\contentsline {chapter}{Index}{17}{section*.20}

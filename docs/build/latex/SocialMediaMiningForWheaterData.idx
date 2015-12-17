@@ -1,0 +1,19 @@
+\indexentry{main.geo (module)|hyperpage}{13}
+\indexentry{BoundingBox (class in main.geo)|hyperpage}{13}
+\indexentry{Map (class in main.geo)|hyperpage}{13}
+\indexentry{draw\_densities() (main.geo.Map method)|hyperpage}{13}
+\indexentry{draw\_points() (main.geo.Map method)|hyperpage}{13}
+\indexentry{save() (main.geo.Map method)|hyperpage}{13}
+\indexentry{show() (main.geo.Map method)|hyperpage}{13}
+\indexentry{MapResolution (class in main.geo)|hyperpage}{13}
+\indexentry{FULL (main.geo.MapResolution attribute)|hyperpage}{13}
+\indexentry{INTERMEDIATE (main.geo.MapResolution attribute)|hyperpage}{13}
+\indexentry{Place (class in main.geo)|hyperpage}{13}
+\indexentry{Point (class in main.geo)|hyperpage}{13}
+\indexentry{draw\_map() (in module main.geo)|hyperpage}{13}
+\indexentry{main.local\_config (module)|hyperpage}{14}
+\indexentry{main.utils (module)|hyperpage}{14}
+\indexentry{Stopwatch (class in main.utils)|hyperpage}{14}
+\indexentry{start() (main.utils.Stopwatch method)|hyperpage}{14}
+\indexentry{save\_plot() (in module main.utils)|hyperpage}{14}
+\indexentry{main (module)|hyperpage}{14}
