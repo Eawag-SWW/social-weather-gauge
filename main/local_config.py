@@ -1,1 +1,0 @@
-ROOT_DIR = '/Users/dominic/projects/social-media-mining'
