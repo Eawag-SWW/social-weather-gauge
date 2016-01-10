@@ -31,23 +31,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="modules.html" title="."
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Social Media Mining For Wheater Data 0.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">.</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -59,23 +43,222 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="main-flickr-analysis-module">
-<h2>main.flickr_analysis module<a class="headerlink" href="#main-flickr-analysis-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-main.flickr_analysis">
+<span id="main-flickr-analysis-module"></span><h2>main.flickr_analysis module<a class="headerlink" href="#module-main.flickr_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="main.flickr_analysis.compute_geotag_usage">
+<code class="descclassname">main.flickr_analysis.</code><code class="descname">compute_geotag_usage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.flickr_analysis.compute_geotag_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the relative amount of geotted photos for different tags.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="main.flickr_analysis.plot_normalized_tag_usage_per_year">
+<code class="descclassname">main.flickr_analysis.</code><code class="descname">plot_normalized_tag_usage_per_year</code><span class="sig-paren">(</span><em>tags</em>, <em>woe_id</em>, <em>save2docs=False</em><span class="sig-paren">)</span><a class="headerlink" href="#main.flickr_analysis.plot_normalized_tag_usage_per_year" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.flickr_analysis.plot_photos_per_year">
+<code class="descclassname">main.flickr_analysis.</code><code class="descname">plot_photos_per_year</code><span class="sig-paren">(</span><em>woe_id=None</em>, <em>save2docs=False</em><span class="sig-paren">)</span><a class="headerlink" href="#main.flickr_analysis.plot_photos_per_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the plot in the flickr plots directory.
+Attention: Results are incorrect if there are to many photo
+uploads per year for this place/country.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>woe_id</strong> &#8211; id of the place/country the data is based on</li>
+<li><strong>save2docs</strong> &#8211; this flags saves the plot directly in the documentation</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="main.flickr_analysis.plot_wsl_flooding_data">
+<code class="descclassname">main.flickr_analysis.</code><code class="descname">plot_wsl_flooding_data</code><span class="sig-paren">(</span><em>save2docs=False</em><span class="sig-paren">)</span><a class="headerlink" href="#main.flickr_analysis.plot_wsl_flooding_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="main-geo-module">
-<h2>main.geo module<a class="headerlink" href="#main-geo-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-main.geo">
+<span id="main-geo-module"></span><h2>main.geo module<a class="headerlink" href="#module-main.geo" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="main.geo.BoundingBox">
+<em class="property">class </em><code class="descclassname">main.geo.</code><code class="descname">BoundingBox</code><span class="sig-paren">(</span><em>twitter_bounding_box=None</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.BoundingBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="main.geo.Map">
+<em class="property">class </em><code class="descclassname">main.geo.</code><code class="descname">Map</code><span class="sig-paren">(</span><em>bounding_box</em>, <em>map_resolution=&lt;MapResolution.INTERMEDIATE: 1&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.Map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="main.geo.Map.draw_densities">
+<code class="descname">draw_densities</code><span class="sig-paren">(</span><em>points</em>, <em>n_bins</em>, <em>color_map='Blues'</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.Map.draw_densities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="main.geo.Map.draw_points">
+<code class="descname">draw_points</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.Map.draw_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="main.geo.Map.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>path</em>, <em>format='png'</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.Map.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="main.geo.Map.show">
+<code class="descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.Map.show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="main.geo.MapResolution">
+<em class="property">class </em><code class="descclassname">main.geo.</code><code class="descname">MapResolution</code><a class="headerlink" href="#main.geo.MapResolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="main.geo.MapResolution.FULL">
+<code class="descname">FULL</code><em class="property"> = &lt;MapResolution.FULL: 2&gt;</em><a class="headerlink" href="#main.geo.MapResolution.FULL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="main.geo.MapResolution.INTERMEDIATE">
+<code class="descname">INTERMEDIATE</code><em class="property"> = &lt;MapResolution.INTERMEDIATE: 1&gt;</em><a class="headerlink" href="#main.geo.MapResolution.INTERMEDIATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="main.geo.Place">
+<em class="property">class </em><code class="descclassname">main.geo.</code><code class="descname">Place</code><span class="sig-paren">(</span><em>twitter_place</em>, <em>wunderground_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.Place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="main.geo.Point">
+<em class="property">class </em><code class="descclassname">main.geo.</code><code class="descname">Point</code><a class="headerlink" href="#main.geo.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="main.geo.draw_map">
+<code class="descclassname">main.geo.</code><code class="descname">draw_map</code><span class="sig-paren">(</span><em>place</em><span class="sig-paren">)</span><a class="headerlink" href="#main.geo.draw_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-main.local_config">
 <span id="main-local-config-module"></span><h2>main.local_config module<a class="headerlink" href="#module-main.local_config" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="main-store-module">
-<h2>main.store module<a class="headerlink" href="#main-store-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-main.store">
+<span id="main-store-module"></span><h2>main.store module<a class="headerlink" href="#module-main.store" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="main.store.StoreType">
+<em class="property">class </em><code class="descclassname">main.store.</code><code class="descname">StoreType</code><span class="sig-paren">(</span><em>directory</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.StoreType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="main.store.get_twitter_place">
+<code class="descclassname">main.store.</code><code class="descname">get_twitter_place</code><span class="sig-paren">(</span><em>twitter_place_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.get_twitter_place" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.store.read">
+<code class="descclassname">main.store.</code><code class="descname">read</code><span class="sig-paren">(</span><em>store_type: main.store.StoreType</em>, <em>query: apis.Query</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.store.remove">
+<code class="descclassname">main.store.</code><code class="descname">remove</code><span class="sig-paren">(</span><em>store_type: main.store.StoreType</em>, <em>query: apis.Query</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.store.save">
+<code class="descclassname">main.store.</code><code class="descname">save</code><span class="sig-paren">(</span><em>store_type: main.store.StoreType</em>, <em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads and saves data on disc according to query and store_type.</p>
+</dd></dl>
+
 </div>
-<div class="section" id="main-twitter-analysis-module">
-<h2>main.twitter_analysis module<a class="headerlink" href="#main-twitter-analysis-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-main.twitter_analysis">
+<span id="main-twitter-analysis-module"></span><h2>main.twitter_analysis module<a class="headerlink" href="#module-main.twitter_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="main.twitter_analysis.Language">
+<em class="property">class </em><code class="descclassname">main.twitter_analysis.</code><code class="descname">Language</code><span class="sig-paren">(</span><em>code: str</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.Language" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="main.twitter_analysis.Terms">
+<em class="property">class </em><code class="descclassname">main.twitter_analysis.</code><code class="descname">Terms</code><a class="headerlink" href="#main.twitter_analysis.Terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="main.twitter_analysis.Terms.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>language</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.Terms.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="main.twitter_analysis.Terms.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>language</em>, <em>words</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.Terms.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="main.twitter_analysis.Topic">
+<em class="property">class </em><code class="descclassname">main.twitter_analysis.</code><code class="descname">Topic</code><span class="sig-paren">(</span><em>terms</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.Topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="main.twitter_analysis.TopicSummary">
+<em class="property">class </em><code class="descclassname">main.twitter_analysis.</code><code class="descname">TopicSummary</code><a class="headerlink" href="#main.twitter_analysis.TopicSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="main.twitter_analysis.contains_topic">
+<code class="descclassname">main.twitter_analysis.</code><code class="descname">contains_topic</code><span class="sig-paren">(</span><em>tweet</em>, <em>topic</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.contains_topic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.twitter_analysis.get_topic_summary">
+<code class="descclassname">main.twitter_analysis.</code><code class="descname">get_topic_summary</code><span class="sig-paren">(</span><em>topic: main.twitter_analysis.Topic</em>, <em>place: main.geo.Place</em>, <em>begin: datetime.date</em>, <em>end: datetime.date</em><span class="sig-paren">)</span> &rarr; main.twitter_analysis.TopicSummary<a class="headerlink" href="#main.twitter_analysis.get_topic_summary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.twitter_analysis.plot_swiss_rain_data">
+<code class="descclassname">main.twitter_analysis.</code><code class="descname">plot_swiss_rain_data</code><span class="sig-paren">(</span><em>filename: str</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.plot_swiss_rain_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.twitter_analysis.save_place_overview">
+<code class="descclassname">main.twitter_analysis.</code><code class="descname">save_place_overview</code><span class="sig-paren">(</span><em>place: main.geo.Place</em>, <em>begin: datetime.date</em>, <em>end: datetime.date</em><span class="sig-paren">)</span><a class="headerlink" href="#main.twitter_analysis.save_place_overview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="main-utils-module">
-<h2>main.utils module<a class="headerlink" href="#main-utils-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-main.utils">
+<span id="main-utils-module"></span><h2>main.utils module<a class="headerlink" href="#module-main.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="main.utils.Stopwatch">
+<em class="property">class </em><code class="descclassname">main.utils.</code><code class="descname">Stopwatch</code><a class="headerlink" href="#main.utils.Stopwatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="main.utils.Stopwatch.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#main.utils.Stopwatch.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="main.utils.save_plot">
+<code class="descclassname">main.utils.</code><code class="descname">save_plot</code><span class="sig-paren">(</span><em>plot_id</em>, <em>directory</em><span class="sig-paren">)</span><a class="headerlink" href="#main.utils.save_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-main">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-main" title="Permalink to this headline">¶</a></h2>
@@ -92,20 +275,26 @@
   <ul>
 <li><a class="reference internal" href="#">main package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#main-flickr-analysis-module">main.flickr_analysis module</a></li>
-<li><a class="reference internal" href="#main-geo-module">main.geo module</a></li>
+<li><a class="reference internal" href="#module-main.flickr_analysis">main.flickr_analysis module</a></li>
+<li><a class="reference internal" href="#module-main.geo">main.geo module</a></li>
 <li><a class="reference internal" href="#module-main.local_config">main.local_config module</a></li>
-<li><a class="reference internal" href="#main-store-module">main.store module</a></li>
-<li><a class="reference internal" href="#main-twitter-analysis-module">main.twitter_analysis module</a></li>
-<li><a class="reference internal" href="#main-utils-module">main.utils module</a></li>
+<li><a class="reference internal" href="#module-main.store">main.store module</a></li>
+<li><a class="reference internal" href="#module-main.twitter_analysis">main.twitter_analysis module</a></li>
+<li><a class="reference internal" href="#module-main.utils">main.utils module</a></li>
 <li><a class="reference internal" href="#module-main">Module contents</a></li>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="modules.html"
-                        title="previous chapter">.</a></p>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">.</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">.</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -135,11 +324,11 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
       <a href="_sources/main.txt"
-          rel="nofollow">Page source</a></li>
+          rel="nofollow">Page source</a>
     </div>
 
     

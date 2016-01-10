@@ -1,6 +1,12 @@
-Overview
-========
+Introduction
+============
 This project contains Python code to analyze Flickr and Twitter data. The motivating goal was to determine, how well one can approximate traditional wheater measurement with data derived from social media. But the code is also usable to analyze other topics. 
+
+As an example, let us consider precipitation in London in the last 10 days. SocialWeatherGauge will download all tweets from London using the official Twitter REST-API for the last 10 days (that is the maximum you get via the API). It then caches this data on disc (in folder ``store_room``) for later reuse (see module ``main.store``). After caching the tweets get tokenized and stemmed (normalized) and compared with predefined keywords for the given topic (in this case: rain). This leads to a proportion of topic-positive tweets which then gets plotted. 
+
+
+
+
 
 The main structure of the code looks like this:
 
@@ -15,3 +21,5 @@ That is, if you want to run an analysis and get some diagram drawn, you have to 
 
 Shortcomings
 ------------ 
+Data / geolocation
+language

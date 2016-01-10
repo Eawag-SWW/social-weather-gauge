@@ -13,7 +13,7 @@ html: apidocs
 	cd docs && make html
 
 apidocs:
-	cd main; sphinx-apidoc -f -o ../docs/source . config.py secrets.py sandbox.py old_stuff.py
+	cd main; sphinx-apidoc -f --separate -o ../docs/source/code . config.py secrets.py sandbox.py old_stuff.py
 
 pdf:
 	cd docs && make latexpdf
