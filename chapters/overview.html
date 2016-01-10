@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overview &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
+    <title>Introduction &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="../index.html" />
     <link rel="next" title="Install" href="install.html" />
-    <link rel="prev" title="Social Media Mining For Wheater Data" href="../index.html" />
+    <link rel="prev" title="Social Media Mining For Wheater Data: Documentation" href="../index.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -38,14 +38,17 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>This project contains Python code to analyze Flickr and Twitter data. The motivating goal was to determine, how well one can approximate traditional wheater measurement with data derived from social media. But the code is also usable to analyze other topics.</p>
+<p>As an example, let us consider precipitation in London in the last 10 days. SocialWeatherGauge will download all tweets from London using the official Twitter REST-API for the last 10 days (that is the maximum you get via the API). It then caches this data on disc (in folder <code class="docutils literal"><span class="pre">store_room</span></code>) for later reuse (see module <code class="docutils literal"><span class="pre">main.store</span></code>). After caching the tweets get tokenized and stemmed (normalized) and compared with predefined keywords for the given topic (in this case: rain). This leads to a proportion of topic-positive tweets which then gets plotted.</p>
 <p>The main structure of the code looks like this:</p>
 <img alt="../_images/code-diagram.png" src="../_images/code-diagram.png" />
 <p>That is, if you want to run an analysis and get some diagram drawn, you have to work with functions in either <code class="docutils literal"><span class="pre">flickr_analysis</span></code> or <code class="docutils literal"><span class="pre">twitter_analysis</span></code>. They get the data from the <code class="docutils literal"><span class="pre">store</span></code>, which either downloads new data or retrieves it from the cache on disc (folder <code class="docutils literal"><span class="pre">store_room</span></code>). If the <code class="docutils literal"><span class="pre">store</span></code> needs new data, it uses either <code class="docutils literal"><span class="pre">flickr_api</span></code> or <code class="docutils literal"><span class="pre">twitter_api</span></code> to access the apis of Twitter and Flickr.</p>
 <div class="section" id="shortcomings">
 <h2>Shortcomings<a class="headerlink" href="#shortcomings" title="Permalink to this headline">¶</a></h2>
+<p>Data / geolocation
+language</p>
 </div>
 </div>
 
@@ -57,7 +60,7 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
 <li><a class="reference internal" href="#shortcomings">Shortcomings</a></li>
 </ul>
 </li>
@@ -66,7 +69,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">Social Media Mining For Wheater Data</a></li>
+      <li>Previous: <a href="../index.html" title="previous chapter">Social Media Mining For Wheater Data: Documentation</a></li>
       <li>Next: <a href="install.html" title="next chapter">Install</a></li>
   </ul></li>
 </ul>
@@ -74,7 +77,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/main/overview.txt"
+      <li><a href="../_sources/chapters/overview.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -103,7 +106,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="../_sources/main/overview.txt"
+      <a href="../_sources/chapters/overview.txt"
           rel="nofollow">Page source</a>
     </div>
 

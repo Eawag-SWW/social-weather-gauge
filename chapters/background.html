@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Twitter &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
+    <title>Flickr &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="../index.html" />
-    <link rel="next" title="Helper APIs" href="helper-apis.html" />
-    <link rel="prev" title="Flickr" href="flickr.html" />
+    <link rel="prev" title="Plots" href="plots.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -38,7 +37,87 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="twitter">
+  <div class="section" id="flickr">
+<h1>Flickr<a class="headerlink" href="#flickr" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Created by Ludicorp in 2004</li>
+<li>Acquired by Yahoo in 2005</li>
+<li>6 billion images in 2011 (we)</li>
+<li>87 million registred users in 2013 (we)</li>
+<li>3.5 million new images daily in 2013 (we)</li>
+<li>Written in PHP</li>
+</ul>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>REST endpoint: <a class="reference external" href="https://api.flickr.com/services/rest/">https://api.flickr.com/services/rest/</a></li>
+<li>Return formats: XML, JSON, ...</li>
+<li>Parameters: method, api_key, format</li>
+</ul>
+<div class="section" id="flickr-photos-search">
+<h3>flickr.photos.search<a class="headerlink" href="#flickr-photos-search" title="Permalink to this headline">¶</a></h3>
+<p>Parameters:</p>
+<ul class="simple">
+<li>woe_id: A 32-bit identifier that uniquely represents spatial entities</li>
+<li>place_id: A Flickr place id</li>
+</ul>
+<p>Response structure:</p>
+<div class="line-block">
+<div class="line">photos &gt; photo</div>
+</div>
+<div class="line-block">
+<div class="line">photos: page, pages, perpage, total</div>
+<div class="line">photo: id, latitude, longitude, place_id, title, woeid</div>
+</div>
+</div>
+<div class="section" id="flickr-places-getinfo">
+<h3>flickr.places.getInfo<a class="headerlink" href="#flickr-places-getinfo" title="Permalink to this headline">¶</a></h3>
+<p>Get informations about a place.
+Parameters:</p>
+<ul class="simple">
+<li>woe_id</li>
+<li>place_id</li>
+</ul>
+<p>response structure:</p>
+<div class="line-block">
+<div class="line">rsp &gt; place</div>
+<div class="line">place &gt; country</div>
+<div class="line">country &gt; shapedata</div>
+<div class="line">shapedate &gt; polylines, urls</div>
+<div class="line">polylines &gt; polyline</div>
+<div class="line">urls &gt; shapefile</div>
+</div>
+<div class="line-block">
+<div class="line">rsp: stat</div>
+<div class="line">place: place_id, woeid, latitutude, longitude, place_url, place_type, place_type_id, timezone, name, woe_name, has_shapedata</div>
+<div class="line">country: place_id, woeid, latitutde, longitude, place_url</div>
+<div class="line">shapedata: created, alpha, count_points, count_edges, has_donuthole, is_donuthole</div>
+</div>
+</div>
+<div class="section" id="flickr-places-find">
+<h3>flickr.places.find<a class="headerlink" href="#flickr-places-find" title="Permalink to this headline">¶</a></h3>
+<p>Returns a list of place objects for a given query string.</p>
+<p>Parameter: query</p>
+<p>Response:
+| rsp &gt; places
+| places &gt; place*</p>
+<div class="line-block">
+<div class="line">rsp: stat</div>
+<div class="line">places: query, total</div>
+<div class="line">place: place_id, woeid, latitude, longitude, place_url, place_type</div>
+</div>
+</div>
+<div class="section" id="woe-id-vs-place-id">
+<h3>woe id vs place id<a class="headerlink" href="#woe-id-vs-place-id" title="Permalink to this headline">¶</a></h3>
+<p>WOE = where on earth</p>
+</div>
+</div>
+<div class="section" id="python-library">
+<h2>Python Library<a class="headerlink" href="#python-library" title="Permalink to this headline">¶</a></h2>
+<p>We use the library called flickrapi. Documentation: <a class="reference external" href="http://stuvel.eu/media/flickrapi-docs/documentation/">http://stuvel.eu/media/flickrapi-docs/documentation/</a></p>
+</div>
+</div>
+<div class="section" id="twitter">
 <h1>Twitter<a class="headerlink" href="#twitter" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="basics">
 <h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
@@ -50,8 +129,8 @@
 <li>Twitter Inc in San Francisco</li>
 </ul>
 </div>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>API<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Schema Tweet:</p>
 <div class="highlight-python"><div class="highlight"><pre>id
 lang
@@ -120,8 +199,8 @@ profile_sidebar_fill_color</dd>
 </dl>
 </dd>
 </dl>
-<div class="section" id="id1">
-<h3>API<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>API.rate_limit_status (<a class="reference external" href="http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status">http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status</a>)</li>
 </ul>
@@ -160,15 +239,26 @@ profile_sidebar_fill_color</dd>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Twitter</a><ul>
-<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#">Flickr</a><ul>
 <li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#flickr-photos-search">flickr.photos.search</a></li>
+<li><a class="reference internal" href="#flickr-places-getinfo">flickr.places.getInfo</a></li>
+<li><a class="reference internal" href="#flickr-places-find">flickr.places.find</a></li>
+<li><a class="reference internal" href="#woe-id-vs-place-id">woe id vs place id</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#python-library">Python Library</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#twitter">Twitter</a><ul>
+<li><a class="reference internal" href="#basics">Basics</a></li>
+<li><a class="reference internal" href="#id1">API</a><ul>
 <li><a class="reference internal" href="#rest-api">REST-api</a></li>
 <li><a class="reference internal" href="#search">Search</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#tweepy">Tweepy</a><ul>
-<li><a class="reference internal" href="#id1">API</a><ul>
+<li><a class="reference internal" href="#id2">API</a><ul>
 <li><a class="reference internal" href="#geolocation">Geolocation</a></li>
 </ul>
 </li>
@@ -181,15 +271,14 @@ profile_sidebar_fill_color</dd>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="flickr.html" title="previous chapter">Flickr</a></li>
-      <li>Next: <a href="helper-apis.html" title="next chapter">Helper APIs</a></li>
+      <li>Previous: <a href="plots.html" title="previous chapter">Plots</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/main/twitter.txt"
+      <li><a href="../_sources/chapters/background.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -218,7 +307,7 @@ profile_sidebar_fill_color</dd>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="../_sources/main/twitter.txt"
+      <a href="../_sources/chapters/background.txt"
           rel="nofollow">Page source</a>
     </div>
 

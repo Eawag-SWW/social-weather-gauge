@@ -1,0 +1,10 @@
+Usage
+=====
+
+
+
+The main structure of SocialWeatherGuage looks like this:
+
+.. image:: ../img/code-diagram.png
+
+That is, if you want to run an analysis and get some diagram drawn, you have to work with functions in either ``flickr_analysis`` or ``twitter_analysis``. They get the data from the ``store``, which either downloads new data or retrieves it from the cache on disc (folder ``store_room``). If the ``store`` needs new data, it uses either ``flickr_api`` or ``twitter_api`` to access the apis of Twitter and Flickr.  

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Results &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
+    <title>main.store module &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,6 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="../index.html" />
-    <link rel="next" title="Code" href="code.html" />
-    <link rel="prev" title="Helper APIs" href="helper-apis.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -38,11 +36,35 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="results">
-<h1>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h1>
-<img alt="../_images/flickr_switzerland.png" src="../_images/flickr_switzerland.png" />
-<img alt="../_images/flickr_flooding_switzerland.png" src="../_images/flickr_flooding_switzerland.png" />
-<img alt="../_images/wsl.png" src="../_images/wsl.png" />
+  <div class="section" id="module-main.store">
+<span id="main-store-module"></span><h1>main.store module<a class="headerlink" href="#module-main.store" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="main.store.StoreType">
+<em class="property">class </em><code class="descclassname">main.store.</code><code class="descname">StoreType</code><span class="sig-paren">(</span><em>directory</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.StoreType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="main.store.get_twitter_place">
+<code class="descclassname">main.store.</code><code class="descname">get_twitter_place</code><span class="sig-paren">(</span><em>twitter_place_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.get_twitter_place" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.store.read">
+<code class="descclassname">main.store.</code><code class="descname">read</code><span class="sig-paren">(</span><em>store_type: main.store.StoreType</em>, <em>query: apis.Query</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.store.remove">
+<code class="descclassname">main.store.</code><code class="descname">remove</code><span class="sig-paren">(</span><em>store_type: main.store.StoreType</em>, <em>query: apis.Query</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="main.store.save">
+<code class="descclassname">main.store.</code><code class="descname">save</code><span class="sig-paren">(</span><em>store_type: main.store.StoreType</em>, <em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#main.store.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads and saves data on disc according to query and store_type.</p>
+</dd></dl>
+
 </div>
 
 
@@ -54,15 +76,13 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="helper-apis.html" title="previous chapter">Helper APIs</a></li>
-      <li>Next: <a href="code.html" title="next chapter">Code</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/main/results.txt"
+      <li><a href="../_sources/code/main.store.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -91,7 +111,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="../_sources/main/results.txt"
+      <a href="../_sources/code/main.store.txt"
           rel="nofollow">Page source</a>
     </div>
 

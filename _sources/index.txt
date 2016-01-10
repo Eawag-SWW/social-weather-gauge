@@ -4,21 +4,27 @@
    contain the root `toctree` directive.
 
 
-Social Media Mining For Wheater Data
-====================================
+SocialWeatherGauge
+==================
 
-Contents:
+Documentation
+-------------
 
 .. toctree::
    :maxdepth: 1
 
-   main/overview
-   main/flickr
-   main/twitter
-   main/helper-apis
-   main/results
-   main/code
-   modules
+   chapters/introduction
+   chapters/installation
+   chapters/usage
+   chapters/plots
+   chapters/background
+   
+API
+---
+
+.. toctree::
+   :maxdepth: 2
+   code/main
 
 
 
