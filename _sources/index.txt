@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-SocialWeatherGauge
+|project| 
 ==================
 
 Documentation
@@ -21,10 +21,18 @@ Documentation
    
 API
 ---
-
 .. toctree::
-   :maxdepth: 2
-   code/main
+    :maxdepth: 1
+
+    code/main.flickr_analysis
+    code/main.twitter_analysis
+    code/main.store
+    code/main.geo
+    code/main.utils
+
+    code/apis.flickr_api
+    code/apis.twitter_api
+    code/apis.wunderground_api
 
 
 

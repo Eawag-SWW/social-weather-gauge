@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Usage &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
+    <title>Usage &mdash; Social Weather Gauge 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,12 +23,12 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="../index.html" />
+    <link rel="top" title="Social Weather Gauge 0.1 documentation" href="../index.html" />
     <link rel="next" title="Plots" href="plots.html" />
-    <link rel="prev" title="Introduction" href="introduction.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
    
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
   <body role="document">  
@@ -40,9 +40,81 @@
             
   <div class="section" id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<p>The main structure of SocialWeatherGuage looks like this:</p>
+<p>The main structure of Social Weather Gauge looks like this:</p>
 <img alt="../_images/code-diagram.png" src="../_images/code-diagram.png" />
-<p>That is, if you want to run an analysis and get some diagram drawn, you have to work with functions in either <code class="docutils literal"><span class="pre">flickr_analysis</span></code> or <code class="docutils literal"><span class="pre">twitter_analysis</span></code>. They get the data from the <code class="docutils literal"><span class="pre">store</span></code>, which either downloads new data or retrieves it from the cache on disc (folder <code class="docutils literal"><span class="pre">store_room</span></code>). If the <code class="docutils literal"><span class="pre">store</span></code> needs new data, it uses either <code class="docutils literal"><span class="pre">flickr_api</span></code> or <code class="docutils literal"><span class="pre">twitter_api</span></code> to access the apis of Twitter and Flickr.</p>
+<p>That is, if you want to run an analysis and get some diagram drawn, you have to work with functions in either <code class="docutils literal"><span class="pre">main.flickr_analysis</span></code> or <code class="docutils literal"><span class="pre">main.twitter_analysis</span></code>. They get the data from <code class="docutils literal"><span class="pre">main.store</span></code>, which either downloads new data or retrieves it from the cache on disc (folder <code class="docutils literal"><span class="pre">store_room</span></code>). If the <code class="docutils literal"><span class="pre">store</span></code> needs new data, it uses either <code class="docutils literal"><span class="pre">apis.flickr_api</span></code> or <code class="docutils literal"><span class="pre">apis.twitter_api</span></code> to access the APIs of Twitter and Flickr.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>As an example, let us draw the following diagram:</p>
+<img alt="../_images/flickr_flooding_switzerland.png" src="../_images/flickr_flooding_switzerland.png" />
+<p>It shows the &#8220;amount of flooding&#8221; (represented by the german keywords &#8220;Hochwasser&#8221;, &#8220;Überschwemmung&#8221;, &#8220;Überflutung&#8221;, and &#8220;Flut&#8221;) per year in Switzerland when taking Flickr photo uploads as a measure.</p>
+<p>We use the function <code class="docutils literal"><span class="pre">plot_normalized_tag_usage_per_year</span></code> in <code class="docutils literal"><span class="pre">main.flickr_analysis</span></code>. This function needs two parameters, a list of tags and a flickr location identifier (<code class="docutils literal"><span class="pre">woe_id</span></code>, coming from Where On Earth). As tags we use a predefined list defined in the constant dictionary <code class="docutils literal"><span class="pre">main.flickr_analysis.FLOODING_TAGS</span></code>, using as key <code class="docutils literal"><span class="pre">de</span></code> for german. This is defined in the module as</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">FLOODING_TAGS</span><span class="p">[</span><span class="s">&#39;de&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;hochwasser, überschwemmung, überflutung, flut&#39;</span>
+</pre></div>
+</div>
+<p>The WOE of Switzerland is also predefined as a constant. You can find it in <code class="docutils literal"><span class="pre">apis.flickr_api</span></code> defined as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">WOE_ID_SWITZERLAND</span> <span class="o">=</span> <span class="mi">23424957</span>
+</pre></div>
+</div>
+<p>To find WOEs for places not predefined in Social Weather Gauge, use the function <code class="docutils literal"><span class="pre">find_woe_ids</span></code> in <code class="docutils literal"><span class="pre">apis.flickr_api</span></code> or look it up in the internet. Together we get</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">main</span> <span class="kn">import</span> <span class="n">flickr_analysis</span>
+<span class="kn">from</span> <span class="nn">apis</span> <span class="kn">import</span> <span class="n">flickr_api</span>
+
+<span class="n">tags</span> <span class="o">=</span> <span class="n">flickr_analysis</span><span class="o">.</span><span class="n">FLOODING_TAGS</span><span class="p">[</span><span class="s">&#39;de&#39;</span><span class="p">]</span>
+<span class="n">woe_id</span> <span class="o">=</span> <span class="n">flickr_api</span><span class="o">.</span><span class="n">WOE_ID_SWITZERLAND</span>
+
+<span class="n">flickr_analysis</span><span class="o">.</span><span class="n">plot_normalized_tag_usage_per_year</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="n">woe_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This little script should do the following:</p>
+<ul>
+<li><p class="first">Iterate over the years between 2004 and 2014 (defined as constants in <code class="docutils literal"><span class="pre">main.flickr_analysis</span></code> as         <code class="docutils literal"><span class="pre">PLOT_START_YEAR</span></code> and <code class="docutils literal"><span class="pre">PLOT_END_YEAR</span></code>).</p>
+</li>
+<li><p class="first">Read for every year the number of photos with one of the tags from the store</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">store</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">store_type</span><span class="o">=</span><span class="n">store</span><span class="o">.</span><span class="n">N_PHOTOS</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">tag_query</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>where <code class="docutils literal"><span class="pre">main.store.N_PHOTOS</span></code> is a constant for the <code class="docutils literal"><span class="pre">StoreType</span></code> used for storing the number of photos returned from Flickr for a given query. The query is an instance of the class <code class="docutils literal"><span class="pre">main.flickr_api.FlickrQuery</span></code>.</p>
+<ul>
+<li><p class="first">Get the total of photos for a given year and location in a similar way with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">total_query</span> <span class="o">=</span> <span class="n">FlickrQuery</span><span class="p">(</span><span class="n">woe_id</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span>
+<span class="n">n_photos_total</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">store</span><span class="o">.</span><span class="n">N_PHOTOS</span><span class="p">,</span> <span class="n">total_query</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Plot the quotient using Matplotlib with Seaborn for (a lot) more beautiful plots.</p>
+</li>
+<li><p class="first">Save the plot in the directory <code class="docutils literal"><span class="pre">plots/flickr</span></code> under a time-dependent name. That is, no old plots get overwritten and newer ones have a bigger number in the name.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="store">
+<h2>Store<a class="headerlink" href="#store" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of the module <code class="docutils literal"><span class="pre">main.store</span></code> is to cache data which was retrieved from the APIs. The root directory of the store is defined as <code class="docutils literal"><span class="pre">store_room</span></code> by the following line in <code class="docutils literal"><span class="pre">store</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">STORE_DIR</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ROOT_DIR</span><span class="p">,</span> <span class="s">&#39;store_room&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">ROOT_DIR</span></code> is the root directory of the whole project. Actual data gets saved in subdirectories corresponding to a certain <code class="docutils literal"><span class="pre">StoreType</span></code>. These store types are defined as named instances of the class <code class="docutils literal"><span class="pre">store.StoreType</span></code>. In the moment, there are six store types defined, namely:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">STREAMING_TWEETS</span><span class="p">,</span> <span class="n">SEARCH_TWEETS</span><span class="p">,</span> <span class="n">TWITTER_PLACE</span><span class="p">,</span> <span class="n">N_PHOTOS</span><span class="p">,</span> <span class="n">WUNDERGROUND_RAIN</span>
+</pre></div>
+</div>
+<p>The main way to work with the store (but not the only one) is using the functions <code class="docutils literal"><span class="pre">read</span></code> and <code class="docutils literal"><span class="pre">save</span></code>. They both use a <code class="docutils literal"><span class="pre">StoreType</span></code> and a <code class="docutils literal"><span class="pre">Query</span></code> parameter. For example, when reading data, one uses</p>
+<div class="highlight-python"><div class="highlight"><pre>store.read(store_type: StoreType, query: Query)
+</pre></div>
+</div>
+<p>The directory to check for data is defined in store_type. There, the data is saved under a name which is derived from the query. Let us take Twitter search as an example. We use <code class="docutils literal"><span class="pre">store.TWITTER_SEARCH</span></code> as store type and we build a <code class="docutils literal"><span class="pre">apis.twitter_api.TwitterSearchQuery</span></code> with</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">TwitterSearchQuery</span><span class="p">(</span><span class="n">place_id</span><span class="o">=</span><span class="s">&#39;db94c1cccc67c4f4&#39;</span><span class="p">,</span> <span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This instance of <code class="docutils literal"><span class="pre">TwitterQuery</span></code> (and therefore <code class="docutils literal"><span class="pre">Query</span></code>, its parent class) represents a query to the Twitter search API for Zurich at Dec 1st, 2015. The resulting tweets get cached under</p>
+<div class="highlight-python"><div class="highlight"><pre>store_room/twitter/search/db94c1cccc67c4f4_12-01.p
+</pre></div>
+</div>
+<p>in a binary format computed with <code class="docutils literal"><span class="pre">pickle</span></code> from the standard Python library. If the data is not there, <code class="docutils literal"><span class="pre">store.save</span></code> is called, to first download the data, using a function in <code class="docutils literal"><span class="pre">apis.twitter_api</span></code>.</p>
+</div>
 </div>
 
 
@@ -50,11 +122,20 @@
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#store">Store</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="introduction.html" title="previous chapter">Introduction</a></li>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
       <li>Next: <a href="plots.html" title="next chapter">Plots</a></li>
   </ul></li>
 </ul>
@@ -87,8 +168,8 @@
       &copy;2015, Dominic Looser.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
       |
       <a href="../_sources/chapters/usage.txt"
