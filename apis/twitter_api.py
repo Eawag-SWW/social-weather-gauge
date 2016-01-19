@@ -1,7 +1,7 @@
 """ 
-Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery.
-Enable downloading tweets for search queries and to start streaming with filtering
- according to a given TwitterStreamingQuery.
+    Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery.
+    Enable downloading tweets for search queries and to start streaming with filtering
+    according to a given TwitterStreamingQuery.
 """
 
 from datetime import timedelta, datetime

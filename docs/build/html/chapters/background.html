@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Flickr &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
+    <title>Background &mdash; Social Weather Gauge 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,11 +23,12 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="../index.html" />
+    <link rel="top" title="Social Weather Gauge 0.1 documentation" href="../index.html" />
+    <link rel="next" title="main.flickr_analysis module" href="../code/main.flickr_analysis.html" />
     <link rel="prev" title="Plots" href="plots.html" />
    
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
   <body role="document">  
@@ -37,197 +38,30 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="flickr">
-<h1>Flickr<a class="headerlink" href="#flickr" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="background">
+<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="twitter-facts">
+<h2>Twitter Facts<a class="headerlink" href="#twitter-facts" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Launched 2006</li>
+<li>Based in San Francisco</li>
+<li>140 characters per tweet</li>
+<li>340 milion tweets each day (2012)</li>
+<li>API endpoint: <a class="reference external" href="https://api.twitter.com">https://api.twitter.com</a>/{version}</li>
+<li>In Germany 1 % of tweets are geotagged</li>
+<li>Approximately 3-5 % of all tweets are geotagged (<a class="reference external" href="https://github.com/Ccantey/GeoSearch-Tweepy">source</a>)</li>
+</ul>
+</div>
+<div class="section" id="flickr-facts">
+<h2>Flickr Facts<a class="headerlink" href="#flickr-facts" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Created by Ludicorp in 2004</li>
 <li>Acquired by Yahoo in 2005</li>
-<li>6 billion images in 2011 (we)</li>
-<li>87 million registred users in 2013 (we)</li>
-<li>3.5 million new images daily in 2013 (we)</li>
 <li>Written in PHP</li>
+<li>3.5 million new images daily in 2013</li>
+<li>API endpoint: <a class="reference external" href="https://api.flickr.com/services/rest/">https://api.flickr.com/services/rest/</a></li>
+<li>Python library: flickrapi  (<a class="reference external" href="http://stuvel.eu/media/flickrapi-docs/documentation/">Docs</a>)</li>
 </ul>
-<div class="section" id="api">
-<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>REST endpoint: <a class="reference external" href="https://api.flickr.com/services/rest/">https://api.flickr.com/services/rest/</a></li>
-<li>Return formats: XML, JSON, ...</li>
-<li>Parameters: method, api_key, format</li>
-</ul>
-<div class="section" id="flickr-photos-search">
-<h3>flickr.photos.search<a class="headerlink" href="#flickr-photos-search" title="Permalink to this headline">¶</a></h3>
-<p>Parameters:</p>
-<ul class="simple">
-<li>woe_id: A 32-bit identifier that uniquely represents spatial entities</li>
-<li>place_id: A Flickr place id</li>
-</ul>
-<p>Response structure:</p>
-<div class="line-block">
-<div class="line">photos &gt; photo</div>
-</div>
-<div class="line-block">
-<div class="line">photos: page, pages, perpage, total</div>
-<div class="line">photo: id, latitude, longitude, place_id, title, woeid</div>
-</div>
-</div>
-<div class="section" id="flickr-places-getinfo">
-<h3>flickr.places.getInfo<a class="headerlink" href="#flickr-places-getinfo" title="Permalink to this headline">¶</a></h3>
-<p>Get informations about a place.
-Parameters:</p>
-<ul class="simple">
-<li>woe_id</li>
-<li>place_id</li>
-</ul>
-<p>response structure:</p>
-<div class="line-block">
-<div class="line">rsp &gt; place</div>
-<div class="line">place &gt; country</div>
-<div class="line">country &gt; shapedata</div>
-<div class="line">shapedate &gt; polylines, urls</div>
-<div class="line">polylines &gt; polyline</div>
-<div class="line">urls &gt; shapefile</div>
-</div>
-<div class="line-block">
-<div class="line">rsp: stat</div>
-<div class="line">place: place_id, woeid, latitutude, longitude, place_url, place_type, place_type_id, timezone, name, woe_name, has_shapedata</div>
-<div class="line">country: place_id, woeid, latitutde, longitude, place_url</div>
-<div class="line">shapedata: created, alpha, count_points, count_edges, has_donuthole, is_donuthole</div>
-</div>
-</div>
-<div class="section" id="flickr-places-find">
-<h3>flickr.places.find<a class="headerlink" href="#flickr-places-find" title="Permalink to this headline">¶</a></h3>
-<p>Returns a list of place objects for a given query string.</p>
-<p>Parameter: query</p>
-<p>Response:
-| rsp &gt; places
-| places &gt; place*</p>
-<div class="line-block">
-<div class="line">rsp: stat</div>
-<div class="line">places: query, total</div>
-<div class="line">place: place_id, woeid, latitude, longitude, place_url, place_type</div>
-</div>
-</div>
-<div class="section" id="woe-id-vs-place-id">
-<h3>woe id vs place id<a class="headerlink" href="#woe-id-vs-place-id" title="Permalink to this headline">¶</a></h3>
-<p>WOE = where on earth</p>
-</div>
-</div>
-<div class="section" id="python-library">
-<h2>Python Library<a class="headerlink" href="#python-library" title="Permalink to this headline">¶</a></h2>
-<p>We use the library called flickrapi. Documentation: <a class="reference external" href="http://stuvel.eu/media/flickrapi-docs/documentation/">http://stuvel.eu/media/flickrapi-docs/documentation/</a></p>
-</div>
-</div>
-<div class="section" id="twitter">
-<h1>Twitter<a class="headerlink" href="#twitter" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="basics">
-<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>140 Characters per tweet</li>
-<li>1.9 million tweets January 2009 (twitter api: up and running, p.4)</li>
-<li>340 milion tweets each day (2012)</li>
-<li>launched July 2006</li>
-<li>Twitter Inc in San Francisco</li>
-</ul>
-</div>
-<div class="section" id="id1">
-<h2>API<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>Schema Tweet:</p>
-<div class="highlight-python"><div class="highlight"><pre>id
-lang
-text
-created_at
-coordinates
-   [coordinates]
-place
-entities
-   [hashtags]
-      text
-   [urls]
-</pre></div>
-</div>
-<p>Schema Place:</p>
-<div class="highlight-python"><div class="highlight"><pre>bounding_box
-   [coordinates]
-      [float]
-   type
-contained_within
-country
-country_code
-full_name
-name
-place_type
-geometry
-</pre></div>
-</div>
-<div class="section" id="rest-api">
-<h3>REST-api<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="https://api.twitter.com">https://api.twitter.com</a>/{version}</p>
-</div>
-<div class="section" id="search">
-<h3>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h3>
-<p>The Search API is not complete index of all Tweets, but instead an index of recent Tweets.
-At the moment that index includes between 6-9 days of Tweets. (<a class="reference external" href="https://dev.twitter.com/rest/public/search">https://dev.twitter.com/rest/public/search</a>)</p>
-</div>
-</div>
-<div class="section" id="tweepy">
-<h2>Tweepy<a class="headerlink" href="#tweepy" title="Permalink to this headline">¶</a></h2>
-<p>Python library used to connect to Twitter API through python.</p>
-<dl class="docutils">
-<dt>Schema Place</dt>
-<dd>full_name</dd>
-<dt>Schema Status streaming-api:</dt>
-<dd><p class="first">contributors
-truncated
-text
-in_reply_to_status_id
-id
-favorite_count
-author</p>
-<blockquote>
-<div>User
-follow_request_sent
-profile_use_background_image</div></blockquote>
-<dl class="last docutils">
-<dt>_json</dt>
-<dd>follow_request_sent
-profile_use_background_image
-default_profile_image
-id
-verified
-profile_image_url_https
-profile_sidebar_fill_color</dd>
-</dl>
-</dd>
-</dl>
-<div class="section" id="id2">
-<h3>API<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>API.rate_limit_status (<a class="reference external" href="http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status">http://docs.tweepy.org/en/v3.2.0/api.html#API.rate_limit_status</a>)</li>
-</ul>
-<p>Response Schema:</p>
-<div class="highlight-python"><div class="highlight"><pre>{
-    rate_limit_context
-        access_token
-    resources
-        *resource_type*
-            *resource_name*
-                limit
-                remaining
-                reset
-}
-</pre></div>
-</div>
-<div class="section" id="geolocation">
-<h4>Geolocation<a class="headerlink" href="#geolocation" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li>tweet is geotagged by user</li>
-<li>in germany 1% of tweets are geotagged</li>
-<li>Approximately 3-5% of all tweets are geo-enabled (<a class="reference external" href="https://github.com/Ccantey/GeoSearch-Tweepy">https://github.com/Ccantey/GeoSearch-Tweepy</a>)</li>
-<li>induce location from user profile</li>
-<li>induce location from tweet text</li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 
@@ -239,31 +73,9 @@ profile_sidebar_fill_color</dd>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Flickr</a><ul>
-<li><a class="reference internal" href="#api">API</a><ul>
-<li><a class="reference internal" href="#flickr-photos-search">flickr.photos.search</a></li>
-<li><a class="reference internal" href="#flickr-places-getinfo">flickr.places.getInfo</a></li>
-<li><a class="reference internal" href="#flickr-places-find">flickr.places.find</a></li>
-<li><a class="reference internal" href="#woe-id-vs-place-id">woe id vs place id</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#python-library">Python Library</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#twitter">Twitter</a><ul>
-<li><a class="reference internal" href="#basics">Basics</a></li>
-<li><a class="reference internal" href="#id1">API</a><ul>
-<li><a class="reference internal" href="#rest-api">REST-api</a></li>
-<li><a class="reference internal" href="#search">Search</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#tweepy">Tweepy</a><ul>
-<li><a class="reference internal" href="#id2">API</a><ul>
-<li><a class="reference internal" href="#geolocation">Geolocation</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Background</a><ul>
+<li><a class="reference internal" href="#twitter-facts">Twitter Facts</a></li>
+<li><a class="reference internal" href="#flickr-facts">Flickr Facts</a></li>
 </ul>
 </li>
 </ul>
@@ -272,6 +84,7 @@ profile_sidebar_fill_color</dd>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="plots.html" title="previous chapter">Plots</a></li>
+      <li>Next: <a href="../code/main.flickr_analysis.html" title="next chapter">main.flickr_analysis module</a></li>
   </ul></li>
 </ul>
 </div>
@@ -303,8 +116,8 @@ profile_sidebar_fill_color</dd>
       &copy;2015, Dominic Looser.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
       |
       <a href="../_sources/chapters/background.txt"

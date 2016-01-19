@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>apis.twitter_api module &mdash; Social Weather Gauge 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Social Weather Gauge 0.1 documentation" href="../index.html" />
+    <link rel="next" title="apis.wunderground_api module" href="apis.wunderground_api.html" />
+    <link rel="prev" title="apis.flickr_api module" href="apis.flickr_api.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-apis.twitter_api">
+<span id="apis-twitter-api-module"></span><h1>apis.twitter_api module<a class="headerlink" href="#module-apis.twitter_api" title="Permalink to this headline">¶</a></h1>
+<p>Defines important classes Tweet, TwitterSearchQuery, and TwitterStreamingQuery.
+Enable downloading tweets for search queries and to start streaming with filtering
+according to a given TwitterStreamingQuery.</p>
+<dl class="class">
+<dt id="apis.twitter_api.PrintingListener">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">PrintingListener</code><a class="headerlink" href="#apis.twitter_api.PrintingListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.twitter_api.TwitterStreamListener" title="apis.twitter_api.TwitterStreamListener"><code class="xref py py-class docutils literal"><span class="pre">apis.twitter_api.TwitterStreamListener</span></code></a></p>
+<dl class="method">
+<dt id="apis.twitter_api.PrintingListener.on_status">
+<code class="descname">on_status</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.PrintingListener.on_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.StoringListener">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">StoringListener</code><span class="sig-paren">(</span><em>status_handler</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.StoringListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apis.twitter_api.TwitterStreamListener" title="apis.twitter_api.TwitterStreamListener"><code class="xref py py-class docutils literal"><span class="pre">apis.twitter_api.TwitterStreamListener</span></code></a></p>
+<dl class="method">
+<dt id="apis.twitter_api.StoringListener.on_connect">
+<code class="descname">on_connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.StoringListener.on_connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apis.twitter_api.StoringListener.on_status">
+<code class="descname">on_status</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.StoringListener.on_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.Tweet">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">Tweet</code><span class="sig-paren">(</span><em>status=None</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.Tweet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.TwitterSearchQuery">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">TwitterSearchQuery</code><span class="sig-paren">(</span><em>place_id=None</em>, <em>date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.TwitterSearchQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="apis.html#apis.Query" title="apis.Query"><code class="xref py py-class docutils literal"><span class="pre">apis.Query</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.TwitterStreamListener">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">TwitterStreamListener</code><a class="headerlink" href="#apis.twitter_api.TwitterStreamListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tweepy.streaming.StreamListener</span></code></p>
+<dl class="method">
+<dt id="apis.twitter_api.TwitterStreamListener.on_error">
+<code class="descname">on_error</code><span class="sig-paren">(</span><em>status_code</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.TwitterStreamListener.on_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.twitter_api.TwitterStreamingQuery">
+<em class="property">class </em><code class="descclassname">apis.twitter_api.</code><code class="descname">TwitterStreamingQuery</code><span class="sig-paren">(</span><em>bounding_box</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.TwitterStreamingQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="apis.html#apis.Query" title="apis.Query"><code class="xref py py-class docutils literal"><span class="pre">apis.Query</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.download_search_tweets">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">download_search_tweets</code><span class="sig-paren">(</span><em>query: apis.twitter_api.TwitterSearchQuery</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.download_search_tweets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.print_limit_status">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">print_limit_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.print_limit_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.print_place">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">print_place</code><span class="sig-paren">(</span><em>place_id</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.print_place" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.print_places">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">print_places</code><span class="sig-paren">(</span><em>query_string</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.print_places" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="apis.twitter_api.start_streaming">
+<code class="descclassname">apis.twitter_api.</code><code class="descname">start_streaming</code><span class="sig-paren">(</span><em>stream_listener</em>, <em>bounding_box=None</em><span class="sig-paren">)</span><a class="headerlink" href="#apis.twitter_api.start_streaming" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="apis.flickr_api.html" title="previous chapter">apis.flickr_api module</a></li>
+      <li>Next: <a href="apis.wunderground_api.html" title="next chapter">apis.wunderground_api module</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/code/apis.twitter_api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Dominic Looser.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../_sources/code/apis.twitter_api.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

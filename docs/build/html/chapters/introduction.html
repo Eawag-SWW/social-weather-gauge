@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Introduction &mdash; Social Media Mining For Wheater Data 0.1 documentation</title>
+    <title>Introduction &mdash; Social Weather Gauge 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,12 +23,12 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Social Media Mining For Wheater Data 0.1 documentation" href="../index.html" />
-    <link rel="next" title="Usage" href="usage.html" />
-    <link rel="prev" title="SocialWeatherGauge" href="../index.html" />
+    <link rel="top" title="Social Weather Gauge 0.1 documentation" href="../index.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Social Weather Gauge" href="../index.html" />
    
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
   <body role="document">  
@@ -40,20 +40,24 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>This project contains Python code to analyze Flickr and Twitter data. The motivating goal was to determine, how well one can approximate traditional wheater measurement with data derived from social media. But the code is also usable to analyze other topics.</p>
-<p>As an example, let us consider precipitation in London in the last 10 days. SocialWeatherGauge will download all tweets from London using the official Twitter REST-API for the last 10 days (that is the maximum you get via the API). It then caches this data on disc (in folder <code class="docutils literal"><span class="pre">store_room</span></code>) for later reuse (see module <code class="docutils literal"><span class="pre">main.store</span></code>). After caching the tweets get tokenized and stemmed (normalized) and compared with predefined keywords for the given topic (in this case: rain). This leads to a proportion of topic-positive tweets which then gets plotted.</p>
+<p>Social Weather Gauge is a Python library made to analyze Flickr and Twitter data. The motivating goal was to determine, how well one can approximate traditional wheater measurement with data derived from social media. But the code is also usable to analyze other topics.</p>
+<p>As an example, let us consider precipitation in London. Social Weather Gauge can download all tweets from London using the official Twitter REST-API for the last 10 days (that is the maximum you get via the API). It then caches this data on disc (in folder <code class="docutils literal"><span class="pre">store_room</span></code>) for later reuse (see module <code class="docutils literal"><span class="pre">main.store</span></code>). After caching the tweets get tokenized and stemmed (normalized) and compared with predefined keywords for the given topic (in this case: rain). This leads to a proportion of topic-positive tweets which then gets plotted.</p>
 <p>The following (and more) libraries are used:</p>
 <ul class="simple">
-<li>Pandas for data analysis</li>
+<li>Pandas for Data Analysis</li>
 <li>Matplotlib and Seaborn for plotting</li>
 <li>Flickrapi to connect to the Flickr API</li>
-<li>Tweepy for Tweeter</li>
-<li>NLTK for natural language processing</li>
+<li>Tweepy for Twitter</li>
+<li>NLTK for Natural Language Processing</li>
 </ul>
 <div class="section" id="shortcomings">
 <h2>Shortcomings<a class="headerlink" href="#shortcomings" title="Permalink to this headline">¶</a></h2>
-<p>Data / geolocation
-language</p>
+<p>The Twitter part could not get finished during the project run time. Therefore a few thing are yet to be implemented. But there should not be too much work needed to get it to a working state.</p>
+<ul class="simple">
+<li>Detecting tweet language and use appropriate topic language. (The class <code class="docutils literal"><span class="pre">Topic</span></code> is able to handle multiple languages in principle.)</li>
+<li>Twitter data is restricted to the last ca. 9 days due to restriction from the Twitter API</li>
+<li>When querying tweets for a place, Twitter returns not much data. This is probably due to little use of geolocation from Twitter users. It could be possible to get more tweets when considering additionally the location of the user (in comparison to just use the location of the tweet).</li>
+</ul>
 </div>
 </div>
 
@@ -74,8 +78,8 @@ language</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">SocialWeatherGauge</a></li>
-      <li>Next: <a href="usage.html" title="next chapter">Usage</a></li>
+      <li>Previous: <a href="../index.html" title="previous chapter">Social Weather Gauge</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>
@@ -107,8 +111,8 @@ language</p>
       &copy;2015, Dominic Looser.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
       |
       <a href="../_sources/chapters/introduction.txt"

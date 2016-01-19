@@ -15,11 +15,17 @@
 import sys
 import os
 import shlex
+from os import path
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+
 sys.path.insert(0, os.path.abspath('../..'))
+# code_path = path.abspath('../../main')
+# sys.path.insert(0, code_path)
+
+
 
 # -- General configuration ------------------------------------------------
 
@@ -31,8 +37,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinxcontrib.httpdomain'
+    'sphinx.ext.doctest'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -50,9 +55,11 @@ source_suffix = ['.rst', '.nojekyll']
 master_doc = 'index'
 
 # General information about the project.
-project = u'Social Media Mining For Wheater Data'
+project = u'Social Weather Gauge'
 copyright = u'2015, Dominic Looser'
 author = u'Dominic Looser'
+
+rst_epilog = '.. |project| replace:: %s' % project
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
